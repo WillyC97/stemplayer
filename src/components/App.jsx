@@ -1,54 +1,70 @@
 import React from "react";
 import Track from "./Track";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Howl, Howler } from "howler";
+
+import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
+import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
+import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
 function App() {
   const [playing, setPlaying] = useState(false);
-
-  const tracks = [
+  const [tracks, setSound] = useState([
     {
       title: "Rave Digger",
-      file: "rave_digger",
+      file: Rave,
       howl: null,
     },
     {
       title: "80s Vibe",
-      file: "80s_vibe",
+      file: Vibe,
       howl: null,
     },
     {
       title: "Running Out",
-      file: "running_out",
+      file: Running,
       howl: null,
     },
-  ];
+  ]);
+
+  useEffect(() => {
+    initialiseStems();
+    console.log("Initialise stems");
+  }, []);
 
   function initialiseStems() {
-    tracks.forEach((track) => {
-      track.howl = new Howl({
-        src: [track.file],
-        html5: true,
-      });
+    const updatedTracks = tracks.map((track) => {
+      return {
+        ...track,
+        howl: new Howl({
+          src: [track.file],
+          html5: true,
+          onend: () => {
+            track.howl.unload();
+          },
+        }),
+      };
     });
+
+    setSound(updatedTracks);
   }
 
   function onPlayPause() {
-    if (playing) {
-      pause();
-    } else {
-      play();
-    }
+    playing ? pause() : play();
   }
 
   function play() {
     setPlaying(true);
     console.log("playing");
+
+    tracks.forEach((track) => { track.howl.play(); });
   }
 
   function pause() {
     setPlaying(false);
     console.log("paused");
+
+    tracks.forEach((track) => { track.howl.pause(); });
   }
 
   return (
@@ -64,8 +80,8 @@ function App() {
       </div>
       <div className="d-flex flex-row">
         <div className="flex-grow-1 flex-shrink-0">
-          <Track title="Track1" trackWidth="180px" backgroundColour="#ad1b1b" />
-          <Track title="Track2" trackWidth="180px" backgroundColour="#10e8cf" />
+          <Track title={tracks[0].title} trackWidth="180px" backgroundColour="#ad1b1b" />
+          <Track title={tracks[1].title} trackWidth="180px" backgroundColour="#10e8cf" />
         </div>
       </div>
     </div>
