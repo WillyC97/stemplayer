@@ -56,6 +56,16 @@ function App() {
     setSound(updatedTracks);
   }
 
+  function onSeekBarClick(e) {
+
+    const percentage = e.clientX / window.innerWidth;
+
+    tracks.forEach((track) => {
+      console.log(e.clientX);
+      track.howl.seek();
+    });
+  }
+
   function onPlayPause() {
     playing ? pause() : play();
   }
@@ -83,7 +93,7 @@ function App() {
   const animate = (time) => {
     if (previousTimeRef.current != undefined) {
       var masterHowl = tracks[0].howl;
-      if (masterHowl != null && masterHowl.playing()) {
+      if (masterHowl && masterHowl.playing()) {
         setSeekbarWidth((masterHowl.seek() / masterHowl.duration()) * 100);
       }
     }
@@ -110,6 +120,7 @@ function App() {
               title={track.title}
               trackWidth={seekbarWidth + "%"}
               backgroundColour={track.colour}
+              onSeekBarClick={(e) => onSeekBarClick(e)}
             />
           ))}
         </div>

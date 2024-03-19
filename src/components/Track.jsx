@@ -20,6 +20,7 @@ function Track(props) {
             <TrackHeader title={props.title}/>
             <div className="track-audio" style={{backgroundColor: props.backgroundColour}}>
                 <div className='track-seek-bar' style={{width: props.trackWidth }} />
+                <div className="waveform-click-target" onClick={(e) => props.onSeekBarClick(e)} />
             </div>
         </div>
     );

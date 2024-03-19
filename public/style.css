@@ -369,7 +369,7 @@ a.blue:hover {
 .track .track-audio .track-seek-bar {
     position: absolute;
     display: block;
-    left: 150px;
+    left: 200px;
     height: 70px;
     background-color: rgba(50,50,50,0.5);
     cursor: pointer;
@@ -454,7 +454,8 @@ a.blue:hover {
 .track .track-audio .waveform-click-target {
     position: absolute;
     top: 0;
-    left: 80px;
+    left: 200px;
+    width: 100%;
     height: 70px;
     opacity: 0;
     z-index: 5
