@@ -1,6 +1,6 @@
 import React from "react";
 import Track from "./Track";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Howl, Howler } from "howler";
 
 import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
@@ -8,6 +8,10 @@ import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/aud
 import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
 function App() {
+  const requestRef = useRef();
+  const previousTimeRef = useRef();
+
+  const [seekbarWidth, setSeekbarWidth] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [tracks, setSound] = useState([
     {
@@ -60,15 +64,33 @@ function App() {
     setPlaying(true);
     console.log("playing");
 
-    tracks.forEach((track) => { track.howl.play(); });
+    tracks.forEach((track) => {
+      track.howl.play();
+    });
+    requestRef.current = requestAnimationFrame(animate);
   }
 
   function pause() {
     setPlaying(false);
     console.log("paused");
 
-    tracks.forEach((track) => { track.howl.pause(); });
+    tracks.forEach((track) => {
+      track.howl.pause();
+    });
+    cancelAnimationFrame(requestRef.current);
   }
+
+  const animate = (time) => {
+    if (previousTimeRef.current != undefined) {
+      var masterHowl = tracks[0].howl;
+      if (masterHowl != null && masterHowl.playing()) {
+        setSeekbarWidth((masterHowl.seek() / masterHowl.duration()) * 100);
+      }
+    }
+
+    previousTimeRef.current = time;
+    requestRef.current = requestAnimationFrame(animate);
+  };
 
   return (
     <div>
@@ -86,7 +108,7 @@ function App() {
           {tracks.map((track) => (
             <Track
               title={track.title}
-              trackWidth="20%"
+              trackWidth={seekbarWidth + "%"}
               backgroundColour={track.colour}
             />
           ))}
