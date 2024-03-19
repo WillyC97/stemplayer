@@ -13,16 +13,19 @@ function App() {
     {
       title: "Rave Digger",
       file: Rave,
+      colour: "#ad1b1b",
       howl: null,
     },
     {
       title: "80s Vibe",
       file: Vibe,
+      colour: "#10e8cf",
       howl: null,
     },
     {
       title: "Running Out",
       file: Running,
+      colour: "#ad1b1b",
       howl: null,
     },
   ]);
@@ -80,8 +83,13 @@ function App() {
       </div>
       <div className="d-flex flex-row">
         <div className="flex-grow-1 flex-shrink-0">
-          <Track title={tracks[0].title} trackWidth="180px" backgroundColour="#ad1b1b" />
-          <Track title={tracks[1].title} trackWidth="180px" backgroundColour="#10e8cf" />
+          {tracks.map((track) => (
+            <Track
+              title={track.title}
+              trackWidth="20%"
+              backgroundColour={track.colour}
+            />
+          ))}
         </div>
       </div>
     </div>
