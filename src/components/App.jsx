@@ -18,24 +18,27 @@ function App() {
 
   const [seekBarWidth, setSeekbarWidth] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [tracks, setSound] = useState([
+  const [tracks, updateTrackState] = useState([
     {
       title: "Rave Digger",
       file: Rave,
       colour: "#ad1b1b",
       howl: null,
+      muted: false,
     },
     {
       title: "80s Vibe",
       file: Vibe,
       colour: "#10e8cf",
       howl: null,
+      muted: false,
     },
     {
       title: "Running Out",
       file: Running,
       colour: "#ad1b1b",
       howl: null,
+      muted: false,
     },
   ]);
 
@@ -55,8 +58,26 @@ function App() {
       };
     });
 
-    setSound(updatedTracks);
+    updateTrackState(updatedTracks);
   }
+
+  function toggleMute() {
+    // Create a copy of the tracks array
+    const updatedTracks = [...tracks];
+  
+    // Find the index of the "80s Vibe" track
+    const trackIndex = updatedTracks.findIndex((track) => track.title === "80s Vibe");
+
+    if (trackIndex === -1) return;
+  
+    if (trackIndex !== -1) {
+      // Toggle the muted property
+      updatedTracks[trackIndex].muted = !updatedTracks[trackIndex].muted;
+  
+      // Update the state with the modified array
+      updateTrackState(updatedTracks);
+    }]
+  };
 
   function onSeekBarClick(e) {
     const percentage =
@@ -127,6 +148,7 @@ function App() {
         <div className="flex-grow-1 flex-shrink-0">
           {tracks.map((track) => (
             <Track
+              track={track}
               title={track.title}
               trackWidth={width - TRACK_HEADER_WIDTH}
               backgroundColour={track.colour}
