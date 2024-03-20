@@ -19,8 +19,8 @@ function Track(props) {
         <div className='track'>
             <TrackHeader title={props.title}/>
             <div className="track-audio" style={{backgroundColor: props.backgroundColour}}>
-                <div className='track-seek-bar' style={{width: props.trackWidth }} />
-                <div className="waveform-click-target" onClick={(e) => props.onSeekBarClick(e)} />
+                <div className='track-seek-bar' style={{width: props.seekBarWidth }} />
+                <div className="waveform-click-target" onClick={(e) => props.onSeekBarClick(e)} style={{width: props.trackWidth}}/>
             </div>
         </div>
     );

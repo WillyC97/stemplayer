@@ -2,16 +2,21 @@ import React from "react";
 import Track from "./Track";
 import { useState, useEffect, useRef } from "react";
 import { Howl, Howler } from "howler";
+import useWindowDimensions from "../utils/WindowDimensions";
 
 import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
 import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
 import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
+const TRACK_HEADER_WIDTH = 200;
+
 function App() {
   const requestRef = useRef();
   const previousTimeRef = useRef();
 
-  const [seekbarWidth, setSeekbarWidth] = useState(0);
+  const { height, width } = useWindowDimensions();
+
+  const [seekBarWidth, setSeekbarWidth] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [tracks, setSound] = useState([
     {
@@ -46,9 +51,6 @@ function App() {
         howl: new Howl({
           src: [track.file],
           html5: true,
-          onend: () => {
-            track.howl.unload();
-          },
         }),
       };
     });
@@ -57,13 +59,14 @@ function App() {
   }
 
   function onSeekBarClick(e) {
-
-    const percentage = e.clientX / window.innerWidth;
+    const percentage =
+      (e.clientX - TRACK_HEADER_WIDTH) / (width - TRACK_HEADER_WIDTH);
 
     tracks.forEach((track) => {
-      console.log(e.clientX);
-      track.howl.seek();
+      track.howl.seek(percentage * track.howl.duration());
     });
+
+    updateSeekBar();
   }
 
   function onPlayPause() {
@@ -90,12 +93,19 @@ function App() {
     cancelAnimationFrame(requestRef.current);
   }
 
+  function updateSeekBar() {
+    var masterHowl = tracks[0].howl;
+    if (masterHowl) {
+      setSeekbarWidth(
+        (masterHowl.seek() / masterHowl.duration()) *
+          (width - TRACK_HEADER_WIDTH)
+      );
+    }
+  }
+
   const animate = (time) => {
     if (previousTimeRef.current != undefined) {
-      var masterHowl = tracks[0].howl;
-      if (masterHowl && masterHowl.playing()) {
-        setSeekbarWidth((masterHowl.seek() / masterHowl.duration()) * 100);
-      }
+      updateSeekBar();
     }
 
     previousTimeRef.current = time;
@@ -118,9 +128,10 @@ function App() {
           {tracks.map((track) => (
             <Track
               title={track.title}
-              trackWidth={seekbarWidth + "%"}
+              trackWidth={width - TRACK_HEADER_WIDTH}
               backgroundColour={track.colour}
               onSeekBarClick={(e) => onSeekBarClick(e)}
+              seekBarWidth={seekBarWidth + "px"}
             />
           ))}
         </div>
