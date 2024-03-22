@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import { Howl, Howler } from "howler";
 import useWindowDimensions from "../utils/WindowDimensions";
 
-import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
-import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
-import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
+import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/Bass.mp3";
+import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/Solo.mp3";
+import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/VP.mp3";
 
 const TRACK_HEADER_WIDTH = 200;
 
@@ -55,29 +55,33 @@ function App() {
           src: [track.file],
           html5: true,
         }),
+        uuid: crypto.randomUUID(),
       };
     });
 
     updateTrackState(updatedTracks);
   }
 
-  function toggleMute() {
-    // Create a copy of the tracks array
+  function updateMuteState(trackUUID) {
     const updatedTracks = [...tracks];
-  
-    // Find the index of the "80s Vibe" track
-    const trackIndex = updatedTracks.findIndex((track) => track.title === "80s Vibe");
+
+    const trackIndex = updatedTracks.findIndex(
+      (track) => track.uuid === trackUUID
+    );
 
     if (trackIndex === -1) return;
-  
-    if (trackIndex !== -1) {
-      // Toggle the muted property
-      updatedTracks[trackIndex].muted = !updatedTracks[trackIndex].muted;
-  
-      // Update the state with the modified array
-      updateTrackState(updatedTracks);
-    }]
-  };
+
+    updatedTracks[trackIndex].muted = !updatedTracks[trackIndex].muted;
+
+    updateTrackState(updatedTracks);
+
+    toggleTrackMute(trackIndex);
+  }
+
+  function toggleTrackMute(trackIndex) {
+    const trackToMute = tracks[trackIndex];
+    trackToMute.howl.mute(trackToMute.muted);
+  }
 
   function onSeekBarClick(e) {
     const percentage =
@@ -152,8 +156,10 @@ function App() {
               title={track.title}
               trackWidth={width - TRACK_HEADER_WIDTH}
               backgroundColour={track.colour}
-              onSeekBarClick={(e) => onSeekBarClick(e)}
               seekBarWidth={seekBarWidth + "px"}
+              muteState={track.muted}
+              onSeekBarClick={(e) => onSeekBarClick(e)}
+              onMuteClick={() => updateMuteState(track.uuid)}
             />
           ))}
         </div>
