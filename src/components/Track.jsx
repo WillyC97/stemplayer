@@ -10,7 +10,14 @@ function TrackHeader(props) {
         <div className="track-button left mute" onClick={props.onMuteClick}>
           M
         </div>
-        <div className="track-button solo">S</div>
+        <div
+          className={classnames("track-button solo", {
+            "solo-activated": props.soloState,
+          })}
+          onClick={props.onSoloClick}
+        >
+          S
+        </div>
         <input type="range" min="1" max="100" value="50" />
       </div>
     </div>
@@ -18,9 +25,16 @@ function TrackHeader(props) {
 }
 
 function Track(props) {
+  const isMuted = props.isSoloActive ? !props.soloState : props.muteState;
+
   return (
-    <div className={classnames('track', { muted: props.muteState })}>
-      <TrackHeader title={props.title} onMuteClick={props.onMuteClick} />
+    <div className={classnames("track", { muted: isMuted })}>
+      <TrackHeader
+        title={props.title}
+        soloState={props.soloState}
+        onMuteClick={props.onMuteClick}
+        onSoloClick={props.onSoloClick}
+      />
       <div
         className="track-audio"
         style={{ backgroundColor: props.backgroundColour }}

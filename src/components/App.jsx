@@ -56,6 +56,7 @@ function App() {
           html5: true,
         }),
         uuid: crypto.randomUUID(),
+        soloed: false,
       };
     });
 
@@ -78,9 +79,42 @@ function App() {
     toggleTrackMute(trackIndex);
   }
 
+  function updateSoloState(trackUUID) {
+    const updatedTracks = [...tracks];
+
+    const trackIndex = updatedTracks.findIndex(
+      (track) => track.uuid === trackUUID
+    );
+
+    if (trackIndex === -1) return;
+
+    updatedTracks[trackIndex].soloed = !updatedTracks[trackIndex].soloed;
+
+    updateTrackState(updatedTracks);
+
+    toggleTrackSolo();
+  }
+
   function toggleTrackMute(trackIndex) {
     const trackToMute = tracks[trackIndex];
     trackToMute.howl.mute(trackToMute.muted);
+  }
+
+  function toggleTrackSolo() {
+
+    if (isSoloActive()) {
+      tracks.forEach(track => {
+        track.howl.mute(!track.soloed);
+      });
+    } else {
+      tracks.forEach((track) => {
+        track.howl.mute(track.muted);
+      });
+    }
+  }
+
+  function isSoloActive() {
+    return tracks.some((track) => track.soloed);
   }
 
   function onSeekBarClick(e) {
@@ -158,8 +192,11 @@ function App() {
               backgroundColour={track.colour}
               seekBarWidth={seekBarWidth + "px"}
               muteState={track.muted}
+              soloState={track.soloed}
+              isSoloActive={isSoloActive()}
               onSeekBarClick={(e) => onSeekBarClick(e)}
               onMuteClick={() => updateMuteState(track.uuid)}
+              onSoloClick={() => updateSoloState(track.uuid)}
             />
           ))}
         </div>
