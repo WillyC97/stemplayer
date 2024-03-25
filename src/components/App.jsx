@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import { Howl, Howler } from "howler";
 import useWindowDimensions from "../utils/WindowDimensions";
 
-import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/Bass.mp3";
-import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/Solo.mp3";
-import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/VP.mp3";
+import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
+import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
+import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
 const TRACK_HEADER_WIDTH = 200;
 
@@ -64,19 +64,14 @@ function App() {
   }
 
   function updateMuteState(trackUUID) {
-    const updatedTracks = [...tracks];
-
-    const trackIndex = updatedTracks.findIndex(
-      (track) => track.uuid === trackUUID
-    );
-
-    if (trackIndex === -1) return;
-
-    updatedTracks[trackIndex].muted = !updatedTracks[trackIndex].muted;
-
-    updateTrackState(updatedTracks);
-
-    toggleTrackMute(trackIndex);
+    const audioSource = tracks.find(data => data.uuid === trackUUID);
+    if (audioSource) {
+      console.log("updating mute state");
+      updateTrackState(tracks.map((data) => data.uuid === trackUUID ? { ...data, muted: !data.muted } : data));
+      toggleTrackMute(trackUUID, !audioSource.muted);
+    } else {
+      console.error(`No audio source found with id ${trackUUID}`);
+    }
   }
 
   function updateSoloState(trackUUID) {
@@ -95,9 +90,11 @@ function App() {
     toggleTrackSolo();
   }
 
-  function toggleTrackMute(trackIndex) {
-    const trackToMute = tracks[trackIndex];
-    trackToMute.howl.mute(trackToMute.muted);
+  function toggleTrackMute(trackUUID, muteState) {
+    const audioSource = tracks.find(data => data.uuid === trackUUID);
+    audioSource.howl.mute(audioSource.muted);
+
+    console.log(tracks);
   }
 
   function toggleTrackSolo() {
