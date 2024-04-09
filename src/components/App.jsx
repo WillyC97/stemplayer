@@ -110,43 +110,52 @@ function App() {
     cancelAnimationFrame(requestRef.current);
   }
 
-  function updateMuteState(trackUUID) {
-    const audioSource = stems.find(data => data.uuid === trackUUID);
-    if (audioSource) {
-      console.log("updating mute state");
-      updateStemState(stems.map((data) => data.uuid === trackUUID ? { ...data, muted: !data.muted } : data));
-      toggleStemMute(trackUUID, !audioSource.muted);
-    } else {
+  function findStem(trackUUID) {
+    return stems.find((data) => data.uuid === trackUUID);
+  }
+
+  function updateStemParameter(trackUUID, key, value) {
+    const stem = findStem(trackUUID);
+    if (!stem) {
       console.error(`No audio source found with id ${trackUUID}`);
+      return;
     }
-  }
 
-  function updateSoloState(trackUUID) {
-    const updatedTracks = [...stems];
-    const trackIndex = updatedTracks.findIndex(
-      (track) => track.uuid === trackUUID
+    stem[key] = value;
+    updateStemState(
+      stems.map((data) =>
+        data.uuid === trackUUID ? { ...data, [key]: value } : data
+      )
     );
-    if (trackIndex === -1) return;
-    updatedTracks[trackIndex].soloed = !updatedTracks[trackIndex].soloed;
-    updateStemState(updatedTracks);
-    toggleTrackSolo();
   }
 
-  function toggleStemMute(trackUUID, muteState) {
-    const stem = stems.find((data) => data.uuid === trackUUID);
-    if (!stem) return;
-    
+  function setStemGainBasedOnSoloMuteState(stem, muteState) {
     stem.gainNode.gain.value = muteState ? 0 : stem.volume;
   }
 
-  function toggleTrackSolo() {
+  function toggleStemMute(trackUUID) {
+    const stem = findStem(trackUUID);
+    if (!stem) return;
+
+    const muteState = !stem.muted;
+    setStemGainBasedOnSoloMuteState(stem, muteState);
+    updateStemParameter(trackUUID, "muted", muteState);
+  }
+
+  function toggleStemSolo(trackUUID) {
+    const stem = findStem(trackUUID);
+    if (!stem) return;
+
+    const soloState = !stem.soloed;
+    updateStemParameter(trackUUID, "soloed", soloState);
+
     if (isSoloActive()) {
-      stems.forEach(stem => {
-        toggleStemMute(stem.uuid, !stem.soloed)
+      stems.forEach((stem) => {
+        setStemGainBasedOnSoloMuteState(stem, !stem.soloed);
       });
     } else {
       stems.forEach((stem) => {
-        toggleStemMute(stem.uuid, stem.muted)
+        setStemGainBasedOnSoloMuteState(stem, stem.muted);
       });
     }
   }
@@ -240,8 +249,8 @@ function App() {
               soloState={track.soloed}
               isSoloActive={isSoloActive()}
               onSeekBarClick={(e) => onSeekBarClick(e)}
-              onMuteClick={() => updateMuteState(track.uuid)}
-              onSoloClick={() => updateSoloState(track.uuid)}
+              onMuteClick={() => toggleStemMute(track.uuid)}
+              onSoloClick={() => toggleStemSolo(track.uuid)}
             />
           ))}
         </div>
