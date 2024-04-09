@@ -120,13 +120,27 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space") {
+        onPlayPause();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isPlaying, stems]);
+
   //=========================================================================
   // Play/Pause
   //-----------------------------------------------------------------------
 
-  function onPlayPause() {
+  const onPlayPause = () => {
     isPlaying ? pauseAudio() : playAudio();
-  }
+  };
   //-----------------------------------------------------------------------
 
   function playAudio() {
