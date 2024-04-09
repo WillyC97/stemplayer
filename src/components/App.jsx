@@ -16,6 +16,7 @@ function App() {
   const requestRef = useRef();
   const previousTimeRef = useRef();
   const timingRef = useRef({ lastTimeStamp: 0.0, currentTime: 0.0 });
+  const trackLengthRef = useRef(0.0);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
@@ -27,6 +28,7 @@ function App() {
       colour: "#ad1b1b",
       buffer: null,
       audioSource: null,
+      audioLength: null,
       gainNode: null,
       volume: 1.0,
       muted: false,
@@ -38,6 +40,7 @@ function App() {
       colour: "#10e8cf",
       buffer: null,
       audioSource: null,
+      audioLength: null,
       gainNode: null,
       volume: 1.0,
       muted: false,
@@ -49,6 +52,7 @@ function App() {
       colour: "#ad1b1b",
       buffer: null,
       audioSource: null,
+      audioLength: null,
       gainNode: null,
       volume: 1.0,
       muted: false,
@@ -64,11 +68,20 @@ function App() {
       stems.map((stem) =>
         fetch(stem.file)
           .then((response) => response.arrayBuffer())
-          .then((buffer) => {
-            return { ...stem, buffer: buffer, uuid: crypto.randomUUID() };
+          .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer))
+          .then((audioBuffer) => {
+            return {
+              ...stem,
+              buffer: audioBuffer,
+              audioLength: audioBuffer.duration,
+              uuid: crypto.randomUUID(),
+            };
           })
       )
     ).then((initialisedStems) => {
+      trackLengthRef.current = Math.max(
+        ...initialisedStems.map((stem) => stem.audioLength || 0)
+      );
       updateStemState(initialisedStems);
     });
   }, []);
@@ -80,9 +93,6 @@ function App() {
       if (true) {
         source = audioContext.createBufferSource();
         gain = audioContext.createGain();
-        if (!(track.buffer instanceof AudioBuffer)) {
-          track.buffer = await audioContext.decodeAudioData(track.buffer);
-        }
         source.buffer = track.buffer;
         source.connect(gain);
         gain.connect(audioContext.destination);
@@ -165,12 +175,14 @@ function App() {
   }
 
   function onSeekBarClick(e) {
-    // const percentage =
-    //   (e.clientX - TRACK_HEADER_WIDTH) / (width - TRACK_HEADER_WIDTH);
-    // tracks.forEach((track) => {
-    //   track.howl.seek(percentage * track.howl.duration());
-    // });
-    // updateSeekBar();
+    const percentage =
+      (e.clientX - TRACK_HEADER_WIDTH) / (width - TRACK_HEADER_WIDTH);
+    const wasPlaying = isPlaying;
+    if (wasPlaying) pauseAudio();
+    timingRef.current.currentTime = percentage * trackLengthRef.current;
+    if (wasPlaying) playAudio();
+
+    updateSeekBar();
   }
 
   function onPlayPause() {
@@ -198,13 +210,10 @@ function App() {
   // }
 
   function updateSeekBar() {
-    // var masterHowl = tracks[0].howl;
-    // if (masterHowl) {
-    //   setSeekbarWidth(
-    //     (masterHowl.seek() / masterHowl.duration()) *
-    //       (width - TRACK_HEADER_WIDTH)
-    //   );
-    // }
+    setSeekbarWidth(
+      (timingRef.current.currentTime / trackLengthRef.current) *
+        (width - TRACK_HEADER_WIDTH)
+    );
   }
 
   // Clock/timing
@@ -218,7 +227,7 @@ function App() {
     };
 
     if (previousTimeRef.current != undefined) {
-      // updateSeekBar();
+      updateSeekBar();
     }
 
     previousTimeRef.current = time;
