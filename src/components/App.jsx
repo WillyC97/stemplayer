@@ -1,7 +1,6 @@
 import React from "react";
 import Track from "./Track";
 import { useState, useEffect, useRef } from "react";
-import { Howl, Howler } from "howler";
 import useWindowDimensions from "../utils/WindowDimensions";
 
 import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
