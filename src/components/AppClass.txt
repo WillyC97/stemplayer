@@ -1,0 +1,98 @@
+// import React, { Component } from 'react';
+
+// class App extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       playing: false,
+//     };
+//     this.tracks = [
+//           {
+//             title: "Rave Digger",
+//             file: "/Users/williamchambers/Developer/stemplayer/src/components/audio/rave_digger.mp3",
+//             howl: null,
+//           }
+//           // },
+//           // {
+//           //   title: "80s Vibe",
+//           //   file: "/Users/williamchambers/Developer/stemplayer/src/components/audio/80s_vibe.mp3",
+//           //   howl: null,
+//           // },
+//           // {
+//           //   title: "Running Out",
+//           //   file: "/Users/williamchambers/Developer/stemplayer/src/components/audio/running_out.mp3",
+//           //   howl: null,
+//           // }
+//         ];
+//   }
+
+//   componentDidMount() {
+//     this.initialiseStems();
+//   }
+
+//   initialiseStems() {
+//     this.tracks.forEach((track) => {
+//       track.howl = new Howl({
+//         src: [track.file],
+//         html5: true,
+//       });
+//     });
+//   }
+
+//   onPlayPause() {
+//     if (this.state.playing) {
+//       this.pause();
+//     } else {
+//       this.play();
+//     }
+//   }
+
+//   play() {
+//     this.setState({ playing: true });
+//     console.log("playing");
+
+//     this.tracks.forEach((track) =>
+//     {
+//       track.howl.play();
+//     });
+
+//     console.log(this.tracks);
+//   }
+
+//   pause() {
+//     this.setState({ playing: false });
+//     console.log("paused");
+
+//     this.tracks.forEach((track) =>
+//     {
+//       track.howl.pause();
+//     });
+
+//     console.log(this.tracks);
+//   }
+
+//   render() {
+//     const { playing } = this.state;
+//     return (
+//       <div>
+//         <div className="black-bar d-flex flex-row">
+//           <div className="btn">
+//             {playing ? (
+//               <div id="pause-button" onClick={() => this.onPlayPause()} />
+//             ) : (
+//               <div id="play-button" onClick={() => this.onPlayPause()} />
+//             )}
+//           </div>
+//         </div>
+//         <div className="d-flex flex-row">
+//           <div className="flex-grow-1 flex-shrink-0">
+//             <Track title="Track1" trackWidth="180px" backgroundColour="#ad1b1b" />
+//             <Track title="Track2" trackWidth="180px" backgroundColour="#10e8cf" />
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
+
+// export default App;
