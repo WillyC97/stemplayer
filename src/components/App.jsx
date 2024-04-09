@@ -10,6 +10,8 @@ import Running from "/Users/williamchambers/Developer/stemplayer/src/components/
 
 const TRACK_HEADER_WIDTH = 200;
 
+//=========================================================================
+
 function App() {
   const { height, width } = useWindowDimensions();
 
@@ -49,7 +51,7 @@ function App() {
     {
       title: "Running Out",
       file: Running,
-      colour: "#ad1b1b",
+      colour: "#a432a8",
       buffer: null,
       audioSource: null,
       audioLength: null,
@@ -59,6 +61,39 @@ function App() {
       soloed: false,
     },
   ]);
+
+  //=========================================================================
+  // Helpers
+  //----------------------------------------------------------------------- 
+  
+  function isSoloActive() {
+    return stems.some((stem) => stem.soloed);
+  }
+  //----------------------------------------------------------------------- 
+
+  function findStem(trackUUID) {
+    return stems.find((data) => data.uuid === trackUUID);
+  }
+  //----------------------------------------------------------------------- 
+
+  function updateStemParameter(trackUUID, key, value) {
+    const stem = findStem(trackUUID);
+    if (!stem) {
+      console.error(`No audio source found with id ${trackUUID}`);
+      return;
+    }
+
+    stem[key] = value;
+    updateStemState(
+      stems.map((data) =>
+        data.uuid === trackUUID ? { ...data, [key]: value } : data
+      )
+    );
+  }
+
+  //=========================================================================
+  // Loading
+  //----------------------------------------------------------------------- 
 
   useEffect(() => {
     const ac = new (window.AudioContext || window.webkitAudioContext)();
@@ -86,18 +121,27 @@ function App() {
     });
   }, []);
 
+  //=========================================================================
+  // Play/Pause
+  //----------------------------------------------------------------------- 
+
+  function onPlayPause() {
+    isPlaying ? pauseAudio() : playAudio();
+  }
+  //----------------------------------------------------------------------- 
+
   function playAudio() {
-    const newTracks = stems.map(async (track) => {
+    const newTracks = stems.map(async (stem) => {
       let source = null;
       let gain = null;
-      if (true) {
+      if (stem.buffer) {
         source = audioContext.createBufferSource();
         gain = audioContext.createGain();
-        source.buffer = track.buffer;
+        source.buffer = stem.buffer;
         source.connect(gain);
         gain.connect(audioContext.destination);
       }
-      return { ...track, audioSource: source, gainNode: gain };
+      return { ...stem, audioSource: source, gainNode: gain };
     });
 
     Promise.all(newTracks).then((updatedStems) => {
@@ -110,6 +154,7 @@ function App() {
       requestRef.current = requestAnimationFrame(clockTick);
     });
   }
+  //----------------------------------------------------------------------- 
 
   function pauseAudio() {
     stems.forEach((stem) => {
@@ -120,28 +165,9 @@ function App() {
     cancelAnimationFrame(requestRef.current);
   }
 
-  function findStem(trackUUID) {
-    return stems.find((data) => data.uuid === trackUUID);
-  }
-
-  function updateStemParameter(trackUUID, key, value) {
-    const stem = findStem(trackUUID);
-    if (!stem) {
-      console.error(`No audio source found with id ${trackUUID}`);
-      return;
-    }
-
-    stem[key] = value;
-    updateStemState(
-      stems.map((data) =>
-        data.uuid === trackUUID ? { ...data, [key]: value } : data
-      )
-    );
-  }
-
-  function setStemGainBasedOnSoloMuteState(stem, muteState) {
-    stem.gainNode.gain.value = muteState ? 0 : stem.volume;
-  }
+  //=========================================================================
+  // Mute/Solo
+  //----------------------------------------------------------------------- 
 
   function toggleStemMute(trackUUID) {
     const stem = findStem(trackUUID);
@@ -151,6 +177,7 @@ function App() {
     setStemGainBasedOnSoloMuteState(stem, muteState);
     updateStemParameter(trackUUID, "muted", muteState);
   }
+  //----------------------------------------------------------------------- 
 
   function toggleStemSolo(trackUUID) {
     const stem = findStem(trackUUID);
@@ -169,10 +196,15 @@ function App() {
       });
     }
   }
+  //----------------------------------------------------------------------- 
 
-  function isSoloActive() {
-    return stems.some((stem) => stem.soloed);
+  function setStemGainBasedOnSoloMuteState(stem, muteState) {
+    stem.gainNode.gain.value = muteState ? 0 : stem.volume;
   }
+
+  //=========================================================================
+  // Seekbar
+  //----------------------------------------------------------------------- 
 
   function onSeekBarClick(e) {
     const percentage =
@@ -184,30 +216,7 @@ function App() {
 
     updateSeekBar();
   }
-
-  function onPlayPause() {
-    isPlaying ? pauseAudio() : playAudio();
-  }
-
-  // function play() {
-  //   setPlaying(true);
-  //   console.log("playing");
-
-  //   tracks.forEach((track) => {
-  //     track.howl.play();
-  //   });
-  //   requestRef.current = requestAnimationFrame(animate);
-  // }
-
-  // function pause() {
-  //   setPlaying(false);
-  //   console.log("paused");
-
-  //   tracks.forEach((track) => {
-  //     track.howl.pause();
-  //   });
-  //   cancelAnimationFrame(requestRef.current);
-  // }
+  //----------------------------------------------------------------------- 
 
   function updateSeekBar() {
     setSeekbarWidth(
@@ -216,7 +225,10 @@ function App() {
     );
   }
 
+  //=========================================================================
   // Clock/timing
+  //----------------------------------------------------------------------- 
+
   const clockTick = (time) => {
     const timeChange =
       audioContext.currentTime - timingRef.current.lastTimeStamp;
@@ -233,6 +245,10 @@ function App() {
     previousTimeRef.current = time;
     requestRef.current = requestAnimationFrame(clockTick);
   };
+
+  //=========================================================================
+  //  Render
+  //----------------------------------------------------------------------- 
 
   return (
     <div>
