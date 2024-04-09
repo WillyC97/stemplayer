@@ -122,14 +122,14 @@ function App() {
   }
 
   function updateSoloState(trackUUID) {
-    // const updatedTracks = [...tracks];
-    // const trackIndex = updatedTracks.findIndex(
-    //   (track) => track.uuid === trackUUID
-    // );
-    // if (trackIndex === -1) return;
-    // updatedTracks[trackIndex].soloed = !updatedTracks[trackIndex].soloed;
-    // updateTrackState(updatedTracks);
-    // toggleTrackSolo();
+    const updatedTracks = [...stems];
+    const trackIndex = updatedTracks.findIndex(
+      (track) => track.uuid === trackUUID
+    );
+    if (trackIndex === -1) return;
+    updatedTracks[trackIndex].soloed = !updatedTracks[trackIndex].soloed;
+    updateStemState(updatedTracks);
+    toggleTrackSolo();
   }
 
   function toggleStemMute(trackUUID, muteState) {
@@ -140,19 +140,19 @@ function App() {
   }
 
   function toggleTrackSolo() {
-    // if (isSoloActive()) {
-    //   tracks.forEach(track => {
-    //     track.howl.mute(!track.soloed);
-    //   });
-    // } else {
-    //   tracks.forEach((track) => {
-    //     track.howl.mute(track.muted);
-    //   });
-    // }
+    if (isSoloActive()) {
+      stems.forEach(stem => {
+        toggleStemMute(stem.uuid, !stem.soloed)
+      });
+    } else {
+      stems.forEach((stem) => {
+        toggleStemMute(stem.uuid, stem.muted)
+      });
+    }
   }
 
   function isSoloActive() {
-    // return tracks.some((track) => track.soloed);
+    return stems.some((stem) => stem.soloed);
   }
 
   function onSeekBarClick(e) {
