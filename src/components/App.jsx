@@ -208,12 +208,7 @@ function App() {
   function onSeekBarClick(e) {
     const percentage =
       (e.clientX - TRACK_HEADER_WIDTH) / (width - TRACK_HEADER_WIDTH);
-    const wasPlaying = isPlaying;
-    if (wasPlaying) pauseAudio();
-    timingRef.current.currentTime = percentage * trackLengthRef.current;
-    if (wasPlaying) playAudio();
-
-    updateSeekBar();
+    jumpToTime(percentage * trackLengthRef.current, isPlaying);
   }
   //-----------------------------------------------------------------------
 
@@ -237,6 +232,12 @@ function App() {
       currentTime: timingRef.current.currentTime + timeChange,
     };
 
+    if (timingRef.current.currentTime >= trackLengthRef.current) {
+      pauseAudio();
+      jumpToTime(0.0, false);
+      return;
+    }
+
     if (previousTimeRef.current != undefined) {
       updateSeekBar();
     }
@@ -244,6 +245,13 @@ function App() {
     previousTimeRef.current = time;
     requestRef.current = requestAnimationFrame(clockTick);
   };
+
+  function jumpToTime(time, wasPlaying) {
+    if (wasPlaying) pauseAudio();
+    timingRef.current.currentTime = time;
+    updateSeekBar();
+    if (wasPlaying) playAudio();
+  }
 
   //=========================================================================
   //  Render
