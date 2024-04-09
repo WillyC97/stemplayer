@@ -28,7 +28,7 @@ function App() {
       buffer: null,
       audioSource: null,
       gainNode: null,
-      volume: 0.0,
+      volume: 1.0,
       muted: false,
       soloed: false,
     },
@@ -39,7 +39,7 @@ function App() {
       buffer: null,
       audioSource: null,
       gainNode: null,
-      volume: 0.0,
+      volume: 1.0,
       muted: false,
       soloed: false,
     },
@@ -50,7 +50,7 @@ function App() {
       buffer: null,
       audioSource: null,
       gainNode: null,
-      volume: 0.0,
+      volume: 1.0,
       muted: false,
       soloed: false,
     },
@@ -111,14 +111,14 @@ function App() {
   }
 
   function updateMuteState(trackUUID) {
-    // const audioSource = tracks.find(data => data.uuid === trackUUID);
-    // if (audioSource) {
-    //   console.log("updating mute state");
-    //   updateTrackState(tracks.map((data) => data.uuid === trackUUID ? { ...data, muted: !data.muted } : data));
-    //   toggleTrackMute(trackUUID, !audioSource.muted);
-    // } else {
-    //   console.error(`No audio source found with id ${trackUUID}`);
-    // }
+    const audioSource = stems.find(data => data.uuid === trackUUID);
+    if (audioSource) {
+      console.log("updating mute state");
+      updateStemState(stems.map((data) => data.uuid === trackUUID ? { ...data, muted: !data.muted } : data));
+      toggleStemMute(trackUUID, !audioSource.muted);
+    } else {
+      console.error(`No audio source found with id ${trackUUID}`);
+    }
   }
 
   function updateSoloState(trackUUID) {
@@ -132,10 +132,11 @@ function App() {
     // toggleTrackSolo();
   }
 
-  function toggleTrackMute(trackUUID, muteState) {
-    const audioSource = stems.find((data) => data.uuid === trackUUID);
-    if (audioSource.muted) {
-    }
+  function toggleStemMute(trackUUID, muteState) {
+    const stem = stems.find((data) => data.uuid === trackUUID);
+    if (!stem) return;
+    
+    stem.gainNode.gain.value = muteState ? 0 : stem.volume;
   }
 
   function toggleTrackSolo() {
