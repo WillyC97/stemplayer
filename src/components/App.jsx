@@ -153,6 +153,7 @@ function App() {
         source.buffer = stem.buffer;
         source.connect(gain);
         gain.connect(audioContext.destination);
+        setStemGainNodeState(stem.uuid, gain);
       }
       return { ...stem, audioSource: source, gainNode: gain };
     });
@@ -186,9 +187,8 @@ function App() {
     const stem = findStem(trackUUID);
     if (!stem) return;
 
-    const muteState = !stem.muted;
-    setStemGainBasedOnSoloMuteState(stem, muteState);
-    updateStemParameter(trackUUID, "muted", muteState);
+    updateStemParameter(stem.uuid, "muted", !stem.muted);
+    setStemGainNodeState(stem.uuid, stem.gainNode);
   }
   //-----------------------------------------------------------------------
 
@@ -196,23 +196,21 @@ function App() {
     const stem = findStem(trackUUID);
     if (!stem) return;
 
-    const soloState = !stem.soloed;
-    updateStemParameter(trackUUID, "soloed", soloState);
+    updateStemParameter(trackUUID, "soloed", !stem.soloed);
+    setStemGainNodeState(stem.uuid, stem.gainNode);
 
-    if (isSoloActive()) {
-      stems.forEach((stem) => {
-        setStemGainBasedOnSoloMuteState(stem, !stem.soloed);
-      });
-    } else {
-      stems.forEach((stem) => {
-        setStemGainBasedOnSoloMuteState(stem, stem.muted);
-      });
-    }
+    stems.forEach((stem) => {
+      setStemGainNodeState(stem.uuid, stem.gainNode);
+    });
   }
   //-----------------------------------------------------------------------
 
-  function setStemGainBasedOnSoloMuteState(stem, muteState) {
-    stem.gainNode.gain.value = muteState ? 0 : stem.volume;
+  function setStemGainNodeState(stemUUID, gainNode) {
+    const stem = findStem(stemUUID);
+    if (!stem) return;
+
+    gainNode.gain.value =
+      stem.muted || (!stem.soloed && isSoloActive()) ? 0 : stem.volume;
   }
 
   //=========================================================================
