@@ -63,17 +63,17 @@ function App() {
 
   //=========================================================================
   // Helpers
-  //----------------------------------------------------------------------- 
-  
+  //-----------------------------------------------------------------------
+
   function isSoloActive() {
     return stems.some((stem) => stem.soloed);
   }
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function findStem(trackUUID) {
     return stems.find((data) => data.uuid === trackUUID);
   }
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function updateStemParameter(trackUUID, key, value) {
     const stem = findStem(trackUUID);
@@ -92,7 +92,7 @@ function App() {
 
   //=========================================================================
   // Loading
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   useEffect(() => {
     const ac = new (window.AudioContext || window.webkitAudioContext)();
@@ -120,14 +120,28 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.code === "Space") {
+        onPlayPause();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isPlaying, stems]);
+
   //=========================================================================
   // Play/Pause
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
-  function onPlayPause() {
+  const onPlayPause = () => {
     isPlaying ? pauseAudio() : playAudio();
-  }
-  //----------------------------------------------------------------------- 
+  };
+  //-----------------------------------------------------------------------
 
   function playAudio() {
     const newTracks = stems.map(async (stem) => {
@@ -139,6 +153,7 @@ function App() {
         source.buffer = stem.buffer;
         source.connect(gain);
         gain.connect(audioContext.destination);
+        setStemGainNodeState(stem.uuid, gain);
       }
       return { ...stem, audioSource: source, gainNode: gain };
     });
@@ -153,7 +168,7 @@ function App() {
       requestRef.current = requestAnimationFrame(clockTick);
     });
   }
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function pauseAudio() {
     stems.forEach((stem) => {
@@ -166,56 +181,48 @@ function App() {
 
   //=========================================================================
   // Mute/Solo
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function toggleStemMute(trackUUID) {
     const stem = findStem(trackUUID);
     if (!stem) return;
 
-    const muteState = !stem.muted;
-    setStemGainBasedOnSoloMuteState(stem, muteState);
-    updateStemParameter(trackUUID, "muted", muteState);
+    updateStemParameter(stem.uuid, "muted", !stem.muted);
+    setStemGainNodeState(stem.uuid, stem.gainNode);
   }
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function toggleStemSolo(trackUUID) {
     const stem = findStem(trackUUID);
     if (!stem) return;
 
-    const soloState = !stem.soloed;
-    updateStemParameter(trackUUID, "soloed", soloState);
+    updateStemParameter(trackUUID, "soloed", !stem.soloed);
+    setStemGainNodeState(stem.uuid, stem.gainNode);
 
-    if (isSoloActive()) {
-      stems.forEach((stem) => {
-        setStemGainBasedOnSoloMuteState(stem, !stem.soloed);
-      });
-    } else {
-      stems.forEach((stem) => {
-        setStemGainBasedOnSoloMuteState(stem, stem.muted);
-      });
-    }
+    stems.forEach((stem) => {
+      setStemGainNodeState(stem.uuid, stem.gainNode);
+    });
   }
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
-  function setStemGainBasedOnSoloMuteState(stem, muteState) {
-    stem.gainNode.gain.value = muteState ? 0 : stem.volume;
+  function setStemGainNodeState(stemUUID, gainNode) {
+    const stem = findStem(stemUUID);
+    if (!stem) return;
+
+    gainNode.gain.value =
+      stem.muted || (!stem.soloed && isSoloActive()) ? 0 : stem.volume;
   }
 
   //=========================================================================
   // Seekbar
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function onSeekBarClick(e) {
     const percentage =
       (e.clientX - TRACK_HEADER_WIDTH) / (width - TRACK_HEADER_WIDTH);
-    const wasPlaying = isPlaying;
-    if (wasPlaying) pauseAudio();
-    timingRef.current.currentTime = percentage * trackLengthRef.current;
-    if (wasPlaying) playAudio();
-
-    updateSeekBar();
+    jumpToTime(percentage * trackLengthRef.current, isPlaying);
   }
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   function updateSeekBar() {
     setSeekbarWidth(
@@ -226,7 +233,7 @@ function App() {
 
   //=========================================================================
   // Clock/timing
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   const clockTick = (time) => {
     const timeChange =
@@ -237,6 +244,12 @@ function App() {
       currentTime: timingRef.current.currentTime + timeChange,
     };
 
+    if (timingRef.current.currentTime >= trackLengthRef.current) {
+      pauseAudio();
+      jumpToTime(0.0, false);
+      return;
+    }
+
     if (previousTimeRef.current != undefined) {
       updateSeekBar();
     }
@@ -245,9 +258,16 @@ function App() {
     requestRef.current = requestAnimationFrame(clockTick);
   };
 
+  function jumpToTime(time, wasPlaying) {
+    if (wasPlaying) pauseAudio();
+    timingRef.current.currentTime = time;
+    updateSeekBar();
+    if (wasPlaying) playAudio();
+  }
+
   //=========================================================================
   //  Render
-  //----------------------------------------------------------------------- 
+  //-----------------------------------------------------------------------
 
   return (
     <div>
