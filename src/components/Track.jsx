@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useRef } from 'react';
 import classnames from "classnames";
 
 function TrackHeader(props) {
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.value = props.volume;
+  }, [props.volume]);
+
   return (
     <div className="track-header">
       <div className="track-title">{props.title}</div>
@@ -18,7 +24,7 @@ function TrackHeader(props) {
         >
           S
         </div>
-        <input type="range" min="1" max="100" value="50" />
+        <input type="range" min="0" max="2" step="0.01" ref={inputRef} onChange={props.onSliderChange} />
       </div>
     </div>
   );
@@ -32,8 +38,10 @@ function Track(props) {
       <TrackHeader
         title={props.title}
         soloState={props.soloState}
+        volume={props.volume}
         onMuteClick={props.onMuteClick}
         onSoloClick={props.onSoloClick}
+        onSliderChange={props.onSliderInput}
       />
       <div
         className="track-audio"

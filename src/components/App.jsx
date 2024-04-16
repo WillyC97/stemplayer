@@ -213,6 +213,16 @@ function App() {
       stem.muted || (!stem.soloed && isSoloActive()) ? 0 : stem.volume;
   }
 
+  function setStemVolume(element, gainNode, stemUUID)
+  {
+    if (!gainNode) return;
+    
+    const volume = element.target.value;
+    
+    gainNode.gain.value = volume;
+    updateStemParameter(stemUUID, "volume", volume);
+  }
+
   //=========================================================================
   // Seekbar
   //-----------------------------------------------------------------------
@@ -291,10 +301,12 @@ function App() {
               seekBarWidth={seekBarWidth + "px"}
               muteState={track.muted}
               soloState={track.soloed}
+              volume={track.volume}
               isSoloActive={isSoloActive()}
               onSeekBarClick={(e) => onSeekBarClick(e)}
               onMuteClick={() => toggleStemMute(track.uuid)}
               onSoloClick={() => toggleStemSolo(track.uuid)}
+              onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
             />
           ))}
         </div>
