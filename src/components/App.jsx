@@ -207,7 +207,7 @@ function App() {
 
   function setStemGainNodeState(stemUUID, gainNode) {
     const stem = findStem(stemUUID);
-    if (!stem) return;
+    if (!stem || !gainNode) return;
 
     gainNode.gain.value =
       stem.muted || (!stem.soloed && isSoloActive()) ? 0 : stem.volume;
