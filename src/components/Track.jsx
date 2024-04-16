@@ -25,6 +25,7 @@ function TrackHeader(props) {
           S
         </div>
         <input type="range" min="0" max="2" step="0.01" ref={inputRef} onChange={props.onSliderChange} />
+        <input type="range" class="input-knob" data-diameter="32"/>
       </div>
     </div>
   );

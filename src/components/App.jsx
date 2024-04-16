@@ -7,7 +7,7 @@ import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/aud
 import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
 import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
-const TRACK_HEADER_WIDTH = 200;
+const TRACK_HEADER_WIDTH = 250;
 
 //=========================================================================
 
