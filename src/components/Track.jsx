@@ -9,7 +9,7 @@ function TrackHeader(props) {
       <div className="track-title">{props.title}</div>
 
       <div className="track-buttons">
-        <div className="track-button left mute" onClick={props.onMuteClick}>
+        <div className="track-button mute" onClick={props.onMuteClick}>
           M
         </div>
         <div
@@ -20,7 +20,7 @@ function TrackHeader(props) {
         >
           S
         </div>
-        <input
+        <input className="volume-control"
           type="range"
           min="0"
           max="2"
