@@ -231,13 +231,12 @@ function App() {
   }
 
   function setStemVolume(element, gainNode, stemUUID)
-  {
-    if (!gainNode) return;
-    
+  { 
     const volume = element.target.value;
     
-    gainNode.gain.value = volume;
     updateStemParameter(stemUUID, "volume", volume);
+    setStemGainNodeState(stemUUID, gainNode);
+  }
 
   function setStemPan(pan, panNode, stemUUID)
   {

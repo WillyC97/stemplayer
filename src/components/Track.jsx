@@ -3,11 +3,6 @@ import classnames from "classnames";
 import { PanKnob } from "./Knobs/Knobs";
 
 function TrackHeader(props) {
-  const inputRef = useRef();
-
-  useEffect(() => {
-    inputRef.current.value = props.volume;
-  }, [props.volume]);
 
   return (
     <div className="track-header">
