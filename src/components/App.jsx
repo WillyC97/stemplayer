@@ -31,7 +31,9 @@ function App() {
       audioSource: null,
       audioLength: null,
       gainNode: null,
+      panNode: null,
       volume: 1.0,
+      pan: 0.0,
       muted: false,
       soloed: false,
     },
@@ -43,7 +45,9 @@ function App() {
       audioSource: null,
       audioLength: null,
       gainNode: null,
+      panNode: null,
       volume: 1.0,
+      pan: 0.0,
       muted: false,
       soloed: false,
     },
@@ -55,7 +59,9 @@ function App() {
       audioSource: null,
       audioLength: null,
       gainNode: null,
+      panNode: null,
       volume: 1.0,
+      pan: 0.0,
       muted: false,
       soloed: false,
     },
@@ -147,15 +153,19 @@ function App() {
     const newTracks = stems.map(async (stem) => {
       let source = null;
       let gain = null;
+      let pan = null;
       if (stem.buffer) {
         source = audioContext.createBufferSource();
         gain = audioContext.createGain();
+        pan = audioContext.createStereoPanner();
         source.buffer = stem.buffer;
         source.connect(gain);
-        gain.connect(audioContext.destination);
+        gain.connect(pan);
+        pan.connect(audioContext.destination);
         setStemGainNodeState(stem.uuid, gain);
+        setStemPanNodeState(stem.uuid, pan);
       }
-      return { ...stem, audioSource: source, gainNode: gain };
+      return { ...stem, audioSource: source, gainNode: gain, panNode: pan };
     });
 
     Promise.all(newTracks).then((updatedStems) => {
@@ -213,6 +223,13 @@ function App() {
       stem.muted || (!stem.soloed && isSoloActive()) ? 0 : stem.volume;
   }
 
+  function setStemPanNodeState(stemUUID, panNode) {
+    const stem = findStem(stemUUID);
+    if (!stem || !panNode) return;
+
+    panNode.pan.setValueAtTime(stem.pan, timingRef.current.currentTime);
+  }
+
   function setStemVolume(element, gainNode, stemUUID)
   {
     if (!gainNode) return;
@@ -221,6 +238,11 @@ function App() {
     
     gainNode.gain.value = volume;
     updateStemParameter(stemUUID, "volume", volume);
+
+  function setStemPan(pan, panNode, stemUUID)
+  {
+    updateStemParameter(stemUUID, "pan", pan);
+    setStemPanNodeState(stemUUID, panNode);
   }
 
   //=========================================================================
@@ -302,11 +324,13 @@ function App() {
               muteState={track.muted}
               soloState={track.soloed}
               volume={track.volume}
+              pan={track.pan}
               isSoloActive={isSoloActive()}
               onSeekBarClick={(e) => onSeekBarClick(e)}
               onMuteClick={() => toggleStemMute(track.uuid)}
               onSoloClick={() => toggleStemSolo(track.uuid)}
               onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
+              onPanSliderInput={(newValue) => setStemPan(newValue, track.panNode, track.uuid)}
             />
           ))}
         </div>

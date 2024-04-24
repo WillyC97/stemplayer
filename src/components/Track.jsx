@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import classnames from "classnames";
+import { PanKnob } from "./Knobs/Knobs";
 
 function TrackHeader(props) {
   const inputRef = useRef();
@@ -24,8 +25,15 @@ function TrackHeader(props) {
         >
           S
         </div>
-        <input type="range" min="0" max="2" step="0.01" ref={inputRef} onChange={props.onSliderChange} />
-        <input type="range" class="input-knob" data-diameter="32"/>
+        <input
+          type="range"
+          min="0"
+          max="2"
+          step="0.01"
+          value={props.volume}
+          onChange={props.onSliderChange}
+        />
+        <PanKnob value={props.pan} onChange={props.onPanSliderChange} />
       </div>
     </div>
   );
@@ -40,9 +48,11 @@ function Track(props) {
         title={props.title}
         soloState={props.soloState}
         volume={props.volume}
+        pan={props.pan}
         onMuteClick={props.onMuteClick}
         onSoloClick={props.onSoloClick}
         onSliderChange={props.onSliderInput}
+        onPanSliderChange={props.onPanSliderInput}
       />
       <div
         className="track-audio"
