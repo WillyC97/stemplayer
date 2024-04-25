@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import classnames from "classnames";
 import { PanKnob } from "./Knobs/Knobs";
+import ThemedSlider from "./Slider/ThemedSlider";
 
 function TrackHeader(props) {
 
@@ -20,14 +21,15 @@ function TrackHeader(props) {
         >
           S
         </div>
-        <input className="volume-control"
-          type="range"
+        <div className="volume-control" >
+        <ThemedSlider 
           min="0"
           max="2"
           step="0.01"
-          value={props.volume}
+          defaultValue={1}
           onChange={props.onSliderChange}
         />
+        </div>
         <PanKnob value={props.pan} onChange={props.onPanSliderChange} />
       </div>
     </div>

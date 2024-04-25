@@ -155,6 +155,7 @@ h1 {
 }
 
 .track .track-header .volume-control {
+    display: inline-block;
     min-width: 25px;
     width: 100px;
 }
