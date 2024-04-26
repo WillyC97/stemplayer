@@ -57,6 +57,13 @@ function Track(props) {
         className="track-audio"
         style={{ backgroundColor: props.backgroundColour }}
       >
+        <div className="waveform-line"
+        style={{ width: props.trackWidth, height: "35px"}}>
+        </div>
+        <div className="waveform-image">
+        <img src={require('./WAveform.png')} 
+        style={{ width: props.trackWidth, height: "70px"}} />
+        </div>
         <div className="track-seek-bar" style={{ width: props.seekBarWidth }} />
         <div
           className="waveform-click-target"
