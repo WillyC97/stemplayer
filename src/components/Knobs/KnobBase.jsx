@@ -67,9 +67,9 @@ export function KnobBase({
       >
         <KnobBaseThumb value01={value01} />
       </KnobHeadless>
-      <KnobHeadlessOutput className={styles.label} htmlFor={knobId}>
+      {/* <KnobHeadlessOutput className={styles.label} htmlFor={knobId}>
         {valueRawDisplayFn(value)}
-      </KnobHeadlessOutput>
+      </KnobHeadlessOutput> */}
     </div>
   );
 }

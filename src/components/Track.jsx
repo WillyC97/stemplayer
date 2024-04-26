@@ -30,7 +30,9 @@ function TrackHeader(props) {
           onChange={props.onSliderChange}
         />
         </div>
+        <div className="pan" >
         <PanKnob value={props.pan} onChange={props.onPanSliderChange} />
+        </div>
       </div>
     </div>
   );
