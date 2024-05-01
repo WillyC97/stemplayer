@@ -2,10 +2,11 @@ import React from "react";
 import Track from "./Track";
 import { useState, useEffect, useRef } from "react";
 import useWindowDimensions from "../utils/WindowDimensions";
+import { secondsToMinutes } from "../utils/time";
 
-import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
-import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
-import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
+// import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
+// import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
+// import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
 const TRACK_HEADER_WIDTH = 300;
 
@@ -22,50 +23,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
   const [seekBarWidth, setSeekbarWidth] = useState(0);
-  const [stems, updateStemState] = useState([
-    {
-      title: "Rave Digger",
-      file: Rave,
-      colour: "#ad1b1b",
-      buffer: null,
-      audioSource: null,
-      audioLength: null,
-      gainNode: null,
-      panNode: null,
-      volume: 1.0,
-      pan: 0.0,
-      muted: false,
-      soloed: false,
-    },
-    {
-      title: "80s Vibe",
-      file: Vibe,
-      colour: "#10e8cf",
-      buffer: null,
-      audioSource: null,
-      audioLength: null,
-      gainNode: null,
-      panNode: null,
-      volume: 1.0,
-      pan: 0.0,
-      muted: false,
-      soloed: false,
-    },
-    {
-      title: "Running Out",
-      file: Running,
-      colour: "#a432a8",
-      buffer: null,
-      audioSource: null,
-      audioLength: null,
-      gainNode: null,
-      panNode: null,
-      volume: 1.0,
-      pan: 0.0,
-      muted: false,
-      soloed: false,
-    },
-  ]);
+  const [stems, updateStemState] = useState(window.songInfo || []);
 
   //=========================================================================
   // Helpers
@@ -96,6 +54,19 @@ function App() {
     );
   }
 
+  function renderTime()
+  {
+    let currentTime = "";
+    let totalTime = "";
+    if (trackLengthRef.current > 0)
+    {
+      currentTime = secondsToMinutes(timingRef.current.currentTime);
+      totalTime = secondsToMinutes(trackLengthRef.current);
+    }
+
+    return currentTime + " / " + totalTime;
+  }
+
   //=========================================================================
   // Loading
   //-----------------------------------------------------------------------
@@ -114,6 +85,13 @@ function App() {
               ...stem,
               buffer: audioBuffer,
               audioLength: audioBuffer.duration,
+              audioSource: null,
+              gainNode: null,
+              panNode: null,
+              volume: 1.0,
+              pan: 0.0,
+              muted: false,
+              soloed: false,
               uuid: crypto.randomUUID(),
             };
           })
@@ -158,22 +136,22 @@ function App() {
         source = audioContext.createBufferSource();
         gain = audioContext.createGain();
         pan = audioContext.createStereoPanner();
+        setStemGainNodeState(stem.uuid, gain);
+        setStemPanNodeState(stem.uuid, pan);
         source.buffer = stem.buffer;
         source.connect(gain);
         gain.connect(pan);
         pan.connect(audioContext.destination);
-        setStemGainNodeState(stem.uuid, gain);
-        setStemPanNodeState(stem.uuid, pan);
       }
       return { ...stem, audioSource: source, gainNode: gain, panNode: pan };
     });
 
     Promise.all(newTracks).then((updatedStems) => {
       updateStemState(updatedStems);
-      setIsPlaying(true);
       updatedStems.forEach((stem) => {
         stem.audioSource.start(0.02, timingRef.current.currentTime);
       });
+      setIsPlaying(true);
       timingRef.current.lastTimeStamp = audioContext.currentTime;
       requestRef.current = requestAnimationFrame(clockTick);
     });
@@ -185,8 +163,8 @@ function App() {
       stem.audioSource.stop();
     });
 
-    setIsPlaying(false);
     cancelAnimationFrame(requestRef.current);
+    setIsPlaying(false);
   }
 
   //=========================================================================
@@ -227,19 +205,17 @@ function App() {
     const stem = findStem(stemUUID);
     if (!stem || !panNode) return;
 
-    panNode.pan.setValueAtTime(stem.pan, timingRef.current.currentTime);
+    panNode.pan.setValueAtTime(stem.pan, audioContext.currentTime);
   }
 
-  function setStemVolume(element, gainNode, stemUUID)
-  { 
+  function setStemVolume(element, gainNode, stemUUID) {
     const volume = element.target.value;
-    
+
     updateStemParameter(stemUUID, "volume", volume);
     setStemGainNodeState(stemUUID, gainNode);
   }
 
-  function setStemPan(pan, panNode, stemUUID)
-  {
+  function setStemPan(pan, panNode, stemUUID) {
     updateStemParameter(stemUUID, "pan", pan);
     setStemPanNodeState(stemUUID, panNode);
   }
@@ -302,38 +278,42 @@ function App() {
 
   return (
     <div>
-      <div className="black-bar d-flex flex-row">
+      <div className="page-header">
         <div className="btn">
           {isPlaying ? (
-            <div id="pause-button" onClick={() => onPlayPause()} />
+            <div class="pause-button" onClick={() => onPlayPause()}>
+              <i class="fas fa-pause"></i>
+            </div>
           ) : (
-            <div id="play-button" onClick={() => onPlayPause()} />
+            <div class="play-button" onClick={() => onPlayPause()}>
+              <i class="fas fa-play"></i>
+            </div>
           )}
         </div>
+        <div className="time">{renderTime()}</div>
+        <div className="song-title">{"Song"}</div>
       </div>
-      <div className="d-flex flex-row">
-        <div className="flex-grow-1 flex-shrink-0">
-          {stems.map((track) => (
-            <Track
-              track={track}
-              title={track.title}
-              trackWidth={width - TRACK_HEADER_WIDTH}
-              backgroundColour={track.colour}
-              seekBarWidth={seekBarWidth + "px"}
-              muteState={track.muted}
-              soloState={track.soloed}
-              volume={track.volume}
-              pan={track.pan}
-              isSoloActive={isSoloActive()}
-              onSeekBarClick={(e) => onSeekBarClick(e)}
-              onMuteClick={() => toggleStemMute(track.uuid)}
-              onSoloClick={() => toggleStemSolo(track.uuid)}
-              onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
-              onPanSliderInput={(newValue) => setStemPan(newValue, track.panNode, track.uuid)}
-            />
-          ))}
-        </div>
-      </div>
+      {stems.map((track) => (
+        <Track
+          track={track}
+          title={track.title}
+          trackWidth={width - TRACK_HEADER_WIDTH}
+          backgroundColour={track.colour}
+          seekBarWidth={seekBarWidth + "px"}
+          muteState={track.muted}
+          soloState={track.soloed}
+          volume={track.volume}
+          pan={track.pan}
+          isSoloActive={isSoloActive()}
+          onSeekBarClick={(e) => onSeekBarClick(e)}
+          onMuteClick={() => toggleStemMute(track.uuid)}
+          onSoloClick={() => toggleStemSolo(track.uuid)}
+          onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
+          onPanSliderInput={(newValue) =>
+            setStemPan(newValue, track.panNode, track.uuid)
+          }
+        />
+      ))}
     </div>
   );
 }
