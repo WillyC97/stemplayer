@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import useWindowDimensions from "../utils/WindowDimensions";
 import { secondsToMinutes } from "../utils/time";
 
-import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
-import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
-import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
+// import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
+// import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
+// import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
 const TRACK_HEADER_WIDTH = 300;
 
@@ -23,23 +23,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioContext, setAudioContext] = useState(null);
   const [seekBarWidth, setSeekbarWidth] = useState(0);
-  const [stems, updateStemState] = useState([
-    {
-      title: "Rave Digger",
-      file: Rave,
-      colour: "#ad1b1b",
-    },
-    {
-      title: "80s Vibe",
-      file: Vibe,
-      colour: "#10e8cf",
-    },
-    {
-      title: "Running Out",
-      file: Running,
-      colour: "#a432a8",
-    },
-  ]);
+  const [stems, updateStemState] = useState(window.songInfo || []);
 
   //=========================================================================
   // Helpers
