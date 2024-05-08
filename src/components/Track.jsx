@@ -10,7 +10,8 @@ function TrackHeader(props) {
       <div className="track-title">{props.title}</div>
 
       <div className="track-buttons">
-        <div className="track-button mute" onClick={props.onMuteClick}>
+        <div className="track-button mute" {...props.attributes} {...props.listeners} ref={props.activatorRef}>
+        {/* <div className="track-button mute" onClick={props.onMuteClick}> */}
           M
         </div>
         <div
@@ -52,6 +53,9 @@ function Track(props) {
         onSoloClick={props.onSoloClick}
         onSliderChange={props.onSliderInput}
         onPanSliderChange={props.onPanSliderInput}
+        activatorRef={props.activatorRef}
+        attributes={props.attributes}
+        listeners={props.listeners}
       />
       <div
         className="track-audio"

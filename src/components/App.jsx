@@ -3,6 +3,10 @@ import Track from "./Track";
 import { useState, useEffect, useRef } from "react";
 import useWindowDimensions from "../utils/WindowDimensions";
 import { secondsToMinutes } from "../utils/time";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {CSS} from "@dnd-kit/utilities";
 
 // import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
 // import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
@@ -28,6 +32,39 @@ function App() {
   //=========================================================================
   // Helpers
   //-----------------------------------------------------------------------
+
+  function SortableTrack({ track }) {
+    const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } =
+      useSortable({ id: track.id });
+      const style = {transition, transform:CSS.Transform.toString(transform)};
+    return (
+      <div ref={setNodeRef} style={style}>
+      <Track 
+        key={track.id}
+        track={track}
+        title={track.title}
+        trackWidth={width - TRACK_HEADER_WIDTH}
+        backgroundColour={track.colour}
+        seekBarWidth={seekBarWidth + "px"}
+        muteState={track.muted}
+        soloState={track.soloed}
+        volume={track.volume}
+        pan={track.pan}
+        isSoloActive={isSoloActive()}
+        onSeekBarClick={(e) => onSeekBarClick(e)}
+        onMuteClick={() => toggleStemMute(track.uuid)}
+        onSoloClick={() => toggleStemSolo(track.uuid)}
+        onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
+        onPanSliderInput={(newValue) =>
+          setStemPan(newValue, track.panNode, track.uuid)
+        }
+        activatorRef={setActivatorNodeRef}
+        attributes={attributes}
+        listeners={listeners}
+      />
+      </div>
+    );
+  };
 
   function isSoloActive() {
     return stems.some((stem) => stem.soloed);
@@ -76,13 +113,14 @@ function App() {
     setAudioContext(ac);
 
     Promise.all(
-      stems.map((stem) =>
+      stems.map((stem, index) =>
         fetch(stem.file)
           .then((response) => response.arrayBuffer())
           .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer))
           .then((audioBuffer) => {
             return {
               ...stem,
+              id: index + 1,
               buffer: audioBuffer,
               audioLength: audioBuffer.duration,
               audioSource: null,
@@ -272,6 +310,17 @@ function App() {
     if (wasPlaying) playAudio();
   }
 
+  const handleDragEnd = (event) => {
+    const {active, over} = event;
+    if (active.id !== over.id) {
+      const activeIndex = stems.findIndex((stem) => stem.id === active.id);
+      const overIndex = stems.findIndex((stem) => stem.id === over.id);
+      const newStems = [...stems];
+      newStems.splice(overIndex, 0, newStems.splice(activeIndex, 1)[0]);
+      updateStemState(newStems);
+    }
+  };
+
   //=========================================================================
   //  Render
   //-----------------------------------------------------------------------
@@ -293,27 +342,13 @@ function App() {
         <div className="time">{renderTime()}</div>
         <div className="song-title">{"Song"}</div>
       </div>
-      {stems.map((track) => (
-        <Track
-          track={track}
-          title={track.title}
-          trackWidth={width - TRACK_HEADER_WIDTH}
-          backgroundColour={track.colour}
-          seekBarWidth={seekBarWidth + "px"}
-          muteState={track.muted}
-          soloState={track.soloed}
-          volume={track.volume}
-          pan={track.pan}
-          isSoloActive={isSoloActive()}
-          onSeekBarClick={(e) => onSeekBarClick(e)}
-          onMuteClick={() => toggleStemMute(track.uuid)}
-          onSoloClick={() => toggleStemSolo(track.uuid)}
-          onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
-          onPanSliderInput={(newValue) =>
-            setStemPan(newValue, track.panNode, track.uuid)
-          }
-        />
-      ))}
+      <DndContext modifiers={[restrictToVerticalAxis]} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={stems} strategy={verticalListSortingStrategy}>
+          {stems.map((track) => (
+            <SortableTrack track={track} />
+          ))}
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }
