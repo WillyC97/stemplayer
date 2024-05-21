@@ -1,7 +1,5 @@
 import React from "react";
 import Track from "./Track";
-import { useState, useEffect, useRef } from "react";
-import useWindowDimensions from "../utils/WindowDimensions";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
@@ -20,112 +18,117 @@ const TRACK_HEADER_WIDTH = 300;
 
 //=========================================================================
 
-function App() {
-  const { height, width } = useWindowDimensions();
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isPlaying: false,
+      audioContext: null,
+      seekBarWidth: 0,
+      stems: window.songInfo || [],
+      height: 0,
+      clientWidth: document.documentElement.clientWidth,
+    };
 
-  const requestRef = useRef();
-  const previousTimeRef = useRef();
-  const timingRef = useRef({ lastTimeStamp: 0.0, currentTime: 0.0 });
-  const trackLengthRef = useRef(0.0);
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [audioContext, setAudioContext] = useState(null);
-  const [seekBarWidth, setSeekbarWidth] = useState(0);
-  const [stems, updateStemState] = useState(window.songInfo || []);
+    this.requestRef = null;
+    this.previousTimeRef = 0.0;
+    this.timingRef = { lastTimeStamp: 0.0, currentTime: 0.0 };
+    this.trackLengthRef = 0.0;
+  }
 
   //=========================================================================
   // Helpers
   //-----------------------------------------------------------------------
 
-  function SortableTrack({
-    track,
-    isSoloActive,
-    onSeekBarClick,
-    onMuteClick,
-    onSoloClick,
-    onSliderInput,
-    onPanSliderInput,
-  }) {
-    const {
-      attributes,
-      listeners,
-      setNodeRef,
-      setActivatorNodeRef,
-      transform,
-      transition,
-    } = useSortable({ id: track.id });
-    const style = { transition, transform: CSS.Transform.toString(transform) };
-    return (
-      <div ref={setNodeRef} style={style}>
-        <Track
-          title={track.title}
-          trackWidth={width - TRACK_HEADER_WIDTH}
-          backgroundColour={track.colour}
-          seekBarWidth={seekBarWidth + "px"}
-          muteState={track.muted}
-          soloState={track.soloed}
-          volume={track.volume}
-          pan={track.pan}
-          isSoloActive={isSoloActive}
-          onSeekBarClick={onSeekBarClick}
-          onMuteClick={onMuteClick}
-          onSoloClick={onSoloClick}
-          onSliderInput={onSliderInput}
-          onPanSliderInput={onPanSliderInput}
-          activatorRef={setActivatorNodeRef}
-          attributes={attributes}
-          listeners={listeners}
-        />
-      </div>
-    );
-  }
+  // SortableTrack({
+  //   track,
+  //   isSoloActive,
+  //   onSeekBarClick,
+  //   onMuteClick,
+  //   onSoloClick,
+  //   onSliderInput,
+  //   onPanSliderInput,
+  // }) {
+  //   const {
+  //     attributes,
+  //     listeners,
+  //     setNodeRef,
+  //     setActivatorNodeRef,
+  //     transform,
+  //     transition,
+  //   } = useSortable({ id: track.id });
+  //   const style = { transition, transform: CSS.Transform.toString(transform) };
+  //   return (
+  //     <div ref={setNodeRef} style={style}>
+  //       <Track
+  //         title={track.title}
+  //         trackWidth={width - TRACK_HEADER_WIDTH}
+  //         backgroundColour={track.colour}
+  //         seekBarWidth={seekBarWidth + "px"}
+  //         muteState={track.muted}
+  //         soloState={track.soloed}
+  //         volume={track.volume}
+  //         pan={track.pan}
+  //         isSoloActive={isSoloActive}
+  //         onSeekBarClick={onSeekBarClick}
+  //         onMuteClick={onMuteClick}
+  //         onSoloClick={onSoloClick}
+  //         onSliderInput={onSliderInput}
+  //         onPanSliderInput={onPanSliderInput}
+  //         activatorRef={setActivatorNodeRef}
+  //         attributes={attributes}
+  //         listeners={listeners}
+  //       />
+  //     </div>
+  //   );
+  // }
 
-  function isSoloActive() {
-    return stems.some((stem) => stem.soloed);
-  }
-  //-----------------------------------------------------------------------
-
-  function findStem(trackUUID) {
-    return stems.find((data) => data.uuid === trackUUID);
+  isSoloActive() {
+    return this.state.stems.some((stem) => stem.soloed);
   }
   //-----------------------------------------------------------------------
 
-  function updateStemParameter(trackUUID, key, value) {
-    const stem = findStem(trackUUID);
+  findStem(trackUUID) {
+    return this.state.stems.find((data) => data.uuid === trackUUID);
+  }
+  //-----------------------------------------------------------------------
+
+  updateStemParameter(trackUUID, key, value) {
+    const stem = this.findStem(trackUUID);
     if (!stem) {
       console.error(`No audio source found with id ${trackUUID}`);
       return;
     }
 
     stem[key] = value;
-    updateStemState(
-      stems.map((data) =>
+    this.setState({
+      stems: this.state.stems.map((data) =>
         data.uuid === trackUUID ? { ...data, [key]: value } : data
-      )
-    );
+      ),
+    });
   }
 
-  function renderTime() {
-    let currentTime = "";
-    let totalTime = "";
-    if (trackLengthRef.current > 0) {
-      currentTime = secondsToMinutes(timingRef.current.currentTime);
-      totalTime = secondsToMinutes(trackLengthRef.current);
+  renderTime() {
+    let currentTimeString = "";
+    let totalTimeString = "";
+    if (this.trackLengthRef > 0) {
+      currentTimeString = secondsToMinutes(this.timingRef.currentTime);
+      totalTimeString = secondsToMinutes(this.trackLengthRef);
     }
 
-    return currentTime + " / " + totalTime;
+    return currentTimeString + " / " + totalTimeString;
   }
 
   //=========================================================================
   // Loading
   //-----------------------------------------------------------------------
 
-  useEffect(() => {
+  componentDidMount() {
     const ac = new (window.AudioContext || window.webkitAudioContext)();
-    setAudioContext(ac);
+    this.setState({ audioContext: ac });
 
     Promise.all(
-      stems.map((stem, index) =>
+      this.state.stems.map((stem, index) =>
         fetch(stem.file)
           .then((response) => response.arrayBuffer())
           .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer))
@@ -147,190 +150,199 @@ function App() {
           })
       )
     ).then((initialisedStems) => {
-      trackLengthRef.current = Math.max(
+      this.trackLengthRef = Math.max(
         ...initialisedStems.map((stem) => stem.audioLength || 0)
       );
-      updateStemState(initialisedStems);
+      this.setState({ stems: initialisedStems });
     });
-  }, []);
 
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (event.code === "Space") {
-        onPlayPause();
-      }
-    };
+    document.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener("resize", (e) => this.onResize(e));
+  }
 
-    document.addEventListener("keydown", handleKeyDown);
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener("resize", (e) => this.onResize(e));
+  }
 
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isPlaying, stems]);
+  handleKeyDown = (event) => {
+    if (event.code === "Space") {
+      this.onPlayPause();
+    }
+  };
+
+  onResize(e) {
+    this.setState({ clientWidth: document.documentElement.clientWidth });
+  }
 
   //=========================================================================
   // Play/Pause
   //-----------------------------------------------------------------------
 
-  const onPlayPause = () => {
-    isPlaying ? pauseAudio() : playAudio();
+  onPlayPause = () => {
+    this.state.isPlaying ? this.pauseAudio() : this.playAudio();
   };
   //-----------------------------------------------------------------------
 
-  function playAudio() {
-    const newTracks = stems.map(async (stem) => {
+  playAudio() {
+    const newTracks = this.state.stems.map(async (stem) => {
       let source = null;
       let gain = null;
       let pan = null;
       if (stem.buffer) {
-        source = audioContext.createBufferSource();
-        gain = audioContext.createGain();
-        pan = audioContext.createStereoPanner();
-        setStemGainNodeState(stem.uuid, gain);
-        setStemPanNodeState(stem.uuid, pan);
+        source = this.state.audioContext.createBufferSource();
+        gain = this.state.audioContext.createGain();
+        pan = this.state.audioContext.createStereoPanner();
+        this.setStemGainNodeState(stem.uuid, gain);
+        this.setStemPanNodeState(stem.uuid, pan);
         source.buffer = stem.buffer;
         source.connect(gain);
         gain.connect(pan);
-        pan.connect(audioContext.destination);
+        pan.connect(this.state.audioContext.destination);
       }
       return { ...stem, audioSource: source, gainNode: gain, panNode: pan };
     });
 
     Promise.all(newTracks).then((updatedStems) => {
-      updateStemState(updatedStems);
+      this.setState({ stems: updatedStems });
       updatedStems.forEach((stem) => {
-        stem.audioSource.start(0.02, timingRef.current.currentTime);
+        stem.audioSource.start(0.02, this.timingRef.currentTime);
       });
-      setIsPlaying(true);
-      timingRef.current.lastTimeStamp = audioContext.currentTime;
-      requestRef.current = requestAnimationFrame(clockTick);
+      this.setState({ isPlaying: true });
+      this.timingRef.lastTimeStamp = this.state.audioContext.currentTime;
+      this.requestRef = requestAnimationFrame(this.clockTick);
     });
   }
   //-----------------------------------------------------------------------
 
-  function pauseAudio() {
-    stems.forEach((stem) => {
+  pauseAudio() {
+    this.state.stems.forEach((stem) => {
       stem.audioSource.stop();
     });
 
-    cancelAnimationFrame(requestRef.current);
-    setIsPlaying(false);
+    cancelAnimationFrame(this.requestRef);
+    this.setState({ isPlaying: false });
   }
 
   //=========================================================================
   // Mute/Solo
   //-----------------------------------------------------------------------
 
-  function toggleStemMute(trackUUID) {
-    const stem = findStem(trackUUID);
+  toggleStemMute = (trackUUID) => {
+    const stem = this.findStem(trackUUID);
     if (!stem) return;
 
-    updateStemParameter(stem.uuid, "muted", !stem.muted);
-    setStemGainNodeState(stem.uuid, stem.gainNode);
-  }
+    this.updateStemParameter(stem.uuid, "muted", !stem.muted);
+    this.setStemGainNodeState(stem.uuid, stem.gainNode);
+  };
   //-----------------------------------------------------------------------
 
-  function toggleStemSolo(trackUUID) {
-    const stem = findStem(trackUUID);
+  toggleStemSolo = (trackUUID) => {
+    const stem = this.findStem(trackUUID);
     if (!stem) return;
 
-    updateStemParameter(trackUUID, "soloed", !stem.soloed);
-    setStemGainNodeState(stem.uuid, stem.gainNode);
+    this.updateStemParameter(trackUUID, "soloed", !stem.soloed);
 
-    stems.forEach((stem) => {
-      setStemGainNodeState(stem.uuid, stem.gainNode);
+    this.state.stems.forEach((stem) => {
+      this.setStemGainNodeState(stem.uuid, stem.gainNode);
     });
-  }
+  };
   //-----------------------------------------------------------------------
 
-  function setStemGainNodeState(stemUUID, gainNode) {
-    const stem = findStem(stemUUID);
+  setStemGainNodeState(stemUUID, gainNode) {
+    const stem = this.findStem(stemUUID);
     if (!stem || !gainNode) return;
 
     gainNode.gain.value =
-      stem.muted || (!stem.soloed && isSoloActive()) ? 0 : stem.volume;
+      stem.muted || (!stem.soloed && this.isSoloActive()) ? 0 : stem.volume;
   }
 
-  function setStemPanNodeState(stemUUID, panNode) {
-    const stem = findStem(stemUUID);
+  setStemPanNodeState(stemUUID, panNode) {
+    const stem = this.findStem(stemUUID);
     if (!stem || !panNode) return;
 
-    panNode.pan.setValueAtTime(stem.pan, audioContext.currentTime);
+    panNode.pan.setValueAtTime(stem.pan, this.state.audioContext.currentTime);
   }
 
-  function setStemVolume(element, gainNode, stemUUID) {
+  setStemVolume = (element, gainNode, stemUUID) => {
     const volume = element.target.value;
     console.log("fling");
 
-    updateStemParameter(stemUUID, "volume", volume);
-    setStemGainNodeState(stemUUID, gainNode);
-  }
+    this.updateStemParameter(stemUUID, "volume", volume);
+    this.setStemGainNodeState(stemUUID, gainNode);
+  };
 
-  function setStemPan(pan, panNode, stemUUID) {
-    updateStemParameter(stemUUID, "pan", pan);
-    setStemPanNodeState(stemUUID, panNode);
-  }
+  setStemPan = (pan, panNode, stemUUID) => {
+    this.updateStemParameter(stemUUID, "pan", pan);
+    this.setStemPanNodeState(stemUUID, panNode);
+  };
 
   //=========================================================================
   // Seekbar
   //-----------------------------------------------------------------------
 
-  function onSeekBarClick(e) {
+  onSeekBarClick = (e) => {
     const percentage =
-      (e.clientX - TRACK_HEADER_WIDTH) / (width - TRACK_HEADER_WIDTH);
-    jumpToTime(percentage * trackLengthRef.current, isPlaying);
-  }
+      (e.clientX - TRACK_HEADER_WIDTH) /
+      (this.state.clientWidth - TRACK_HEADER_WIDTH);
+    this.jumpToTime(percentage * this.trackLengthRef, this.state.isPlaying);
+  };
   //-----------------------------------------------------------------------
 
-  function updateSeekBar() {
-    setSeekbarWidth(
-      (timingRef.current.currentTime / trackLengthRef.current) *
-        (width - TRACK_HEADER_WIDTH)
-    );
+  updateSeekBar() {
+    const newWidth =
+      (this.timingRef.currentTime / this.trackLengthRef) *
+      (this.state.clientWidth - TRACK_HEADER_WIDTH);
+
+    this.setState({ seekBarWidth: newWidth });
   }
 
   //=========================================================================
   // Clock/timing
   //-----------------------------------------------------------------------
 
-  const clockTick = (time) => {
+  clockTick = (time) => {
     const timeChange =
-      audioContext.currentTime - timingRef.current.lastTimeStamp;
+      this.state.audioContext.currentTime - this.timingRef.lastTimeStamp;
 
-    timingRef.current = {
-      lastTimeStamp: audioContext.currentTime,
-      currentTime: timingRef.current.currentTime + timeChange,
+    this.timingRef = {
+      lastTimeStamp: this.state.audioContext.currentTime,
+      currentTime: this.timingRef.currentTime + timeChange,
     };
 
-    if (timingRef.current.currentTime >= trackLengthRef.current) {
-      pauseAudio();
-      jumpToTime(0.0, false);
+    if (this.timingRef.currentTime >= this.trackLengthRef) {
+      this.pauseAudio();
+      this.jumpToTime(0.0, false);
       return;
     }
 
-    if (previousTimeRef.current != undefined) {
-      updateSeekBar();
+    if (this.previousTimeRef != undefined) {
+      this.updateSeekBar();
     }
 
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(clockTick);
+    this.previousTimeRef = time;
+    this.requestRef = requestAnimationFrame(this.clockTick);
   };
 
-  function jumpToTime(time, wasPlaying) {
-    if (wasPlaying) pauseAudio();
-    timingRef.current.currentTime = time;
-    updateSeekBar();
-    if (wasPlaying) playAudio();
+  jumpToTime(time, wasPlaying) {
+    if (wasPlaying) this.pauseAudio();
+    this.timingRef.currentTime = time;
+    this.updateSeekBar();
+    if (wasPlaying) this.playAudio();
   }
 
-  const handleDragEnd = (event) => {
+  handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      const activeIndex = stems.findIndex((stem) => stem.id === active.id);
-      const overIndex = stems.findIndex((stem) => stem.id === over.id);
-      const newStems = [...stems];
+      const activeIndex = this.state.stems.findIndex(
+        (stem) => stem.id === active.id
+      );
+      const overIndex = this.state.stems.findIndex(
+        (stem) => stem.id === over.id
+      );
+      const newStems = [...this.state.stems];
       newStems.splice(overIndex, 0, newStems.splice(activeIndex, 1)[0]);
-      updateStemState(newStems);
+      this.setState({ stems: newStems });
     }
   };
 
@@ -338,49 +350,75 @@ function App() {
   //  Render
   //-----------------------------------------------------------------------
 
-  return (
-    <div>
-      <div className="page-header">
-        <div className="btn">
-          {isPlaying ? (
-            <div class="pause-button" onClick={() => onPlayPause()}>
-              <i class="fas fa-pause"></i>
-            </div>
-          ) : (
-            <div class="play-button" onClick={() => onPlayPause()}>
-              <i class="fas fa-play"></i>
-            </div>
-          )}
+  render() {
+    return (
+      <div>
+        <div className="page-header">
+          <div className="btn">
+            {this.state.isPlaying ? (
+              <div class="pause-button" onClick={() => this.onPlayPause()}>
+                <i class="fas fa-pause"></i>
+              </div>
+            ) : (
+              <div class="play-button" onClick={() => this.onPlayPause()}>
+                <i class="fas fa-play"></i>
+              </div>
+            )}
+          </div>
+          <div className="time">{this.renderTime()}</div>
+          <div className="song-title">{"Song"}</div>
         </div>
-        <div className="time">{renderTime()}</div>
-        <div className="song-title">{"Song"}</div>
+        <DndContext
+          modifiers={[restrictToVerticalAxis]}
+          collisionDetection={closestCenter}
+          onDragEnd={this.handleDragEnd}
+        >
+          <SortableContext
+            items={this.state.stems}
+            strategy={verticalListSortingStrategy}
+          >
+            {this.state.stems.map((track) => (
+              <Track
+                track={track}
+                title={track.title}
+                trackWidth={this.state.clientWidth - TRACK_HEADER_WIDTH}
+                backgroundColour={track.colour}
+                seekBarWidth={this.state.seekBarWidth + "px"}
+                muteState={track.muted}
+                soloState={track.soloed}
+                volume={track.volume}
+                pan={track.pan}
+                isSoloActive={this.isSoloActive()}
+                onSeekBarClick={(e) => this.onSeekBarClick(e)}
+                onMuteClick={() => this.toggleStemMute(track.uuid)}
+                onSoloClick={() => this.toggleStemSolo(track.uuid)}
+                onSliderInput={(e) =>
+                  this.setStemVolume(e, track.gainNode, track.uuid)
+                }
+                onPanSliderInput={(newValue) =>
+                  this.setStemPan(newValue, track.panNode, track.uuid)
+                }
+              />
+              // <SortableTrack
+              //   key={track.uuid}
+              //   track={track}
+              //   isSoloActive={isSoloActive()}
+              //   onSeekBarClick={(e) => onSeekBarClick(e)}
+              //   onMuteClick={() => toggleStemMute(track.uuid)}
+              //   onSoloClick={() => toggleStemSolo(track.uuid)}
+              //   onSliderInput={(e) =>
+              //     setStemVolume(e, track.gainNode, track.uuid)
+              //   }
+              //   onPanSliderInput={(newValue) =>
+              //     setStemPan(newValue, track.panNode, track.uuid)
+              //   }
+              // />
+            ))}
+          </SortableContext>
+        </DndContext>
       </div>
-      <DndContext
-        modifiers={[restrictToVerticalAxis]}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={stems} strategy={verticalListSortingStrategy}>
-          {stems.map((track) => (
-            <SortableTrack
-              key={track.uuid}
-              track={track}
-              isSoloActive={isSoloActive()}
-              onSeekBarClick={(e) => onSeekBarClick(e)}
-              onMuteClick={() => toggleStemMute(track.uuid)}
-              onSoloClick={() => toggleStemSolo(track.uuid)}
-              onSliderInput={(e) =>
-                setStemVolume(e, track.gainNode, track.uuid)
-              }
-              onPanSliderInput={(newValue) =>
-                setStemPan(newValue, track.panNode, track.uuid)
-              }
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
