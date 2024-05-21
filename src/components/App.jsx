@@ -4,9 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import useWindowDimensions from "../utils/WindowDimensions";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import {CSS} from "@dnd-kit/utilities";
+import { CSS } from "@dnd-kit/utilities";
 
 // import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
 // import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
@@ -33,38 +37,48 @@ function App() {
   // Helpers
   //-----------------------------------------------------------------------
 
-  function SortableTrack({ track }) {
-    const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition } =
-      useSortable({ id: track.id });
-      const style = {transition, transform:CSS.Transform.toString(transform)};
+  function SortableTrack({
+    track,
+    isSoloActive,
+    onSeekBarClick,
+    onMuteClick,
+    onSoloClick,
+    onSliderInput,
+    onPanSliderInput,
+  }) {
+    const {
+      attributes,
+      listeners,
+      setNodeRef,
+      setActivatorNodeRef,
+      transform,
+      transition,
+    } = useSortable({ id: track.id });
+    const style = { transition, transform: CSS.Transform.toString(transform) };
     return (
       <div ref={setNodeRef} style={style}>
-      <Track 
-        key={track.id}
-        track={track}
-        title={track.title}
-        trackWidth={width - TRACK_HEADER_WIDTH}
-        backgroundColour={track.colour}
-        seekBarWidth={seekBarWidth + "px"}
-        muteState={track.muted}
-        soloState={track.soloed}
-        volume={track.volume}
-        pan={track.pan}
-        isSoloActive={isSoloActive()}
-        onSeekBarClick={(e) => onSeekBarClick(e)}
-        onMuteClick={() => toggleStemMute(track.uuid)}
-        onSoloClick={() => toggleStemSolo(track.uuid)}
-        onSliderInput={(e) => setStemVolume(e, track.gainNode, track.uuid)}
-        onPanSliderInput={(newValue) =>
-          setStemPan(newValue, track.panNode, track.uuid)
-        }
-        activatorRef={setActivatorNodeRef}
-        attributes={attributes}
-        listeners={listeners}
-      />
+        <Track
+          title={track.title}
+          trackWidth={width - TRACK_HEADER_WIDTH}
+          backgroundColour={track.colour}
+          seekBarWidth={seekBarWidth + "px"}
+          muteState={track.muted}
+          soloState={track.soloed}
+          volume={track.volume}
+          pan={track.pan}
+          isSoloActive={isSoloActive}
+          onSeekBarClick={onSeekBarClick}
+          onMuteClick={onMuteClick}
+          onSoloClick={onSoloClick}
+          onSliderInput={onSliderInput}
+          onPanSliderInput={onPanSliderInput}
+          activatorRef={setActivatorNodeRef}
+          attributes={attributes}
+          listeners={listeners}
+        />
       </div>
     );
-  };
+  }
 
   function isSoloActive() {
     return stems.some((stem) => stem.soloed);
@@ -91,12 +105,10 @@ function App() {
     );
   }
 
-  function renderTime()
-  {
+  function renderTime() {
     let currentTime = "";
     let totalTime = "";
-    if (trackLengthRef.current > 0)
-    {
+    if (trackLengthRef.current > 0) {
       currentTime = secondsToMinutes(timingRef.current.currentTime);
       totalTime = secondsToMinutes(trackLengthRef.current);
     }
@@ -248,6 +260,7 @@ function App() {
 
   function setStemVolume(element, gainNode, stemUUID) {
     const volume = element.target.value;
+    console.log("fling");
 
     updateStemParameter(stemUUID, "volume", volume);
     setStemGainNodeState(stemUUID, gainNode);
@@ -311,7 +324,7 @@ function App() {
   }
 
   const handleDragEnd = (event) => {
-    const {active, over} = event;
+    const { active, over } = event;
     if (active.id !== over.id) {
       const activeIndex = stems.findIndex((stem) => stem.id === active.id);
       const overIndex = stems.findIndex((stem) => stem.id === over.id);
@@ -342,10 +355,27 @@ function App() {
         <div className="time">{renderTime()}</div>
         <div className="song-title">{"Song"}</div>
       </div>
-      <DndContext modifiers={[restrictToVerticalAxis]} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        modifiers={[restrictToVerticalAxis]}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext items={stems} strategy={verticalListSortingStrategy}>
           {stems.map((track) => (
-            <SortableTrack track={track} />
+            <SortableTrack
+              key={track.uuid}
+              track={track}
+              isSoloActive={isSoloActive()}
+              onSeekBarClick={(e) => onSeekBarClick(e)}
+              onMuteClick={() => toggleStemMute(track.uuid)}
+              onSoloClick={() => toggleStemSolo(track.uuid)}
+              onSliderInput={(e) =>
+                setStemVolume(e, track.gainNode, track.uuid)
+              }
+              onPanSliderInput={(newValue) =>
+                setStemPan(newValue, track.panNode, track.uuid)
+              }
+            />
           ))}
         </SortableContext>
       </DndContext>
