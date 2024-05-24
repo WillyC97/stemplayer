@@ -1,18 +1,12 @@
 import React from "react";
-import Track from "./Track";
+import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   SortableContext,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { CSS } from "@dnd-kit/utilities";
-
-// import Rave from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Bass.mp3";
-// import Vibe from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/Solo.mp3";
-// import Running from "/Users/williamchambers/Developer/stemplayer/src/components/audio/TestAudio/VP.mp3";
 
 const TRACK_HEADER_WIDTH = 300;
 
@@ -39,49 +33,6 @@ class App extends React.Component {
   //=========================================================================
   // Helpers
   //-----------------------------------------------------------------------
-
-  // SortableTrack({
-  //   track,
-  //   isSoloActive,
-  //   onSeekBarClick,
-  //   onMuteClick,
-  //   onSoloClick,
-  //   onSliderInput,
-  //   onPanSliderInput,
-  // }) {
-  //   const {
-  //     attributes,
-  //     listeners,
-  //     setNodeRef,
-  //     setActivatorNodeRef,
-  //     transform,
-  //     transition,
-  //   } = useSortable({ id: track.id });
-  //   const style = { transition, transform: CSS.Transform.toString(transform) };
-  //   return (
-  //     <div ref={setNodeRef} style={style}>
-  //       <Track
-  //         title={track.title}
-  //         trackWidth={width - TRACK_HEADER_WIDTH}
-  //         backgroundColour={track.colour}
-  //         seekBarWidth={seekBarWidth + "px"}
-  //         muteState={track.muted}
-  //         soloState={track.soloed}
-  //         volume={track.volume}
-  //         pan={track.pan}
-  //         isSoloActive={isSoloActive}
-  //         onSeekBarClick={onSeekBarClick}
-  //         onMuteClick={onMuteClick}
-  //         onSoloClick={onSoloClick}
-  //         onSliderInput={onSliderInput}
-  //         onPanSliderInput={onPanSliderInput}
-  //         activatorRef={setActivatorNodeRef}
-  //         attributes={attributes}
-  //         listeners={listeners}
-  //       />
-  //     </div>
-  //   );
-  // }
 
   isSoloActive() {
     return this.state.stems.some((stem) => stem.soloed);
@@ -378,16 +329,11 @@ class App extends React.Component {
             strategy={verticalListSortingStrategy}
           >
             {this.state.stems.map((track) => (
-              <Track
+              <SortableTrack
+                key={track.uuid}
                 track={track}
-                title={track.title}
                 trackWidth={this.state.clientWidth - TRACK_HEADER_WIDTH}
-                backgroundColour={track.colour}
                 seekBarWidth={this.state.seekBarWidth + "px"}
-                muteState={track.muted}
-                soloState={track.soloed}
-                volume={track.volume}
-                pan={track.pan}
                 isSoloActive={this.isSoloActive()}
                 onSeekBarClick={(e) => this.onSeekBarClick(e)}
                 onMuteClick={() => this.toggleStemMute(track.uuid)}
@@ -399,20 +345,6 @@ class App extends React.Component {
                   this.setStemPan(newValue, track.panNode, track.uuid)
                 }
               />
-              // <SortableTrack
-              //   key={track.uuid}
-              //   track={track}
-              //   isSoloActive={isSoloActive()}
-              //   onSeekBarClick={(e) => onSeekBarClick(e)}
-              //   onMuteClick={() => toggleStemMute(track.uuid)}
-              //   onSoloClick={() => toggleStemSolo(track.uuid)}
-              //   onSliderInput={(e) =>
-              //     setStemVolume(e, track.gainNode, track.uuid)
-              //   }
-              //   onPanSliderInput={(newValue) =>
-              //     setStemPan(newValue, track.panNode, track.uuid)
-              //   }
-              // />
             ))}
           </SortableContext>
         </DndContext>
