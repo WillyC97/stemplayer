@@ -2,15 +2,22 @@ import React, { useEffect, useRef } from "react";
 import classnames from "classnames";
 import { PanKnob } from "./Knobs/Knobs";
 import ThemedSlider from "./Slider/ThemedSlider";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 function TrackHeader(props) {
-
   return (
     <div className="track-header">
       <div className="track-title">{props.title}</div>
 
       <div className="track-buttons">
-        <div className="track-button mute" onClick={props.onMuteClick}>
+        <div
+          className="track-button mute"
+          {...props.attributes}
+          {...props.listeners}
+          ref={props.activatorRef}
+        >
+          {/* <div className="track-button mute" onClick={props.onMuteClick}> */}
           M
         </div>
         <div
@@ -21,17 +28,17 @@ function TrackHeader(props) {
         >
           S
         </div>
-        <div className="volume-control" >
-        <ThemedSlider 
-          min="0"
-          max="2"
-          step="0.01"
-          defaultValue={1}
-          onChange={props.onSliderChange}
-        />
+        <div className="volume-control">
+          <ThemedSlider
+            min="0"
+            max="2"
+            step="0.01"
+            defaultValue={1}
+            onChange={props.onSliderChange}
+          />
         </div>
-        <div className="pan" >
-        <PanKnob value={props.pan} onChange={props.onPanSliderChange} />
+        <div className="pan">
+          <PanKnob value={props.pan} onChange={props.onPanSliderChange} />
         </div>
       </div>
     </div>
@@ -52,17 +59,23 @@ function Track(props) {
         onSoloClick={props.onSoloClick}
         onSliderChange={props.onSliderInput}
         onPanSliderChange={props.onPanSliderInput}
+        activatorRef={props.activatorRef}
+        attributes={props.attributes}
+        listeners={props.listeners}
       />
       <div
         className="track-audio"
         style={{ backgroundColor: props.backgroundColour }}
       >
-        <div className="waveform-line"
-        style={{ width: props.trackWidth, height: "35px"}}>
-        </div>
+        <div
+          className="waveform-line"
+          style={{ width: props.trackWidth, height: "35px" }}
+        ></div>
         <div className="waveform-image">
-        <img src={require('./WAveform.png')} 
-        style={{ width: props.trackWidth, height: "70px"}} />
+          <img
+            src={require("./WAveform.png")}
+            style={{ width: props.trackWidth, height: "70px" }}
+          />
         </div>
         <div className="track-seek-bar" style={{ width: props.seekBarWidth }} />
         <div
@@ -75,4 +88,49 @@ function Track(props) {
   );
 }
 
-export default Track;
+function SortableTrack({
+  track,
+  trackWidth,
+  seekBarWidth,
+  isSoloActive,
+  onSeekBarClick,
+  onMuteClick,
+  onSoloClick,
+  onSliderInput,
+  onPanSliderInput,
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: track.id });
+  const style = { transition, transform: CSS.Transform.toString(transform) };
+  return (
+    <div ref={setNodeRef} style={style}>
+      <Track
+        title={track.title}
+        trackWidth={trackWidth}
+        backgroundColour={track.colour}
+        seekBarWidth={seekBarWidth}
+        muteState={track.muted}
+        soloState={track.soloed}
+        volume={track.volume}
+        pan={track.pan}
+        isSoloActive={isSoloActive}
+        onSeekBarClick={onSeekBarClick}
+        onMuteClick={onMuteClick}
+        onSoloClick={onSoloClick}
+        onSliderInput={onSliderInput}
+        onPanSliderInput={onPanSliderInput}
+        activatorRef={setActivatorNodeRef}
+        attributes={attributes}
+        listeners={listeners}
+      />
+    </div>
+  );
+}
+
+export default SortableTrack;
