@@ -120,6 +120,17 @@ class App extends React.Component {
     if (event.code === "Space") {
       this.onPlayPause();
     }
+    else if (event.code === "ArrowRight") {
+      const time = this.timingRef.currentTime + 5 > this.trackLengthRef ? this.trackLengthRef : this.timingRef.currentTime + 5;
+      this.jumpToTime(time, this.state.isPlaying);
+    }
+    else if (event.code === "ArrowLeft") {
+      const time = this.timingRef.currentTime - 5 < 0 ? 0 : this.timingRef.currentTime - 5;
+      this.jumpToTime(time, this.state.isPlaying);
+    }
+    else if (event.code === "Enter" || event.code === "Return") {
+      this.jumpToTime(0, this.state.isPlaying);
+    }
   };
 
   onResize(e) {
