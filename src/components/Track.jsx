@@ -70,13 +70,13 @@ function Track(props) {
         className="track-audio"
         style={{ backgroundColor: props.backgroundColour }}
       >
-        <div
+        {/* <div
           className="waveform-line"
           style={{ width: props.trackWidth, height: "35px" }}
-        ></div>
+        ></div> */}
         <div className="waveform-image">
           <img
-            src={require("./WAveform.png")}
+            src={props.trackWaveform}
             style={{ width: props.trackWidth, height: "70px" }}
           />
         </div>
@@ -116,6 +116,7 @@ function SortableTrack({
       <Track
         title={track.title}
         trackWidth={trackWidth}
+        trackWaveform={track.waveform}
         backgroundColour={track.colour}
         seekBarWidth={seekBarWidth}
         muteState={track.muted}
