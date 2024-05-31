@@ -8,7 +8,7 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
-const TRACK_HEADER_WIDTH = 300;
+const TRACK_HEADER_WIDTH = 330;
 
 //=========================================================================
 
