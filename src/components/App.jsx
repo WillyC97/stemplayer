@@ -19,7 +19,7 @@ class App extends React.Component {
       isPlaying: false,
       audioContext: null,
       seekBarWidth: 0,
-      stems: window.songInfo || [],
+      stems: window.stemInfo || [],
       height: 0,
       clientWidth: document.documentElement.clientWidth,
     };
@@ -317,7 +317,7 @@ class App extends React.Component {
             )}
           </div>
           <div className="time">{this.renderTime()}</div>
-          <div className="song-title">{"Song"}</div>
+          <div className="song-title">{window.songInfo.songtitle}</div>
         </div>
         <DndContext
           modifiers={[restrictToVerticalAxis]}
