@@ -22,6 +22,7 @@ class App extends React.Component {
       stems: window.stemInfo || [],
       height: 0,
       clientWidth: document.documentElement.clientWidth,
+      loaded: false
     };
 
     this.requestRef = null;
@@ -97,6 +98,7 @@ class App extends React.Component {
               muted: false,
               soloed: false,
               uuid: crypto.randomUUID(),
+              loaded: true
             };
           })
       )
@@ -168,7 +170,7 @@ class App extends React.Component {
     Promise.all(newTracks).then((updatedStems) => {
       this.setState({ stems: updatedStems });
       updatedStems.forEach((stem) => {
-        stem.audioSource.start(0.02, this.timingRef.currentTime);
+        if(stem.audioSource) stem.audioSource.start(0.02, this.timingRef.currentTime);
       });
       this.setState({ isPlaying: true });
       this.timingRef.lastTimeStamp = this.state.audioContext.currentTime;
@@ -179,7 +181,7 @@ class App extends React.Component {
 
   pauseAudio() {
     this.state.stems.forEach((stem) => {
-      stem.audioSource.stop();
+      if (stem.audioSource) stem.audioSource.stop();
     });
 
     cancelAnimationFrame(this.requestRef);

@@ -111,10 +111,12 @@ function SortableTrack({
     transition,
   } = useSortable({ id: track.id });
   const style = { transition, transform: CSS.Transform.toString(transform) };
+  const title = track.loaded ? track.title : "loading...";
+  
   return (
     <div ref={setNodeRef} style={style}>
       <Track
-        title={track.title}
+        title={title}
         trackWidth={trackWidth}
         trackWaveform={track.waveform}
         backgroundColour={track.colour}
