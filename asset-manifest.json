@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/stemplayer/static/css/main.1219715a.css",
+    "main.js": "/stemplayer/static/js/main.a8ce1185.js",
+    "index.html": "/stemplayer/index.html",
+    "main.1219715a.css.map": "/stemplayer/static/css/main.1219715a.css.map",
+    "main.a8ce1185.js.map": "/stemplayer/static/js/main.a8ce1185.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1219715a.css",
+    "static/js/main.a8ce1185.js"
+  ]
+}

@@ -1,0 +1,292 @@
+/*!
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+
+body {
+    margin: 0;
+    font-family: "Quicksand", "Avenir", Arial, sans-serif;
+    background-color: #202020;
+    color: #ffffff
+}
+
+h1 {
+    margin: 0 0 1.5rem 0
+}
+
+.page-header {
+    display: flex;
+    height: 85px;
+    background-color: #202020;
+    z-index: 10;
+    align-items: center;
+}
+
+.page-header .btn {
+    cursor: pointer;
+    opacity: 0.9;
+    -webkit-filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.33));
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.33));
+    -webkit-user-select: none;
+    user-select: none;
+    padding: 0.4rem; 
+}
+  
+  .btn:hover {
+    opacity: 1;
+  }
+
+.page-header .play-button,
+.page-header .pause-button {
+    margin-left: 10%;
+    width: 80px;
+    height: 60px;
+    border-radius: 10%; 
+    background-color: #535353;
+    position: relative;
+    cursor: pointer;
+}
+
+.page-header .play-button i,
+.page-header .pause-button i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px; 
+    color: #f0f0f0;
+}
+
+.page-header .time {
+    font-size: 20px;
+    line-height: 85px; 
+    height: 85px; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 2%;
+}
+
+.page-header .song-title {
+    font-size: 30px;
+    line-height: 85px; 
+    height: 85px; 
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex-grow: 1; 
+}
+
+.seek-container {
+    display: block;
+    padding: 1.5rem;
+    background-color: #999999;
+    color: #ffffff;
+    cursor: pointer
+}
+
+.seek-bar {
+    position: absolute;
+    display: block;
+    left: 80px;
+    top: 0px;
+    height: 66px;
+    background-color: rgba(0,0,0,0.22);
+    cursor: pointer
+}
+
+.track {
+    position: relative;
+    display: block;
+    font-weight: bold;
+    color: #eeeeee;
+    clear: both
+}
+
+.track.muted {
+    border-color: #333333
+}
+
+.track.muted .track-header {
+    background-color: #4f4f4f
+}
+
+.track.muted .track-header .track-buttons .track-button.mute {
+    background-color: #a60000
+}
+
+.track.muted .track-header .track-buttons .track-button.mute:hover {
+    background-color: #d00000
+}
+
+.track.muted .track-header .track-title {
+    text-decoration: line-through
+}
+
+.track.muted .track-audio {
+    filter: grayscale(0.75) opacity(0.5)
+}
+
+.track.grey {
+    color: #333333;
+    background-color: #bbbbbb
+}
+
+.track .track-header {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    text-align: center;
+    width: 300px;
+    background-color: #535353;
+    height: 69px;
+    overflow: visible;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #707070;
+    border-left: 30px solid #3b3b3b;
+}
+
+.track .track-header .track-title {
+    margin-bottom: 0.3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.track .track-header .drag-handle {
+    position: absolute;
+    left: -25px;
+    top: 50%; 
+    transform: translateY(-50%);
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    min-width: 15px;
+    height: 26px;
+    z-index: 15;
+}
+
+.track .track-header .drag-handle:active,
+.track .track-header .drag-handle:hover {
+    background-color: rgba(187, 187, 187, 0.327);
+  }
+
+.track .track-header .track-buttons {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.track .track-header .track-buttons .track-button {
+    cursor: pointer;
+    display: inline-block;
+    min-width: 26px;
+    padding: 0 0.3rem;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+}
+
+.track .track-header .track-buttons .track-button:hover {
+    background-color: #7a7a7a
+}
+
+.track .track-header .track-buttons .track-button.mute {
+    border-radius: 5px 0 0 5px;
+    background-color: #242424
+}
+
+.track .track-header .track-buttons .track-button.mute:hover {
+    background-color: #6b6b6b
+}
+
+.track .track-header .track-buttons .track-button.solo {
+    border-radius: 0 5px 5px 0;
+    margin-right: 0.4rem;
+    background-color: #242424
+}
+
+.track .track-header .track-buttons .track-button.solo:hover {
+    background-color: #7a7600
+}
+
+.track .track-header .track-buttons .track-button.solo.solo-activated {
+    color: rgb(38, 38, 38);
+    background-color: #d5d04b
+}
+
+.track .track-header .pan,
+.track .track-header .volume-control {
+    display: inline-flex;
+    min-width: 25px;
+    align-items: center;
+    padding-right: 0.8rem;
+}
+
+.track .track-audio {
+    cursor: pointer;
+    width: 100%;
+    height: 70px;
+    position: absolute;
+    top: 0;
+    left: 330;
+    z-index: 2
+}
+
+.track .track-audio .track-title-overlay {
+    position: absolute;
+    display: block;
+    left: 80px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 0.25rem 0.5rem;
+    z-index: 6
+}
+
+.track .track-audio .track-seek-bar {
+    position: absolute;
+    display: block;
+    left: 330px;
+    top: 0;
+    height: 70px;
+    background-color: rgba(50,50,50,0.5);
+    cursor: pointer;
+    z-index: 5
+}
+
+.track .track-audio .waveform-image {
+    position: absolute;
+    top: 0;
+    left: 330px;
+    image-rendering: pixelated;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    z-index: 3
+}
+
+.track .track-audio .waveform-line {
+    position: absolute;
+    top: 0;
+    left: 330px;
+    height: 35px;
+    border-bottom: #000000 1px solid;
+    z-index: 2
+}
+
+.track .track-audio .waveform-click-target {
+    position: absolute;
+    top: 0;
+    left: 330px;
+    width: 100%;
+    height: 70px;
+    opacity: 0;
+    z-index: 5
+}
