@@ -19,7 +19,7 @@ class App extends React.Component {
       isPlaying: false,
       audioContext: null,
       seekBarWidth: 0,
-      stems: window.songInfo || [],
+      stems: window.stemInfo || [],
       height: 0,
       clientWidth: document.documentElement.clientWidth,
     };
@@ -119,6 +119,17 @@ class App extends React.Component {
   handleKeyDown = (event) => {
     if (event.code === "Space") {
       this.onPlayPause();
+    }
+    else if (event.code === "ArrowRight") {
+      const time = this.timingRef.currentTime + 5 > this.trackLengthRef ? this.trackLengthRef : this.timingRef.currentTime + 5;
+      this.jumpToTime(time, this.state.isPlaying);
+    }
+    else if (event.code === "ArrowLeft") {
+      const time = this.timingRef.currentTime - 5 < 0 ? 0 : this.timingRef.currentTime - 5;
+      this.jumpToTime(time, this.state.isPlaying);
+    }
+    else if (event.code === "Enter" || event.code === "Return") {
+      this.jumpToTime(0, this.state.isPlaying);
     }
   };
 
@@ -317,7 +328,7 @@ class App extends React.Component {
             )}
           </div>
           <div className="time">{this.renderTime()}</div>
-          <div className="song-title">{"Song"}</div>
+          <div className="song-title">{window.songInfo.songtitle}</div>
         </div>
         <DndContext
           modifiers={[restrictToVerticalAxis]}
