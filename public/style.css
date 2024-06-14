@@ -77,6 +77,19 @@ h1 {
     flex-grow: 1; 
 }
 
+.panel-resize-handle {
+    width: 0.3rem; /* 2 * 0.25rem (default rem unit is 16px, so 2 * 4px = 8px) */
+    border-radius: 0.25rem; /* 4px */
+  }
+  
+  .panel-resize-handle:hover {
+    background-color: #aeb4bc; /* Tailwind color blue-800 */
+  }
+  .panel-resize-handle:active {
+    background-color: #525456; /* Tailwind color blue-800 */
+  }
+  
+
 .seek-container {
     display: block;
     padding: 1.5rem;
