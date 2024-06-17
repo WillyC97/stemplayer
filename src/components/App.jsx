@@ -403,7 +403,7 @@ class App extends React.Component {
             <>
               <PanelResizeHandle className="panel-resize-handle"/>
               <Panel id="sidebar" minSize={25} order={2}>
-                right
+              <iframe src="https://drive.google.com/file/d/1sBo_Zxk58Cc8pSMnDVPWcPSvVDpZt-iG/preview" width="100%" height="800px" allow="autoplay"></iframe>
               </Panel>
             </>
           )}
