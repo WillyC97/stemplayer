@@ -27,6 +27,7 @@ class App extends React.Component {
       height: 0,
       width: document.documentElement.clientWidth,
       mainPanelWidth: 100,
+      filePanelVisible: false,
       loaded: false,
     };
 
@@ -146,13 +147,11 @@ class App extends React.Component {
   }
 
   updateWidth() {
-    this.setState({
-      width:
-        document.documentElement.clientWidth *
-          (this.state.mainPanelWidth / 100) -
-        TRACK_HEADER_WIDTH,
-    });
-    this.updateSeekBar();
+    const width =
+      document.documentElement.clientWidth * (this.state.mainPanelWidth / 100) -
+      TRACK_HEADER_WIDTH;
+
+    this.setState({width: width,}, () => {this.updateSeekBar();} );
   }
 
   //=========================================================================
@@ -334,25 +333,40 @@ class App extends React.Component {
         <div className="page-header">
           <div className="btn">
             {this.state.isPlaying ? (
-              <div class="pause-button" onClick={() => this.onPlayPause()}>
-                <i class="fas fa-pause"></i>
+              <div
+                className="button pause-button"
+                onClick={() => this.onPlayPause()}
+              >
+                <i className="fas fa-pause"></i>
               </div>
             ) : (
-              <div class="play-button" onClick={() => this.onPlayPause()}>
-                <i class="fas fa-play"></i>
+              <div
+                className="button play-button"
+                onClick={() => this.onPlayPause()}
+              >
+                <i className="fas fa-play"></i>
               </div>
             )}
           </div>
           <div className="time">{this.renderTime()}</div>
           <div className="song-title">{window.songInfo.songtitle}</div>
+          <div
+            className="button doc-button"
+            onClick={() => {this.setState({
+                filePanelVisible: !this.state.filePanelVisible,
+              });
+            }}
+          >
+            <i className="fas fa-file"></i>
+          </div>
         </div>
         <PanelGroup direction="horizontal">
           <Panel
+            id="main"
             minSize={25}
             order={1}
             onResize={(size) => {
-              this.setState({ mainPanelWidth: size });
-              this.updateWidth();
+              this.setState({ mainPanelWidth: size }, () => {this.updateWidth()});
             }}
           >
             <DndContext
@@ -385,7 +399,7 @@ class App extends React.Component {
               </SortableContext>
             </DndContext>
           </Panel>
-          {true && (
+          {this.state.filePanelVisible && (
             <>
               <PanelResizeHandle className="panel-resize-handle"/>
               <Panel id="sidebar" minSize={25} order={2}>
