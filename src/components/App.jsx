@@ -7,6 +7,10 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { Panel, 
+  PanelGroup, 
+  PanelResizeHandle 
+} from "react-resizable-panels";
 
 const TRACK_HEADER_WIDTH = 330;
 
@@ -21,8 +25,10 @@ class App extends React.Component {
       seekBarWidth: 0,
       stems: window.stemInfo || [],
       height: 0,
-      clientWidth: document.documentElement.clientWidth,
-      loaded: false
+      width: document.documentElement.clientWidth,
+      mainPanelWidth: 100,
+      filePanelVisible: false,
+      loaded: false,
     };
 
     this.requestRef = null;
@@ -98,7 +104,7 @@ class App extends React.Component {
               muted: false,
               soloed: false,
               uuid: crypto.randomUUID(),
-              loaded: true
+              loaded: true,
             };
           })
       )
@@ -121,22 +127,31 @@ class App extends React.Component {
   handleKeyDown = (event) => {
     if (event.code === "Space") {
       this.onPlayPause();
-    }
-    else if (event.code === "ArrowRight") {
-      const time = this.timingRef.currentTime + 5 > this.trackLengthRef ? this.trackLengthRef : this.timingRef.currentTime + 5;
+    } else if (event.code === "ArrowRight") {
+      const time =
+        this.timingRef.currentTime + 5 > this.trackLengthRef
+          ? this.trackLengthRef
+          : this.timingRef.currentTime + 5;
       this.jumpToTime(time, this.state.isPlaying);
-    }
-    else if (event.code === "ArrowLeft") {
-      const time = this.timingRef.currentTime - 5 < 0 ? 0 : this.timingRef.currentTime - 5;
+    } else if (event.code === "ArrowLeft") {
+      const time =
+        this.timingRef.currentTime - 5 < 0 ? 0 : this.timingRef.currentTime - 5;
       this.jumpToTime(time, this.state.isPlaying);
-    }
-    else if (event.code === "Enter" || event.code === "Return") {
+    } else if (event.code === "Enter" || event.code === "Return") {
       this.jumpToTime(0, this.state.isPlaying);
     }
   };
 
   onResize(e) {
-    this.setState({ clientWidth: document.documentElement.clientWidth });
+    this.updateWidth();
+  }
+
+  updateWidth() {
+    const width =
+      document.documentElement.clientWidth * (this.state.mainPanelWidth / 100) -
+      TRACK_HEADER_WIDTH;
+
+    this.setState({width: width,}, () => {this.updateSeekBar();} );
   }
 
   //=========================================================================
@@ -170,7 +185,8 @@ class App extends React.Component {
     Promise.all(newTracks).then((updatedStems) => {
       this.setState({ stems: updatedStems });
       updatedStems.forEach((stem) => {
-        if(stem.audioSource) stem.audioSource.start(0.02, this.timingRef.currentTime);
+        if (stem.audioSource)
+          stem.audioSource.start(0.02, this.timingRef.currentTime);
       });
       this.setState({ isPlaying: true });
       this.timingRef.lastTimeStamp = this.state.audioContext.currentTime;
@@ -246,17 +262,14 @@ class App extends React.Component {
   //-----------------------------------------------------------------------
 
   onSeekBarClick = (e) => {
-    const percentage =
-      (e.clientX - TRACK_HEADER_WIDTH) /
-      (this.state.clientWidth - TRACK_HEADER_WIDTH);
+    const percentage = (e.clientX - TRACK_HEADER_WIDTH) / this.state.width;
     this.jumpToTime(percentage * this.trackLengthRef, this.state.isPlaying);
   };
   //-----------------------------------------------------------------------
 
   updateSeekBar() {
     const newWidth =
-      (this.timingRef.currentTime / this.trackLengthRef) *
-      (this.state.clientWidth - TRACK_HEADER_WIDTH);
+      (this.timingRef.currentTime / this.trackLengthRef) * this.state.width;
 
     this.setState({ seekBarWidth: newWidth });
   }
@@ -320,47 +333,84 @@ class App extends React.Component {
         <div className="page-header">
           <div className="btn">
             {this.state.isPlaying ? (
-              <div class="pause-button" onClick={() => this.onPlayPause()}>
-                <i class="fas fa-pause"></i>
+              <div
+                className="button pause-button"
+                onClick={() => this.onPlayPause()}
+              >
+                <i className="fas fa-pause"></i>
               </div>
             ) : (
-              <div class="play-button" onClick={() => this.onPlayPause()}>
-                <i class="fas fa-play"></i>
+              <div
+                className="button play-button"
+                onClick={() => this.onPlayPause()}
+              >
+                <i className="fas fa-play"></i>
               </div>
             )}
           </div>
           <div className="time">{this.renderTime()}</div>
           <div className="song-title">{window.songInfo.songtitle}</div>
-        </div>
-        <DndContext
-          modifiers={[restrictToVerticalAxis]}
-          collisionDetection={closestCenter}
-          onDragEnd={this.handleDragEnd}
-        >
-          <SortableContext
-            items={this.state.stems}
-            strategy={verticalListSortingStrategy}
+          {window.songInfo.pdf && (
+          <div className="btn">
+          <div
+            className="button doc-button"
+            onClick={() => {this.setState({
+                filePanelVisible: !this.state.filePanelVisible,
+              });
+            }}
           >
-            {this.state.stems.map((track) => (
-              <SortableTrack
-                key={track.uuid}
-                track={track}
-                trackWidth={this.state.clientWidth - TRACK_HEADER_WIDTH}
-                seekBarWidth={this.state.seekBarWidth + "px"}
-                isSoloActive={this.isSoloActive()}
-                onSeekBarClick={(e) => this.onSeekBarClick(e)}
-                onMuteClick={() => this.toggleStemMute(track.uuid)}
-                onSoloClick={() => this.toggleStemSolo(track.uuid)}
-                onSliderInput={(e) =>
-                  this.setStemVolume(e, track.gainNode, track.uuid)
-                }
-                onPanSliderInput={(newValue) =>
-                  this.setStemPan(newValue, track.panNode, track.uuid)
-                }
-              />
-            ))}
-          </SortableContext>
-        </DndContext>
+            <i className="fas fa-file"></i>
+          </div>
+          </div>)}
+        </div>
+        <PanelGroup direction="horizontal">
+          <Panel
+            id="main"
+            minSize={25}
+            order={1}
+            onResize={(size) => {
+              this.setState({ mainPanelWidth: size }, () => {this.updateWidth()});
+            }}
+          >
+            <DndContext
+              modifiers={[restrictToVerticalAxis]}
+              collisionDetection={closestCenter}
+              onDragEnd={this.handleDragEnd}
+            >
+              <SortableContext
+                items={this.state.stems}
+                strategy={verticalListSortingStrategy}
+              >
+                {this.state.stems.map((track) => (
+                  <SortableTrack
+                    key={track.uuid}
+                    track={track}
+                    trackWidth={this.state.width}
+                    seekBarWidth={this.state.seekBarWidth + "px"}
+                    isSoloActive={this.isSoloActive()}
+                    onSeekBarClick={(e) => this.onSeekBarClick(e)}
+                    onMuteClick={() => this.toggleStemMute(track.uuid)}
+                    onSoloClick={() => this.toggleStemSolo(track.uuid)}
+                    onSliderInput={(e) =>
+                      this.setStemVolume(e, track.gainNode, track.uuid)
+                    }
+                    onPanSliderInput={(newValue) =>
+                      this.setStemPan(newValue, track.panNode, track.uuid)
+                    }
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          </Panel>
+          {this.state.filePanelVisible && (
+            <>
+              <PanelResizeHandle className="panel-resize-handle"/>
+              <Panel id="sidebar" minSize={25} order={2}>
+              <iframe src={window.songInfo.pdf} width="100%" height="800px" allow="autoplay"></iframe>
+              </Panel>
+            </>
+          )}
+        </PanelGroup>
       </div>
     );
   }
