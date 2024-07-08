@@ -350,6 +350,7 @@ class App extends React.Component {
           </div>
           <div className="time">{this.renderTime()}</div>
           <div className="song-title">{window.songInfo.songtitle}</div>
+          {window.songInfo.pdf && (
           <div
             className="button doc-button"
             onClick={() => {this.setState({
@@ -358,7 +359,7 @@ class App extends React.Component {
             }}
           >
             <i className="fas fa-file"></i>
-          </div>
+          </div>)}
         </div>
         <PanelGroup direction="horizontal">
           <Panel
@@ -403,7 +404,7 @@ class App extends React.Component {
             <>
               <PanelResizeHandle className="panel-resize-handle"/>
               <Panel id="sidebar" minSize={25} order={2}>
-              <iframe src="https://drive.google.com/file/d/1sBo_Zxk58Cc8pSMnDVPWcPSvVDpZt-iG/preview" width="100%" height="800px" allow="autoplay"></iframe>
+              <iframe src={window.songInfo.pdf} width="100%" height="800px" allow="autoplay"></iframe>
               </Panel>
             </>
           )}
