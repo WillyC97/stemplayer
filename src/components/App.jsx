@@ -351,6 +351,7 @@ class App extends React.Component {
           <div className="time">{this.renderTime()}</div>
           <div className="song-title">{window.songInfo.songtitle}</div>
           {window.songInfo.pdf && (
+          <div className="btn">
           <div
             className="button doc-button"
             onClick={() => {this.setState({
@@ -359,6 +360,7 @@ class App extends React.Component {
             }}
           >
             <i className="fas fa-file"></i>
+          </div>
           </div>)}
         </div>
         <PanelGroup direction="horizontal">
