@@ -23,7 +23,7 @@ class App extends React.Component {
       isPlaying: false,
       audioContext: null,
       seekBarWidth: 0,
-      stems: window.stemInfo || [],
+      stems: props.songData.StemInfo || [],
       height: 0,
       width: document.documentElement.clientWidth,
       mainPanelWidth: 100,
@@ -35,6 +35,7 @@ class App extends React.Component {
     this.previousTimeRef = 0.0;
     this.timingRef = { lastTimeStamp: 0.0, currentTime: 0.0 };
     this.trackLengthRef = 0.0;
+    this.songInfo = props.songData.SongInfo;
   }
 
   //=========================================================================
@@ -349,8 +350,8 @@ class App extends React.Component {
             )}
           </div>
           <div className="time">{this.renderTime()}</div>
-          <div className="song-title">{window.songInfo.songtitle}</div>
-          {window.songInfo.pdf && (
+          <div className="song-title">{this.songInfo.songtitle}</div>
+          {this.songInfo.pdf && (
           <div className="btn">
           <div
             className="button doc-button"
@@ -406,7 +407,7 @@ class App extends React.Component {
             <>
               <PanelResizeHandle className="panel-resize-handle"/>
               <Panel id="sidebar" minSize={25} order={2}>
-              <iframe src={window.songInfo.pdf} width="100%" height="800px" allow="autoplay"></iframe>
+              <iframe src={this.songInfo.pdf} width="100%" height="800px" allow="autoplay"></iframe>
               </Panel>
             </>
           )}

@@ -1,0 +1,26 @@
+{
+  "SongInfo": {
+      "songtitle": "Walkin' on Sunshine",
+      "pdf": "https://drive.google.com/file/d/1sBo_Zxk58Cc8pSMnDVPWcPSvVDpZt-iG/preview"
+  },
+  "StemInfo": [ 
+    {
+      "title": "Bass",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/cngffj25p2378zetmcsr5/Bass.mp3?rlkey=tuzagn83gbvmh76a38rw902c5&st=diksz0tz&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/o85nfhbtm1lpxfa0zfasu/Bass_waveform.png?rlkey=gbtkfs9nbnva58bir54ej0jea&st=206tztpq&dl=0",
+      "colour": "#ad1b1b"
+    },
+    {
+      "title": "Solo",
+      "file": "https://dl.dropbox.com/scl/fi/8ziper0tuvbjf150ojgab/Solo.mp3?rlkey=edpd98w1ms9tj5t0yebm020zl&st=hy41ospq&dl=0",
+      "waveform": "https://dl.dropbox.com/scl/fi/ktsajiwq2b4j18bmujqyp/Solo_waveform.png?rlkey=dtpvpq5geojv8m2f4rvifbni9&st=42jvkkhz&dl=0",
+      "colour": "#10e8cf"
+    },
+    {
+      "title": "Drums",
+      "file": "https://dl.dropbox.com/scl/fi/54b44c67sqqbciwqtstra/VP.mp3?rlkey=ni58zpnkqjq48q9whhgftx1j6&st=zto9bpag&dl=0",
+      "waveform": "https://dl.dropbox.com/scl/fi/bueyn2cx56ze7i7andfte/VP_waveform.png?rlkey=8cxx48us3xo72wmutgavcu5xm&st=jpohp4rb&dl=0",
+      "colour": "#a432a8"
+    }
+  ]
+}
