@@ -29,16 +29,15 @@ h1 {
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.33));
     -webkit-user-select: none;
     user-select: none;
-    padding: 0.4rem; 
+    padding: 1rem; 
 }
   
   .btn:hover {
     opacity: 1;
   }
 
-.page-header .play-button,
-.page-header .pause-button {
-    margin-left: 10%;
+.page-header .button
+{
     width: 80px;
     height: 60px;
     border-radius: 10%; 
@@ -47,8 +46,18 @@ h1 {
     cursor: pointer;
 }
 
+.page-header .button .play-button,
+.page-header .button .pause-button {
+    margin-left: 10%;
+}
+
+.page-header .button .doc-button {
+    margin-right: 10%;
+}
+
 .page-header .play-button i,
-.page-header .pause-button i {
+.page-header .pause-button i, 
+.page-header .doc-button i {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -76,6 +85,19 @@ h1 {
     text-overflow: ellipsis;
     flex-grow: 1; 
 }
+
+.panel-resize-handle {
+    width: 0.3rem; /* 2 * 0.25rem (default rem unit is 16px, so 2 * 4px = 8px) */
+    border-radius: 0.25rem; /* 4px */
+  }
+  
+  .panel-resize-handle:hover {
+    background-color: #aeb4bc; /* Tailwind color blue-800 */
+  }
+  .panel-resize-handle:active {
+    background-color: #525456; /* Tailwind color blue-800 */
+  }
+  
 
 .seek-container {
     display: block;
@@ -276,7 +298,7 @@ h1 {
     position: absolute;
     top: 0;
     left: 330px;
-    height: 34px;
+    height: 35px;
     border-bottom: #000000 1px solid;
     z-index: 2
 }
