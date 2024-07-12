@@ -24,7 +24,8 @@ const HomeComponent = () => {
 
   return (
     <div style={containerStyle}>
-      <Link to="/walkinOnSunshine" style={buttonStyle}>Go to Page 1</Link>
+          <Link to="/walkinOnSunshine" style={buttonStyle}>Walkin' On Sunshine</Link>
+          <Link to="/exile" style={buttonStyle}>Exile</Link>
     </div>
   );
 };

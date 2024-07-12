@@ -1,0 +1,44 @@
+{
+  "SongInfo": {
+      "songtitle": "Exile",
+      "pdf": "https://drive.google.com/file/d/1lDcYyGWgVQdQc0vu2Ix-hmhPaZB5xuNs/preview"
+  },
+  "StemInfo": [
+    {
+      "title": "Sop",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/y9ylyk7jluzrbivf4hpco/Exile-Soprano-Vox_1.mp3?rlkey=y8vxpjlns2lfxwevww2b46rq8&st=fc32v31u&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/fspknc4tbky2iunr1jqqs/Exile-Soprano-Vox_1_waveform.png?rlkey=0dflhjgu5g1jisbztmzdgawuw&st=ssfp50pw&dl=0",
+      "colour": "#34eb58"
+    },
+    {
+      "title": "Mezzo",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/xr689ho1q8i59umndfsqz/Exile-Mezzo-Soprano-Vox_1.mp3?rlkey=fwmmraobqxytkoyuut5s4u836&st=8uyar7rc&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/fspknc4tbky2iunr1jqqs/Exile-Soprano-Vox_1_waveform.png?rlkey=0dflhjgu5g1jisbztmzdgawuw&st=i7rm8k08&dl=0",
+      "colour": "#344ceb"
+    },
+    {
+      "title": "Alto",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/g7ru1b4xgwrq7nizrg154/Exile-Alto-Vox_1.mp3?rlkey=kptyq63xb2nxa86jnn5mqrufo&st=1bhsc76o&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/fhxij1ramdswnlgjmwg6m/Exile-Alto-Vox_1_waveform.png?rlkey=z2njbava6h95ziksnyaz23owq&st=1sgsroou&dl=0",
+      "colour": "#eb34bd"
+    },
+    {
+      "title": "Tenor",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/6pcop8y6h2s7waec849m3/Exile-Tenor-Vox_1.mp3?rlkey=pnkmx15xv4sb7sb4ubqwvp7y0&st=4474t8q0&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/fak5dgym1et5p9bzeseu1/Exile-Tenor-Vox_1_waveform.png?rlkey=7bojo7426efjlnsqhiegrg6f0&st=ea8vmjg1&dl=0",
+      "colour": "#f2e605"
+    },
+    {
+      "title": "Bari",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/qbvw7cvwopbp5b1ys73f6/Exile-Baritone-Vox_1.mp3?rlkey=b4sdgnr6kx9w8xp9e2rl2rsfr&st=mlmdgd5y&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/62olq7vltrzlzz00flr78/Exile-Baritone-Vox_1_waveform.png?rlkey=phsdblpweieg6ga7ve4bewrla&st=dwprkn90&dl=0",
+      "colour": "#f28f05"
+    },
+    {
+      "title": "Bass",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/ekgwp1xjzo55y3embot4h/Exile-Bass-Vox_1.mp3?rlkey=5bna5mq0mja5ivdgzwopookrb&st=jm5luqq1&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/t2rcqmmsxw0639u79zhox/Exile-Bass-Vox_1_waveform.png?rlkey=3wn0renw2bl51ltvqymb88quc&st=l3lfv3iz&dl=0",
+      "colour": "#ad1b1b"
+    }
+  ]
+}
