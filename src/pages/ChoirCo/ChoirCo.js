@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../pages/ChoirCo/ChoirCo.css';
-import backgroundImage from './assets/ChoirCoBackground.jpg';
+import './ChoirCo.css';
+import backgroundImage from '../../components/assets/ChoirCoBackground.jpg';
 
-const HomeComponent = () => {
+const ChoirCoPage = () => {
   const buttonStyle = {
     display: 'inline-block',
     padding: '15px 20px',
@@ -42,12 +42,12 @@ const HomeComponent = () => {
       <div style={backgroundStyle}></div>
       <div className="content">
         <div style={containerStyle}>
-          <Link to="/ChoirCo" style={buttonStyle}>ChoirCo</Link>
-          <Link to="/TurdStory" style={buttonStyle}>TurdStory</Link>
+          <Link to="/ChoirCo/walkinOnSunshine" style={buttonStyle}>Walkin' On Sunshine</Link>
+          <Link to="/ChoirCo/exile" style={buttonStyle}>Exile</Link>
         </div>
       </div>
     </div>
   );
 };
 
-export default HomeComponent;
+export default ChoirCoPage;

@@ -1,0 +1,32 @@
+{
+  "SongInfo": {
+      "songtitle": "One Last Time"
+  },
+  "StemInfo": [
+    {
+      "title": "Will",
+      
+      "file": "https://dl.dropboxusercontent.com/scl/fi/63pa0ufclh5gd3gat6xd2/OneLastTime_Will.mp3?rlkey=yo06zh3flam4apwpblweww7n0&st=jl9kkjfu&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/va8l9pyhp735k0cpti3g7/OneLastTime_Will_waveform.png?rlkey=02xx74vf0i8hixsvg01eet9rb&st=iw4sr8i4&dl=0",
+      "colour": "#34eb58"
+    },
+    {
+      "title": "Bryan",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/9wpg39bh3n8fcbdiv0sl2/OneLastTime_Bryan.mp3?rlkey=prfsvnrgnpk05qz8vshczxuxn&st=c8o5l9et&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/qw56tkuebkoceqey8a4pz/OneLastTime_Bryan_waveform.png?rlkey=52v9ez7q9nwe2lk9zjbfioxv0&st=qvk5zxfq&dl=0",
+      "colour": "#344ceb"
+    },
+    {
+      "title": "Alfie",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/xlh8gnrguw5diskziqgxo/OneLastTime_Alfie.mp3?rlkey=xn5yzozfa4szkdj76361y6zrb&st=wa6nrfy1&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/c3c47ixzfnryo62p14n1d/OneLastTime_Alfie_waveform.png?rlkey=52lv2qkwhe5o8uc1rvlu7pxrp&st=0oryl3w8&dl=0",
+      "colour": "#eb34bd"
+    },
+    {
+      "title": "Guitar",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/6lb1mwxu9xw74xig7fuez/OneLastTime_Guitar.mp3?rlkey=blohpmch5f3m2g66hn3u7qkii&st=ts5mmayh&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/dxao4f6h4f0lqfega1dmq/OneLastTime_Guitar_waveform.png?rlkey=tb5ypcosmkwg1pr474fzacgkj&st=b8kk2wbv&dl=0",
+      "colour": "#f2e605"
+    }
+  ]
+}
