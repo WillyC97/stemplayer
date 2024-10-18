@@ -1,14 +1,16 @@
 {
   "files": {
-    "main.css": "/stemplayer/static/css/main.694af942.css",
-    "main.js": "/stemplayer/static/js/main.c955b6b1.js",
+    "main.css": "/stemplayer/static/css/main.a3553539.css",
+    "main.js": "/stemplayer/static/js/main.947be71a.js",
     "static/media/ChoirCoBackground.jpg": "/stemplayer/static/media/ChoirCoBackground.a54d68cfa5dd805dbb27.jpg",
+    "static/media/TurdStory.jpg": "/stemplayer/static/media/TurdStory.77f5b724fd8076f2906d.jpg",
+    "static/media/ChoirCoLogo.png": "/stemplayer/static/media/ChoirCoLogo.408fddde2d21bd3a9eb9.png",
     "index.html": "/stemplayer/index.html",
-    "main.694af942.css.map": "/stemplayer/static/css/main.694af942.css.map",
-    "main.c955b6b1.js.map": "/stemplayer/static/js/main.c955b6b1.js.map"
+    "main.a3553539.css.map": "/stemplayer/static/css/main.a3553539.css.map",
+    "main.947be71a.js.map": "/stemplayer/static/js/main.947be71a.js.map"
   },
   "entrypoints": [
-    "static/css/main.694af942.css",
-    "static/js/main.c955b6b1.js"
+    "static/css/main.a3553539.css",
+    "static/js/main.947be71a.js"
   ]
 }
