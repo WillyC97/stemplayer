@@ -36,7 +36,7 @@ function TrackHeader(props) {
             min="0"
             max="2"
             step="0.01"
-            defaultValue={1}
+            defaultValue={props.volume}
             onChange={props.onSliderChange}
           />
         </div>

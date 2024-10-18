@@ -1,0 +1,56 @@
+{
+  "SongInfo": {
+      "songtitle": "Walkin' on Sunshine",
+      "pdf": "https://drive.google.com/file/d/1sBo_Zxk58Cc8pSMnDVPWcPSvVDpZt-iG/preview"
+  },
+  "StemInfo": [
+    {
+      "title": "Solo",
+      "file": "https://dl.dropbox.com/scl/fi/8ziper0tuvbjf150ojgab/Solo.mp3?rlkey=edpd98w1ms9tj5t0yebm020zl&st=hy41ospq&dl=0",
+      "waveform": "https://dl.dropbox.com/scl/fi/ktsajiwq2b4j18bmujqyp/Solo_waveform.png?rlkey=dtpvpq5geojv8m2f4rvifbni9&st=42jvkkhz&dl=0",
+      "colour": "#10e8cf"
+    }, 
+    {
+      "title": "Sop",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/izllxgwhrd6hmbhh5arua/Sop.mp3?rlkey=yzudiaf6q2pthpieal4wblyj8&st=7wy4weka&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/t69zjhcpqwurwwrupv6qw/Sop_waveform.png?rlkey=6dktc04b2slvm5jwnhvl8d9hp&st=jmh26f0l&dl=0",
+      "colour": "#34eb58"
+    },
+    {
+      "title": "Mezzo",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/qeqjtjpb5k43tq9mqltvh/Mezzo.mp3?rlkey=ah9ns95b3f2n7vzkss3b8k81h&st=vtidt1nv&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/dmhs1f8h6f68c4finhsrn/Mezzo_waveform.png?rlkey=3ywavq6gllsxmlsrwfvggut77&st=pcsezhtx&dl=0",
+      "colour": "#344ceb"
+    },
+    {
+      "title": "Alto",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/6za8qvsf4pp9qbhhzmkx2/Alto.mp3?rlkey=qb37e20qtmo923zl12zdxi8wm&st=j961usya&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/2uk4u992tklxxnkdcl47t/Alto_waveform.png?rlkey=lb3sdt9dspl7cousbmh4i4atf&st=nvulakzd&dl=0",
+      "colour": "#eb34bd"
+    },
+    {
+      "title": "Tenor",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/8a41mi3r2ur70jxlq3m16/Tenor.mp3?rlkey=1h9x11gsgf01ld3hg76qa9jfl&st=5nmb6m23&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/0o0ui160t9d3q3evsypz0/Tenor_waveform.png?rlkey=2z1ed6b7rp7pcsp6vxtnn5oh9&st=bgoulzam&dl=0",
+      "colour": "#f2e605"
+    },
+    {
+      "title": "Bari",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/mcur5eia8buik2umo0po9/Bari.mp3?rlkey=ftvj7ab7tsm2k300a7i2okr43&st=z3khboyw&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/j4o5b5it3xo3fy2t8bhro/Bari_waveform.png?rlkey=sda2inf6nvmpdhdhbie4gb37b&st=mfkhpw7l&dl=0",
+      "colour": "#f28f05"
+    },
+    {
+      "title": "Bass",
+      "file": "https://dl.dropboxusercontent.com/scl/fi/cngffj25p2378zetmcsr5/Bass.mp3?rlkey=tuzagn83gbvmh76a38rw902c5&st=diksz0tz&dl=0",
+      "waveform": "https://dl.dropboxusercontent.com/scl/fi/o85nfhbtm1lpxfa0zfasu/Bass_waveform.png?rlkey=gbtkfs9nbnva58bir54ej0jea&st=206tztpq&dl=0",
+      "colour": "#ad1b1b"
+    },
+    {
+      "title": "VP",
+      "file": "https://dl.dropbox.com/scl/fi/54b44c67sqqbciwqtstra/VP.mp3?rlkey=ni58zpnkqjq48q9whhgftx1j6&st=zto9bpag&dl=0",
+      "waveform": "https://dl.dropbox.com/scl/fi/bueyn2cx56ze7i7andfte/VP_waveform.png?rlkey=8cxx48us3xo72wmutgavcu5xm&st=jpohp4rb&dl=0",
+      "colour": "#a432a8"
+    }
+  ]
+}
