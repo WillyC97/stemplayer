@@ -100,7 +100,7 @@ class App extends React.Component {
               audioSource: null,
               gainNode: null,
               panNode: null,
-              volume: 1.0,
+              volume: stem.volume ?? 1.0,
               pan: 0.0,
               muted: false,
               soloed: false,
