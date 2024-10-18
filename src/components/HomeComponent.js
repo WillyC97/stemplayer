@@ -1,49 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../pages/ChoirCo/ChoirCo.css';
-import backgroundImage from './assets/ChoirCoBackground.jpg';
+import './HomeComp.css';
+import ChoirCoImg from './assets/ChoirCoLogo.png';
+import TurdStoryImg from './assets/TurdStory.jpg'; 
 
 const HomeComponent = () => {
-  const buttonStyle = {
-    display: 'inline-block',
-    padding: '15px 20px',
-    margin: '10px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    textDecoration: 'none',
-    color: 'white',
-    backgroundColor: 'rgba(120, 120, 120, 0.5)',
-    borderRadius: '5px',
-    hover: { backgroundColor: 'rgb(240, 240, 240)' }
-  };
-
-  const containerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    flexDirection: 'column',
-  };
-
-  const backgroundStyle = {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    filter: `blur(5px)`,
-    zIndex: `-1`
-};
-
   return (
-    <div className="background-container">
-      <div style={backgroundStyle}></div>
-      <div className="content">
-        <div style={containerStyle}>
-          <Link to="/ChoirCo" style={buttonStyle}>ChoirCo</Link>
-          <Link to="/TurdStory" style={buttonStyle}>TurdStory</Link>
+    <div className="home-background-container">
+      <div className="home-background-style"></div>
+      <div className="home-content">
+        <div className="home-container-style">
+          <Link to="/ChoirCo" className="home-button-container">
+            <div 
+              className="home-button-style" 
+              style={{ backgroundImage: `url(${ChoirCoImg})` }}>
+            </div>
+            <div className="home-text-style">ChoirCo</div>
+          </Link>
+          <Link to="/TurdStory" className="home-button-container">
+            <div 
+              className="home-button-style" 
+              style={{ backgroundImage: `url(${TurdStoryImg})` }}>
+            </div>
+            <div className="home-text-style">TurdStory</div>
+          </Link>
         </div>
       </div>
     </div>
