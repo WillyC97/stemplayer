@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/stemplayer/static/css/main.a3553539.css",
-    "main.js": "/stemplayer/static/js/main.f1fdb5d4.js",
+    "main.js": "/stemplayer/static/js/main.aecb22e2.js",
     "static/media/ChoirCoBackground.jpg": "/stemplayer/static/media/ChoirCoBackground.a54d68cfa5dd805dbb27.jpg",
     "static/media/TurdStory.jpg": "/stemplayer/static/media/TurdStory.77f5b724fd8076f2906d.jpg",
     "static/media/ChoirCoLogo.png": "/stemplayer/static/media/ChoirCoLogo.408fddde2d21bd3a9eb9.png",
     "index.html": "/stemplayer/index.html",
     "main.a3553539.css.map": "/stemplayer/static/css/main.a3553539.css.map",
-    "main.f1fdb5d4.js.map": "/stemplayer/static/js/main.f1fdb5d4.js.map"
+    "main.aecb22e2.js.map": "/stemplayer/static/js/main.aecb22e2.js.map"
   },
   "entrypoints": [
     "static/css/main.a3553539.css",
-    "static/js/main.f1fdb5d4.js"
+    "static/js/main.aecb22e2.js"
   ]
 }
