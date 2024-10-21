@@ -171,7 +171,7 @@ h1 {
 }
 
 .track .track-header .track-title {
-    margin-bottom: 0.3rem;
+    line-height: 1.8; /* Adjust this value as needed */
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis
