@@ -18,7 +18,7 @@ const root = createRoot(rootElement);
 
 function MainPage() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route path="/" element={<HomeComponent />} />
           <Route path="/ChoirCo" element={<ChoirCoPage />} />
