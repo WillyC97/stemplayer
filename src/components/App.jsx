@@ -121,6 +121,8 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
+    this.pauseAudio();
+    this.jumpToTime(0.0, false);
     document.removeEventListener("keydown", this.handleKeyDown);
     window.removeEventListener("resize", (e) => this.onResize(e));
   }
