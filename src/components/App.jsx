@@ -102,31 +102,37 @@ class App extends React.Component {
     const storage = getStorage(app);
   
     const audioFolderPath = this.songInfo.songpath + "Audio/";
+    const waveformFolderPath = this.songInfo.songpath + "waveforms/";
   
     Promise.all(
       this.state.stems.map((stem, index) => {
-        const fileRef = ref(storage, audioFolderPath + stem.file);
-        return getDownloadURL(fileRef)
-          .then((url) => fetch(url))
-          .then((response) => response.arrayBuffer())
-          .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer))
-          .then((audioBuffer) => {
-            return {
-              ...stem,
-              id: index + 1,
-              buffer: audioBuffer,
-              audioLength: audioBuffer.duration,
-              audioSource: null,
-              gainNode: null,
-              panNode: null,
-              volume: stem.volume ?? 1.0,
-              pan: 0.0,
-              muted: false,
-              soloed: false,
-              uuid: crypto.randomUUID(),
-              loaded: true,
-            };
-          });
+        const audioRef = ref(storage, audioFolderPath + stem.file);
+        const imageRef = ref(storage, waveformFolderPath + stem.waveform);
+  
+        return Promise.all([
+          getDownloadURL(audioRef)
+            .then((url) => fetch(url))
+            .then((response) => response.arrayBuffer())
+            .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer)),
+          getDownloadURL(imageRef)
+        ]).then(([audioBuffer, imageUrl]) => {
+          return {
+            ...stem,
+            id: index + 1,
+            buffer: audioBuffer,
+            audioLength: audioBuffer.duration,
+            audioSource: null,
+            gainNode: null,
+            panNode: null,
+            volume: stem.volume ?? 1.0,
+            pan: 0.0,
+            muted: false,
+            soloed: false,
+            uuid: crypto.randomUUID(),
+            loaded: true,
+            waveform: imageUrl
+          };
+        });
       })
     ).then((initialisedStems) => {
       this.trackLengthRef = Math.max(
