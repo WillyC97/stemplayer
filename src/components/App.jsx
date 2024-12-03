@@ -1,4 +1,7 @@
 import React from "react";
+import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
+import { ref, getDownloadURL } from 'firebase/storage';
 import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -83,12 +86,28 @@ class App extends React.Component {
   //-----------------------------------------------------------------------
 
   componentDidMount() {
+    const firebaseConfig = {
+      apiKey: "AIzaSyBDsDu4vhzx_ltqK5kxw_XnQKw5UP4svPo",
+      authDomain: "layers-audio.firebaseapp.com",
+      projectId: "layers-audio",
+      storageBucket: "layers-audio.firebasestorage.app",
+      messagingSenderId: "346928453705",
+      appId: "1:346928453705:web:4508495b79130484fd8798",
+    };
+  
     const ac = new (window.AudioContext || window.webkitAudioContext)();
     this.setState({ audioContext: ac });
-
+  
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+  
+    const audioFolderPath = this.songInfo.songpath + "Audio/";
+  
     Promise.all(
-      this.state.stems.map((stem, index) =>
-        fetch(stem.file)
+      this.state.stems.map((stem, index) => {
+        const fileRef = ref(storage, audioFolderPath + stem.file);
+        return getDownloadURL(fileRef)
+          .then((url) => fetch(url))
           .then((response) => response.arrayBuffer())
           .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer))
           .then((audioBuffer) => {
@@ -107,15 +126,15 @@ class App extends React.Component {
               uuid: crypto.randomUUID(),
               loaded: true,
             };
-          })
-      )
+          });
+      })
     ).then((initialisedStems) => {
       this.trackLengthRef = Math.max(
         ...initialisedStems.map((stem) => stem.audioLength || 0)
       );
       this.setState({ stems: initialisedStems });
     });
-
+  
     document.addEventListener("keydown", this.handleKeyDown);
     window.addEventListener("resize", (e) => this.onResize(e));
   }
