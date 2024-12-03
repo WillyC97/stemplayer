@@ -1,7 +1,7 @@
 import React from "react";
 import { initializeApp } from 'firebase/app';
-import { getStorage } from 'firebase/storage';
-import { ref, getDownloadURL } from 'firebase/storage';
+import { ref, getDownloadURL, getStorage } from 'firebase/storage';
+import firebaseConfig from "../firebaseConfig";
 import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -85,16 +85,7 @@ class App extends React.Component {
   // Loading
   //-----------------------------------------------------------------------
 
-  componentDidMount() {
-    const firebaseConfig = {
-      apiKey: "AIzaSyBDsDu4vhzx_ltqK5kxw_XnQKw5UP4svPo",
-      authDomain: "layers-audio.firebaseapp.com",
-      projectId: "layers-audio",
-      storageBucket: "layers-audio.firebasestorage.app",
-      messagingSenderId: "346928453705",
-      appId: "1:346928453705:web:4508495b79130484fd8798",
-    };
-  
+  componentDidMount() {  
     const ac = new (window.AudioContext || window.webkitAudioContext)();
     this.setState({ audioContext: ac });
   
