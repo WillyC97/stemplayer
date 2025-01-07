@@ -1,4 +1,7 @@
 import React from "react";
+import { initializeApp } from 'firebase/app';
+import { ref, getDownloadURL, getStorage } from 'firebase/storage';
+import firebaseConfig from "../firebaseConfig";
 import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -82,40 +85,53 @@ class App extends React.Component {
   // Loading
   //-----------------------------------------------------------------------
 
-  componentDidMount() {
+  componentDidMount() {  
     const ac = new (window.AudioContext || window.webkitAudioContext)();
     this.setState({ audioContext: ac });
-
+  
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+  
+    const audioFolderPath = this.songInfo.songpath + "Audio/";
+    const waveformFolderPath = this.songInfo.songpath + "waveforms/";
+  
     Promise.all(
-      this.state.stems.map((stem, index) =>
-        fetch(stem.file)
-          .then((response) => response.arrayBuffer())
-          .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer))
-          .then((audioBuffer) => {
-            return {
-              ...stem,
-              id: index + 1,
-              buffer: audioBuffer,
-              audioLength: audioBuffer.duration,
-              audioSource: null,
-              gainNode: null,
-              panNode: null,
-              volume: stem.volume ?? 1.0,
-              pan: 0.0,
-              muted: false,
-              soloed: false,
-              uuid: crypto.randomUUID(),
-              loaded: true,
-            };
-          })
-      )
+      this.state.stems.map((stem, index) => {
+        const audioRef = ref(storage, audioFolderPath + stem.file);
+        const imageRef = ref(storage, waveformFolderPath + stem.waveform);
+  
+        return Promise.all([
+          getDownloadURL(audioRef)
+            .then((url) => fetch(url))
+            .then((response) => response.arrayBuffer())
+            .then((arrayBuffer) => ac.decodeAudioData(arrayBuffer)),
+          getDownloadURL(imageRef)
+        ]).then(([audioBuffer, imageUrl]) => {
+          return {
+            ...stem,
+            id: index + 1,
+            buffer: audioBuffer,
+            audioLength: audioBuffer.duration,
+            audioSource: null,
+            gainNode: null,
+            panNode: null,
+            volume: stem.volume ?? 1.0,
+            pan: 0.0,
+            muted: false,
+            soloed: false,
+            uuid: crypto.randomUUID(),
+            loaded: true,
+            waveform: imageUrl
+          };
+        });
+      })
     ).then((initialisedStems) => {
       this.trackLengthRef = Math.max(
         ...initialisedStems.map((stem) => stem.audioLength || 0)
       );
       this.setState({ stems: initialisedStems });
     });
-
+  
     document.addEventListener("keydown", this.handleKeyDown);
     window.addEventListener("resize", (e) => this.onResize(e));
   }
