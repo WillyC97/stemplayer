@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore'; // For Cloud Firestore
+import { getAuth } from 'firebase/auth';
 import './LockableImageButton.css';
+
+const db = getFirestore();
+const auth = getAuth();
 
 const LockableImageButton = ({ buttonName, imageUrl, password, onUnlock }) => {
   const [isLocked, setIsLocked] = useState(true);
@@ -8,12 +13,19 @@ const LockableImageButton = ({ buttonName, imageUrl, password, onUnlock }) => {
   const [inputPassword, setInputPassword] = useState('');
   const containerRef = useRef(null);
 
-  const handleUnlock = () => {
+  const handleUnlock = async () => {
     if (inputPassword === password) {
       setIsLocked(false);
       setShowPasswordInput(false);
       setInputPassword('');
       onUnlock(buttonName);
+
+      const user = auth.currentUser;
+      if (user) {
+        await setDoc(doc(db, 'users', user.uid, 'unlocks', buttonName), {
+          unlocked: true,
+        });
+      }
     } else {
       alert('Incorrect password');
       setInputPassword('');
@@ -38,6 +50,21 @@ const LockableImageButton = ({ buttonName, imageUrl, password, onUnlock }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchUnlockStatus = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const docRef = doc(db, 'users', user.uid, 'unlocks', buttonName);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists() && docSnap.data().unlocked) {
+          setIsLocked(false);
+        }
+      }
+    };
+
+    fetchUnlockStatus();
+  }, [buttonName]);
 
   return (
     <div className="lockable-button-wrapper">
