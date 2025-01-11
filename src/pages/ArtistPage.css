@@ -1,7 +1,5 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
+.artist-page-text {
+    color: white;
 }
 
 .artist-page-background-container {

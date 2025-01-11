@@ -1,7 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import { AuthProvider } from "./contexts/authContext";
+import AuthWrapper from './components/AuthWrapper';
 import App from './components/App';
+import SignInComp from './components/SignInComp';
+import Register from './components/Register';
 import HomeComponent from './components/HomeComponent';
 
 // ChoirCo
@@ -20,7 +24,10 @@ function MainPage() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route path="/" element={<HomeComponent />} />
+        <Route path="*" element={<SignInComp />} />
+          <Route path="/login" element={<SignInComp />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/home" element={<AuthWrapper><HomeComponent /></AuthWrapper>} />
           <Route path="/ChoirCo" element={<ChoirCoPage />} />
           <Route path="/ChoirCo/walkinOnSunshine" element={<App songData={walkinOnSunshineData} />} />
           <Route path="/ChoirCo/exile" element={<App songData={exileData} />} />
@@ -33,6 +40,8 @@ function MainPage() {
 
 root.render(
   <StrictMode>
-    <MainPage />
+    <AuthProvider>
+      <MainPage />
+    </AuthProvider>
   </StrictMode>,
 );

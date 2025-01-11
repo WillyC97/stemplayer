@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './HomeComp.css';
+import Header from './Header';
 import ChoirCoImg from './assets/ChoirCoLogo.png';
 import TurdStoryImg from './assets/TurdStory.jpg'; 
 
@@ -10,6 +11,7 @@ const HomeComponent = () => {
       <div className="home-background-style"></div>
       <div className="home-content">
         <div className="home-container-style">
+          <Header />
           <Link to="/ChoirCo" className="home-button-container">
             <div 
               className="home-button-style" 

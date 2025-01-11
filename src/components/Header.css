@@ -1,0 +1,30 @@
+.header-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+    z-index: 20;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4rem;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: rgba(7, 7, 7, 0.8);
+    background-image: linear-gradient(rgb(79, 40, 169), rgba(100, 100, 255, 0.8));
+  }
+  
+  .header-nav-button, .header-nav-link {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #dfdfdf;
+    cursor: pointer;
+  }
+  
+  .header-nav-button:hover, .header-nav-link:hover {
+    text-decoration: underline;
+  }

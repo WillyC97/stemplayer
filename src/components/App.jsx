@@ -1,7 +1,6 @@
 import React from "react";
-import { initializeApp } from 'firebase/app';
-import { ref, getDownloadURL, getStorage } from 'firebase/storage';
-import firebaseConfig from "../firebaseConfig";
+import { ref, getDownloadURL } from 'firebase/storage';
+import { app, storage } from "../firebase/firebaseConfig";
 import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -88,9 +87,6 @@ class App extends React.Component {
   componentDidMount() {  
     const ac = new (window.AudioContext || window.webkitAudioContext)();
     this.setState({ audioContext: ac });
-  
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app);
   
     const audioFolderPath = this.songInfo.songpath + "Audio/";
     const waveformFolderPath = this.songInfo.songpath + "waveforms/";
