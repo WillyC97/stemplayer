@@ -1,0 +1,93 @@
+.lockable-button-wrapper {
+    position: relative;
+    margin: 20px;
+  }
+  
+  .lock-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    display: none;
+  }
+  
+  .lockable-button-style.locked:hover .lock-icon {
+    display: block;
+  }
+  
+  .lockable-button-style {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 5px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .lockable-button-style.unlocked:hover {
+    transform: scale(0.8); 
+}
+  
+  .lockable-button-style.locked::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(61, 61, 61, 0.7);
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .lockable-button-style.locked:hover::before {
+    opacity: 1;
+  }
+
+  .lockable-button-text-style {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none
+}
+  
+.password-input-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px; 
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+  }
+  
+  .password-input-container input {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .password-input-container button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff5733;
+    color: white;
+    cursor: pointer;
+  }
