@@ -17,6 +17,10 @@ import exileData from './pages/ChoirCo/exile.json';
 import TurdStoryPage from './pages/TurdStory/TurdStory';
 import oneLastTimeData from './pages/TurdStory/oneLastTime.json';
 
+// Dovengers
+import DovengersPage from './pages/Dovengers/Dovengers';
+import kissFromARoseData from './pages/Dovengers/kissFromARose.json';
+
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
@@ -28,11 +32,16 @@ function MainPage() {
           <Route path="/login" element={<SignInComp />} />
           <Route path="/register" element={<Register />} />
           <Route path="/home" element={<AuthWrapper><HomeComponent /></AuthWrapper>} />
+{/* ----------------------ChoirCo----------------------- */}
           <Route path="/ChoirCo" element={<ChoirCoPage />} />
           <Route path="/ChoirCo/walkinOnSunshine" element={<App songData={walkinOnSunshineData} />} />
           <Route path="/ChoirCo/exile" element={<App songData={exileData} />} />
+{/* ----------------------TurdStory----------------------- */}
           <Route path="/TurdStory" element={<TurdStoryPage />} />
           <Route path="/TurdStory/oneLastTime" element={<App songData={oneLastTimeData} />} />
+{/* ----------------------Dovengers----------------------- */}
+          <Route path="/Dovengers" element={<DovengersPage />} />
+          <Route path="/Dovengers/kissFromARose" element={<App songData={kissFromARoseData} />} />
         </Routes>
     </BrowserRouter>
   );
