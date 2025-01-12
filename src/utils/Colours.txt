@@ -1,0 +1,8 @@
+#34eb58 //Green
+#344ceb //blue
+#eb34bd //Pink
+#f2e605 //Yellow
+#f28705 //Orange
+#f20505 //Red
+
+

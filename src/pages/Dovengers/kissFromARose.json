@@ -30,14 +30,14 @@
         "title": "Bah Bah",
         "file": "kfar-bahbah.mp3",
         "waveform": "kfar-bahbah_waveform.png",
-        "colour": "#eb34bd",
+        "colour": "#f2e605",
         "volume": 1
       },
       {
         "title": "Floaty",
         "file": "kfar-floaty.mp3",
         "waveform": "kfar-floaty_waveform.png",
-        "colour": "#eb34bd",
+        "colour": "#f28705",
         "volume": 1
       }
     ]
