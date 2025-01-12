@@ -3,10 +3,11 @@ import './HomeComp.css';
 import Header from './Header';
 import ChoirCoImg from './assets/ChoirCoLogo.png';
 import TurdStoryImg from './assets/TurdStory.jpg';
+import DovengersImg from './assets/DovengersLogo.png';
 import LockableImageButton from './LockableImageButton';
 
 const HomeComponent = () => {
-  const passwords = { ChoirCo: 'password1', TurdStory: 'turds' }; // Replace with actual passwords
+  const passwords = { ChoirCo: 'password1', TurdStory: 'turds', Dovengers: 'murphy22'}; // Replace with actual passwords
 
   const handleUnlock = (buttonName) => {
     console.log(`${buttonName} unlocked`);
@@ -28,6 +29,12 @@ const HomeComponent = () => {
             buttonName="TurdStory" 
             imageUrl={TurdStoryImg} 
             password={passwords.TurdStory} 
+            onUnlock={handleUnlock} 
+          />
+          <LockableImageButton 
+            buttonName="Dovengers" 
+            imageUrl={DovengersImg} 
+            password={passwords.Dovengers} 
             onUnlock={handleUnlock} 
           />
         </div>

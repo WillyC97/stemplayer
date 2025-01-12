@@ -1,0 +1,45 @@
+{
+    "SongInfo": {
+        "songtitle": "Kiss From a Rose",
+        "songpath": "Dovengers/KissFromARose/"
+    },
+    "StemInfo": [
+      {
+        "title": "Lead",
+        
+        "file": "kfar-lead.mp3",
+        "waveform": "kfar-lead_waveform.png",
+        "colour": "#34eb58",
+        "volume": 1
+      },
+      {
+        "title": "Middle",
+        "file": "kfar-middle.mp3",
+        "waveform": "kfar-middle_waveform.png",
+        "colour": "#344ceb",
+        "volume": 1
+      },
+      {
+        "title": "Low",
+        "file": "kfar-low.mp3",
+        "waveform": "kfar-low_waveform.png",
+        "colour": "#eb34bd",
+        "volume": 1
+      },
+      {
+        "title": "Bah Bah",
+        "file": "kfar-bahbah.mp3",
+        "waveform": "kfar-bahbah_waveform.png",
+        "colour": "#eb34bd",
+        "volume": 1
+      },
+      {
+        "title": "Floaty",
+        "file": "kfar-floaty.mp3",
+        "waveform": "kfar-floaty_waveform.png",
+        "colour": "#eb34bd",
+        "volume": 1
+      }
+    ]
+  }
+  
