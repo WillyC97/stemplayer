@@ -20,6 +20,7 @@ import oneLastTimeData from './pages/TurdStory/oneLastTime.json';
 // Dovengers
 import DovengersPage from './pages/Dovengers/Dovengers';
 import kissFromARoseData from './pages/Dovengers/kissFromARose.json';
+import rockWithYouData from './pages/Dovengers/rockWithYou.json';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -42,6 +43,7 @@ function MainPage() {
 {/* ----------------------Dovengers----------------------- */}
           <Route path="/Dovengers" element={<DovengersPage />} />
           <Route path="/Dovengers/kissFromARose" element={<App songData={kissFromARoseData} />} />
+          <Route path="/Dovengers/rockWithYou" element={<App songData={rockWithYouData} />} />
         </Routes>
     </BrowserRouter>
   );
