@@ -21,6 +21,7 @@ const DovengersPage = () => {
             </div>
             <div className='artist-page-song-group-container' >
               <Link to="/Dovengers/kissFromARose" className="artist-page-button-style">Kiss From a Rose</Link>
+              <Link to="/Dovengers/rockWithYou" className="artist-page-button-style">Rock with You</Link>
             </div>
           </div>
         </div>

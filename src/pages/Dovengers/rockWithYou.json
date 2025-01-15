@@ -1,0 +1,49 @@
+{
+    "SongInfo": {
+        "songtitle": "Rock with You",
+        "songpath": "Dovengers/RockWithYou/"
+    },
+    "StemInfo": [
+      {
+        "title": "BGV1",
+        
+        "file": "RWY-BGV1.mp3",
+        "waveform": "RWY-BGV1_waveform.png",
+        "colour": "#34eb58",
+        "volume": 1
+      },
+      {
+        "title": "BGV2",
+        
+        "file": "RWY-BGV2.mp3",
+        "waveform": "RWY-BGV2_waveform.png",
+        "colour": "#34eb58",
+        "volume": 1
+      },
+      {
+        "title": "BGV3",
+        
+        "file": "RWY-BGV3.mp3",
+        "waveform": "RWY-BGV3_waveform.png",
+        "colour": "#34eb58",
+        "volume": 1
+      },
+      {
+       "title": "BGV4",
+        
+        "file": "RWY-BGV4.mp3",
+        "waveform": "RWY-BGV4_waveform.png",
+        "colour": "#34eb58",
+        "volume": 1
+      },
+      {
+       "title": "Guitar",
+        
+        "file": "RWY-Guitar.mp3",
+        "waveform": "RWY-Guitar_waveform.png",
+        "colour": "#34eb58",
+        "volume": 1
+      }
+    ]
+  }
+  
