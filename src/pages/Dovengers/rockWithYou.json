@@ -17,7 +17,7 @@
         
         "file": "RWY-BGV2.mp3",
         "waveform": "RWY-BGV2_waveform.png",
-        "colour": "#34eb58",
+        "colour": "#344ceb",
         "volume": 1
       },
       {
@@ -25,7 +25,7 @@
         
         "file": "RWY-BGV3.mp3",
         "waveform": "RWY-BGV3_waveform.png",
-        "colour": "#34eb58",
+        "colour": "#eb34bd",
         "volume": 1
       },
       {
@@ -33,7 +33,7 @@
         
         "file": "RWY-BGV4.mp3",
         "waveform": "RWY-BGV4_waveform.png",
-        "colour": "#34eb58",
+        "colour": "#f2e605",
         "volume": 1
       },
       {
@@ -41,7 +41,7 @@
         
         "file": "RWY-Guitar.mp3",
         "waveform": "RWY-Guitar_waveform.png",
-        "colour": "#34eb58",
+        "colour": "#f28705",
         "volume": 1
       }
     ]
