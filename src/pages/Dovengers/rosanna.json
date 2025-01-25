@@ -1,0 +1,36 @@
+{
+  "SongInfo": {
+    "songtitle": "Rosanna",
+    "songpath": "Dovengers/Rosanna/"
+  },
+  "StemInfo": [
+    {
+      "title": "High",
+      "file": "Rosanna_High.mp3",
+      "waveform": "Rosanna_High_waveform.png",
+      "colour": "#75F0E1",
+      "volume": 1.0
+    },
+    {
+      "title": "Middle",
+      "file": "Rosanna_middle.mp3",
+      "waveform": "Rosanna_middle_waveform.png",
+      "colour": "#655340",
+      "volume": 1.0
+    },
+    {
+      "title": "Low",
+      "file": "Rosanna_Low.mp3",
+      "waveform": "Rosanna_Low_waveform.png",
+      "colour": "#EF019F",
+      "volume": 1.0
+    },
+    {
+      "title": "LowLow",
+      "file": "Rosanna_LowLow.mp3",
+      "waveform": "Rosanna_LowLow_waveform.png",
+      "colour": "#B4110C",
+      "volume": 1.0
+    }
+  ]
+}
