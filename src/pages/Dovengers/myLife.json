@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "My Life",
+    "songpath": "Dovengers/MyLife/"
+  },
+  "StemInfo": [
+    {
+      "title": "High",
+      "file": "MyLife_High.mp3",
+      "waveform": "MyLife_High_waveform.png",
+      "colour": "#E8E3BA",
+      "volume": 1.0
+    },
+    {
+      "title": "Middle",
+      "file": "MyLife_Middle.mp3",
+      "waveform": "MyLife_Middle_waveform.png",
+      "colour": "#114BD8",
+      "volume": 1.0
+    },
+    {
+      "title": "Middler",
+      "file": "MyLife_Middler.mp3",
+      "waveform": "MyLife_Middler_waveform.png",
+      "colour": "#89F1C8",
+      "volume": 1.0
+    },
+    {
+      "title": "Low",
+      "file": "MyLife_Low.mp3",
+      "waveform": "MyLife_Low_waveform.png",
+      "colour": "#ED9F0A",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "MyLife_Backing.mp3",
+      "waveform": "MyLife_Backing_waveform.png",
+      "colour": "#f20505",
+      "volume": 1.0
+    }
+  ]
+}

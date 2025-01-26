@@ -23,6 +23,7 @@ const DovengersPage = () => {
               <Link to="/Dovengers/kissFromARose" className="artist-page-button-style">Kiss From a Rose</Link>
               <Link to="/Dovengers/rockWithYou" className="artist-page-button-style">Rock with You</Link>
               <Link to="/Dovengers/rosanna" className="artist-page-button-style">Rosanna</Link>
+              <Link to="/Dovengers/myLife" className="artist-page-button-style">My Life</Link>
             </div>
           </div>
         </div>

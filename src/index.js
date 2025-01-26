@@ -22,6 +22,7 @@ import DovengersPage from './pages/Dovengers/Dovengers';
 import kissFromARoseData from './pages/Dovengers/kissFromARose.json';
 import rockWithYouData from './pages/Dovengers/rockWithYou.json';
 import rosannaData from './pages/Dovengers/rosanna.json';
+import myLifeData from './pages/Dovengers/myLife.json';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -46,6 +47,7 @@ function MainPage() {
           <Route path="/Dovengers/kissFromARose" element={<App songData={kissFromARoseData} />} />
           <Route path="/Dovengers/rockWithYou" element={<App songData={rockWithYouData} />} />
           <Route path="/Dovengers/rosanna" element={<App songData={rosannaData} />} />
+          <Route path="/Dovengers/myLife" element={<App songData={myLifeData} />} />
         </Routes>
     </BrowserRouter>
   );
