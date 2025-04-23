@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "SmileOnYourFace",
+    "songpath": "Dovengers/SmileOnYourFace/"
+  },
+  "StemInfo": [
+    {
+      "title": "Lead",
+      "file": "Lead.mp3",
+      "waveform": "Lead_waveform.png",
+      "colour": "#E62EEA",
+      "volume": 1.0
+    },
+    {
+      "title": "High",
+      "file": "High.mp3",
+      "waveform": "High_waveform.png",
+      "colour": "#17BCA4",
+      "volume": 1.0
+    },
+    {
+      "title": "Middle",
+      "file": "Middle.mp3",
+      "waveform": "Middle_waveform.png",
+      "colour": "#7915F9",
+      "volume": 1.0
+    },
+    {
+      "title": "Low",
+      "file": "Low.mp3",
+      "waveform": "Low_waveform.png",
+      "colour": "#E79755",
+      "volume": 1.0
+    },
+    {
+      "title": "Alt",
+      "file": "Alt.mp3",
+      "waveform": "Alt_waveform.png",
+      "colour": "#B96893",
+      "volume": 1.0
+    },
+    {
+      "title": "Piano",
+      "file": "Piano.mp3",
+      "waveform": "Piano_waveform.png",
+      "colour": "#FA28E7",
+      "volume": 0.8
+    }
+  ]
+}

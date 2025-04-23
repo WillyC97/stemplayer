@@ -23,6 +23,8 @@ import kissFromARoseData from './pages/Dovengers/kissFromARose.json';
 import rockWithYouData from './pages/Dovengers/rockWithYou.json';
 import rosannaData from './pages/Dovengers/rosanna.json';
 import myLifeData from './pages/Dovengers/myLife.json';
+import smackDownData from './pages/Dovengers/smackDown.json';
+import smileOnYourFaceData from './pages/Dovengers/smileOnYourFace.json';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -48,6 +50,8 @@ function MainPage() {
           <Route path="/Dovengers/rockWithYou" element={<App songData={rockWithYouData} />} />
           <Route path="/Dovengers/rosanna" element={<App songData={rosannaData} />} />
           <Route path="/Dovengers/myLife" element={<App songData={myLifeData} />} />
+          <Route path="/Dovengers/smackDown" element={<App songData={smackDownData} />} />
+          <Route path="/Dovengers/smileOnYourFace" element={<App songData={smileOnYourFaceData} />} />
         </Routes>
     </BrowserRouter>
   );
