@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "SmackDown",
+    "songpath": "Dovengers/SmackDown/"
+  },
+  "StemInfo": [
+    {
+      "title": "Lead",
+      "file": "Lead.mp3",
+      "waveform": "Lead_waveform.png",
+      "colour": "#F526BB",
+      "volume": 1.0
+    },
+    {
+      "title": "High",
+      "file": "High.mp3",
+      "waveform": "High_waveform.png",
+      "colour": "#700F4B",
+      "volume": 1.0
+    },
+    {
+      "title": "Low",
+      "file": "Low.mp3",
+      "waveform": "Low_waveform.png",
+      "colour": "#9DEF3E",
+      "volume": 1.0
+    },
+    {
+      "title": "Alt",
+      "file": "Alt.mp3",
+      "waveform": "Alt_waveform.png",
+      "colour": "#9A100A",
+      "volume": 1.0
+    },
+    {
+      "title": "Piano",
+      "file": "Piano.mp3",
+      "waveform": "Piano_waveform.png",
+      "colour": "#FA28E7",
+      "volume": 0.8
+    }
+  ]
+}
