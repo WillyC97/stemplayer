@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "Peg",
+    "songpath": "Dovengers/Peg/"
+  },
+  "StemInfo": [
+    {
+      "title": "Lead",
+      "file": "Peg_Lead.mp3",
+      "waveform": "Peg_Lead_waveform.png",
+      "colour": "#F9094A",
+      "volume": 1.0
+    },
+    {
+      "title": "Sop",
+      "file": "Peg_Sop.mp3",
+      "waveform": "Peg_Sop_waveform.png",
+      "colour": "#9AF653",
+      "volume": 1.0
+    },
+    {
+      "title": "Alto",
+      "file": "Peg_Alto.mp3",
+      "waveform": "Peg_Alto_waveform.png",
+      "colour": "#5C6B3E",
+      "volume": 1.0
+    },
+    {
+      "title": "Tenor",
+      "file": "Peg_Tenor.mp3",
+      "waveform": "Peg_Tenor_waveform.png",
+      "colour": "#2A2747",
+      "volume": 1.0
+    },
+    {
+      "title": "Bass",
+      "file": "Peg_Bass.mp3",
+      "waveform": "Peg_Bass_waveform.png",
+      "colour": "#8E7398",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "Peg_Backing.mp3",
+      "waveform": "Peg_Backing_waveform.png",
+      "colour": "#8F558E",
+      "volume": 1.0
+    }
+  ]
+}

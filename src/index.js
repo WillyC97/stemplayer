@@ -25,6 +25,7 @@ import rosannaData from './pages/Dovengers/rosanna.json';
 import myLifeData from './pages/Dovengers/myLife.json';
 import smackDownData from './pages/Dovengers/smackDown.json';
 import smileOnYourFaceData from './pages/Dovengers/smileOnYourFace.json';
+import pegData from './pages/Dovengers/peg.json'
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -52,6 +53,7 @@ function MainPage() {
           <Route path="/Dovengers/myLife" element={<App songData={myLifeData} />} />
           <Route path="/Dovengers/smackDown" element={<App songData={smackDownData} />} />
           <Route path="/Dovengers/smileOnYourFace" element={<App songData={smileOnYourFaceData} />} />
+          <Route path="/Dovengers/peg" element={<App songData={pegData} />} />
         </Routes>
     </BrowserRouter>
   );
