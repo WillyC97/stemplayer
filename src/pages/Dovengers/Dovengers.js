@@ -26,6 +26,7 @@ const DovengersPage = () => {
               <Link to="/Dovengers/myLife" className="artist-page-button-style">My Life</Link>
               <Link to="/Dovengers/smackDown" className="artist-page-button-style">Smack Down</Link>
               <Link to="/Dovengers/smileOnYourFace" className="artist-page-button-style">Smile On Your Face</Link>
+              <Link to="/Dovengers/peg" className="artist-page-button-style">Peg</Link>
             </div>
           </div>
         </div>
