@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "Dovengers",
+    "songpath": "GirlIsMine/Dovengers/"
+  },
+  "StemInfo": [
+    {
+      "title": "MJ",
+      "file": "GirlIsMine_MJ.mp3",
+      "waveform": "GirlIsMine_MJ_waveform.png",
+      "colour": "#4AD47A",
+      "volume": 1.0
+    },
+    {
+      "title": "Paul",
+      "file": "GirlIsMine_Paul.mp3",
+      "waveform": "GirlIsMine_Paul_waveform.png",
+      "colour": "#D89936",
+      "volume": 1.0
+    },
+    {
+      "title": "Higher",
+      "file": "GirlIsMine_Higher.mp3",
+      "waveform": "GirlIsMine_Higher_waveform.png",
+      "colour": "#4EBF19",
+      "volume": 1.0
+    },
+    {
+      "title": "High",
+      "file": "GirlIsMine_High.mp3",
+      "waveform": "GirlIsMine_High_waveform.png",
+      "colour": "#85C019",
+      "volume": 1.0
+    },
+    {
+      "title": "Middle",
+      "file": "GirlIsMine_Middle.mp3",
+      "waveform": "GirlIsMine_Middle_waveform.png",
+      "colour": "#F3C6C1",
+      "volume": 1.0
+    },
+    {
+      "title": "Low",
+      "file": "GirlIsMine_Low.mp3",
+      "waveform": "GirlIsMine_Low_waveform.png",
+      "colour": "#978083",
+      "volume": 1.0
+    }
+  ]
+}
