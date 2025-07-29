@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "Easy",
+    "songpath": "Dovengers/Easy/"
+  },
+  "StemInfo": [
+    {
+      "title": "Mack",
+      "file": "Easy_Mack.mp3",
+      "waveform": "Easy_Mack_waveform.png",
+      "colour": "#704907",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Easy_Will.mp3",
+      "waveform": "Easy_Will_waveform.png",
+      "colour": "#C373FF",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "Easy_George.mp3",
+      "waveform": "Easy_George_waveform.png",
+      "colour": "#C6C4EB",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Easy_Arthur.mp3",
+      "waveform": "Easy_Arthur_waveform.png",
+      "colour": "#D9659E",
+      "volume": 1.0
+    },
+    {
+      "title": "Optional1",
+      "file": "Easy_Optional1.mp3",
+      "waveform": "Easy_Optional1_waveform.png",
+      "colour": "#63BE26",
+      "volume": 1.0
+    },
+    {
+      "title": "Optional2",
+      "file": "Easy_Optional2.mp3",
+      "waveform": "Easy_Optional2_waveform.png",
+      "colour": "#1B202B",
+      "volume": 1.0
+    }
+  ]
+}
