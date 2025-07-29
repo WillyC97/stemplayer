@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "Sledgehammer",
+    "songpath": "Dovengers/Sledgehammer/"
+  },
+  "StemInfo": [
+    {
+      "title": "Will",
+      "file": "SledgeHammer_Will.mp3",
+      "waveform": "SledgeHammer_Will_waveform.png",
+      "colour": "#7D9F25",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "SledgeHammer_Mack.mp3",
+      "waveform": "SledgeHammer_Mack_waveform.png",
+      "colour": "#676575",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "SledgeHammer_George.mp3",
+      "waveform": "SledgeHammer_George_waveform.png",
+      "colour": "#FF2D73",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "SledgeHammer_Arthur.mp3",
+      "waveform": "SledgeHammer_Arthur_waveform.png",
+      "colour": "#ADA707",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "SledgeHammer_Backing.mp3",
+      "waveform": "SledgeHammer_Backing_waveform.png",
+      "colour": "#0A54D6",
+      "volume": 1.0
+    }
+  ]
+}
