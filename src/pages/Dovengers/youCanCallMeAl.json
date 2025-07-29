@@ -1,42 +1,42 @@
 {
   "SongInfo": {
-    "songtitle": "You Can Call Me Al",
-    "songpath": "YouCanCallMeAl/Dovengers/"
+    "songtitle": "YouCanCallMeAl",
+    "songpath": "Dovengers/YouCanCallMeAl/"
   },
   "StemInfo": [
     {
       "title": "Mack",
       "file": "YouCanCallMeAl_Mack.mp3",
       "waveform": "YouCanCallMeAl_Mack_waveform.png",
-      "colour": "#2F3595",
-      "volume": 1.0
-    },
-    {
-      "title": "George",
-      "file": "YouCanCallMeAl_George.mp3",
-      "waveform": "YouCanCallMeAl_George_waveform.png",
-      "colour": "#09A433",
+      "colour": "#E23D36",
       "volume": 1.0
     },
     {
       "title": "Will",
       "file": "YouCanCallMeAl_Will.mp3",
       "waveform": "YouCanCallMeAl_Will_waveform.png",
-      "colour": "#CF7D9B",
+      "colour": "#A8B14E",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "YouCanCallMeAl_George.mp3",
+      "waveform": "YouCanCallMeAl_George_waveform.png",
+      "colour": "#0AF7B6",
       "volume": 1.0
     },
     {
       "title": "Arthur",
       "file": "YouCanCallMeAl_Arthur.mp3",
       "waveform": "YouCanCallMeAl_Arthur_waveform.png",
-      "colour": "#04AE0F",
+      "colour": "#CFE783",
       "volume": 1.0
     },
     {
       "title": "Backing",
       "file": "YouCanCallMeAl_Backing.mp3",
       "waveform": "YouCanCallMeAl_Backing_waveform.png",
-      "colour": "#69C00F",
+      "colour": "#36F15E",
       "volume": 1.0
     }
   ]

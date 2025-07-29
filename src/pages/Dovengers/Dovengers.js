@@ -39,7 +39,7 @@ const DovengersPage = () => {
               <Link to="/Dovengers/girlIsMine" className="artist-page-button-style">Girl Is Mine</Link>
               <Link to="/Dovengers/kissFromARose" className="artist-page-button-style">Kiss From a Rose</Link>
               <Link to="/Dovengers/holdTheLine" className="artist-page-button-style">Hold the Line</Link>
-              <Link to="/Dovengers/holdTheLine" className="artist-page-button-style">You Can Call Me Al</Link>
+              <Link to="/Dovengers/youCanCallMeAl" className="artist-page-button-style">You Can Call Me Al</Link>
               <Link to="/Dovengers/twistAndShout" className="artist-page-button-style">Twist and Shout</Link>
               <Link to="/Dovengers/freedom" className="artist-page-button-style">Freedom</Link>
               <Link to="/Dovengers/sledgehammer" className="artist-page-button-style">Sledgehammer</Link>
