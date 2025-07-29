@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "TwistAndShout",
+    "songpath": "Dovengers/TwistAndShout/"
+  },
+  "StemInfo": [
+    {
+      "title": "John",
+      "file": "TwistAndShout_John.mp3",
+      "waveform": "TwistAndShout_John_waveform.png",
+      "colour": "#487EC3",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "TwistAndShout_Mack.mp3",
+      "waveform": "TwistAndShout_Mack_waveform.png",
+      "colour": "#550086",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "TwistAndShout_Will.mp3",
+      "waveform": "TwistAndShout_Will_waveform.png",
+      "colour": "#F0D244",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "TwistAndShout_George.mp3",
+      "waveform": "TwistAndShout_George_waveform.png",
+      "colour": "#0029A8",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "TwistAndShout_Athur.mp3",
+      "waveform": "TwistAndShout_Athur_waveform.png",
+      "colour": "#31AEF6",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "TwistAndShout_Backing.mp3",
+      "waveform": "TwistAndShout_Backing_waveform.png",
+      "colour": "#3F77E4",
+      "volume": 1.0
+    }
+  ]
+}
