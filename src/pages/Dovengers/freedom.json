@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "Freedom",
+    "songpath": "Dovengers/Freedom/"
+  },
+  "StemInfo": [
+    {
+      "title": "Will",
+      "file": "Freedom_Will.mp3",
+      "waveform": "Freedom_Will_waveform.png",
+      "colour": "#BA197E",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Freedom_Mack.mp3",
+      "waveform": "Freedom_Mack_waveform.png",
+      "colour": "#052A8E",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "Freedom_George.mp3",
+      "waveform": "Freedom_George_waveform.png",
+      "colour": "#650A93",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Freedom_Arthur.mp3",
+      "waveform": "Freedom_Arthur_waveform.png",
+      "colour": "#3F4FAD",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "Freedom_Backing.mp3",
+      "waveform": "Freedom_Backing_waveform.png",
+      "colour": "#FE2ED9",
+      "volume": 1.0
+    }
+  ]
+}

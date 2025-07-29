@@ -30,6 +30,7 @@ import girlIsMineData from './pages/Dovengers/girlIsMine.json'
 import holdTheLineData from './pages/Dovengers/holdTheLine.json'
 import youCanCallMeAlData from './pages/Dovengers/youCanCallMeAl.json'
 import twistAndShoutData from './pages/Dovengers/twistAndShout.json'
+import freedomData from './pages/Dovengers/freedom.json'
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -62,6 +63,7 @@ function MainPage() {
           <Route path="/Dovengers/holdTheLine" element={<App songData={holdTheLineData} />} />
           <Route path="/Dovengers/youCanCallMeAl" element={<App songData={youCanCallMeAlData} />} />
           <Route path="/Dovengers/twistAndShout" element={<App songData={twistAndShoutData} />} />
+          <Route path="/Dovengers/freedom" element={<App songData={freedomData} />} />
         </Routes>
     </BrowserRouter>
   );
