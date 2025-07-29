@@ -1,0 +1,36 @@
+{
+  "SongInfo": {
+    "songtitle": "Hold the Line",
+    "songpath": "Hold the Line/Dovengers/"
+  },
+  "StemInfo": [
+    {
+      "title": "Mack",
+      "file": "HoldTheLine_Mack.mp3",
+      "waveform": "HoldTheLine_Mack_waveform.png",
+      "colour": "#B69103",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "HoldTheLine_George.mp3",
+      "waveform": "HoldTheLine_George_waveform.png",
+      "colour": "#DD08FB",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "HoldTheLine_Will.mp3",
+      "waveform": "HoldTheLine_Will_waveform.png",
+      "colour": "#C72006",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "HoldTheLine_Backing.mp3",
+      "waveform": "HoldTheLine_Backing_waveform.png",
+      "colour": "#D10450",
+      "volume": 1.0
+    }
+  ]
+}

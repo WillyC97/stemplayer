@@ -15,19 +15,30 @@ const DovengersPage = () => {
       ></div>
       <div className="artist-page-content">
         <div className="artist-page-content-style">
+        {/* ----------------------------------------------------------------------------------------------------- */}
           <div className='artist-page-dark-block' >
             <div className='artist-page-song-group-header'>
-              <div className='artist-page-text'> {"Learning Tracks"} </div>
+              <div className='artist-page-text'> {"Learning Tracks - Performed"} </div>
             </div>
             <div className='artist-page-song-group-container' >
-              <Link to="/Dovengers/kissFromARose" className="artist-page-button-style">Kiss From a Rose</Link>
               <Link to="/Dovengers/rockWithYou" className="artist-page-button-style">Rock with You</Link>
               <Link to="/Dovengers/rosanna" className="artist-page-button-style">Rosanna</Link>
               <Link to="/Dovengers/myLife" className="artist-page-button-style">My Life</Link>
               <Link to="/Dovengers/smackDown" className="artist-page-button-style">Smack Down</Link>
               <Link to="/Dovengers/smileOnYourFace" className="artist-page-button-style">Smile On Your Face</Link>
               <Link to="/Dovengers/peg" className="artist-page-button-style">Peg</Link>
+            </div>
+          </div>
+
+          {/*--------------------------------New for Murphys------------------------------*/}
+          <div className='artist-page-dark-block' >
+            <div className='artist-page-song-group-header'>
+              <div className='artist-page-text'> {"Learning Tracks - Murphys 2025"} </div>
+            </div>
+            <div className='artist-page-song-group-container' >
               <Link to="/Dovengers/girlIsMine" className="artist-page-button-style">Girl Is Mine</Link>
+              <Link to="/Dovengers/kissFromARose" className="artist-page-button-style">Kiss From a Rose</Link>
+              <Link to="/Dovengers/holdTheLine" className="artist-page-button-style">Hold the Line</Link>
             </div>
           </div>
         </div>
