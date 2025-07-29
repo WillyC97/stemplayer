@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "You Can Call Me Al",
+    "songpath": "YouCanCallMeAl/Dovengers/"
+  },
+  "StemInfo": [
+    {
+      "title": "Mack",
+      "file": "YouCanCallMeAl_Mack.mp3",
+      "waveform": "YouCanCallMeAl_Mack_waveform.png",
+      "colour": "#2F3595",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "YouCanCallMeAl_George.mp3",
+      "waveform": "YouCanCallMeAl_George_waveform.png",
+      "colour": "#09A433",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "YouCanCallMeAl_Will.mp3",
+      "waveform": "YouCanCallMeAl_Will_waveform.png",
+      "colour": "#CF7D9B",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "YouCanCallMeAl_Arthur.mp3",
+      "waveform": "YouCanCallMeAl_Arthur_waveform.png",
+      "colour": "#04AE0F",
+      "volume": 1.0
+    },
+    {
+      "title": "Backing",
+      "file": "YouCanCallMeAl_Backing.mp3",
+      "waveform": "YouCanCallMeAl_Backing_waveform.png",
+      "colour": "#69C00F",
+      "volume": 1.0
+    }
+  ]
+}
