@@ -20,6 +20,8 @@ const TurdStoryPage = () => {
             </div>
             <div className='artist-page-song-group-container' >
               <Link to="/TurdStory/oneLastTime" className="artist-page-button-style">One Last Time</Link>
+              <Link to="/Dovengers/freedom" className="artist-page-button-style">Freedom</Link>
+              <Link to="/Dovengers/sledgehammer" className="artist-page-button-style">Sledgehammer</Link>
             </div>
           </div>
         </div>

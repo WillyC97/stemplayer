@@ -52,6 +52,8 @@ function MainPage() {
 {/* ----------------------TurdStory----------------------- */}
           <Route path="/TurdStory" element={<TurdStoryPage />} />
           <Route path="/TurdStory/oneLastTime" element={<App songData={oneLastTimeData} />} />
+          <Route path="/TurdStory/freedom" element={<App songData={freedomData} />} />
+          <Route path="/TurdStory/sledgehammer" element={<App songData={sledgehammerData} />} />
 {/* ----------------------Dovengers----------------------- */}
           <Route path="/Dovengers" element={<DovengersPage />} />
           <Route path="/Dovengers/kissFromARose" element={<App songData={kissFromARoseData} />} />
