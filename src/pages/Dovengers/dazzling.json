@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "Dazzling",
+    "songpath": "Dovengers/Dazzling/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#2A080D",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#BD24BD",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#F0E60A",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#0C2EED",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Arthur.mp3",
+      "waveform": "Arthur_waveform.png",
+      "colour": "#B7E930",
+      "volume": 1.0
+    }
+  ]
+}

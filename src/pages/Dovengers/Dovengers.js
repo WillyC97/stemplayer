@@ -46,6 +46,18 @@ const DovengersPage = () => {
               <Link to="/Dovengers/easy" className="artist-page-button-style">Easy</Link>
             </div>
           </div>
+
+           {/*--------------------------------New for 2026------------------------------*/}
+          <div className='artist-page-dark-block' >
+            <div className='artist-page-song-group-header'>
+              <div className='artist-page-text'> {"Learning Tracks - 2026"} </div>
+            </div>
+            <div className='artist-page-song-group-container' >
+              <Link to="/Dovengers/backpocket" className="artist-page-button-style">Backpocket</Link>
+              <Link to="/Dovengers/oneOfTheseNights" className="artist-page-button-style">One of These Nights</Link>
+              <Link to="/Dovengers/dazzling" className="artist-page-button-style">Dazzling</Link>
+            </div>
+          </div>    
         </div>
       </div>
     </div>

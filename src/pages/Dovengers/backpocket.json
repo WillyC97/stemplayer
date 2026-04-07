@@ -1,0 +1,36 @@
+{
+  "SongInfo": {
+    "songtitle": "Backpocket",
+    "songpath": "Dovengers/Backpocket/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#B723C0",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Arthur.mp3",
+      "waveform": "Arthur_waveform.png",
+      "colour": "#369C86",
+      "volume": 1.0
+    },
+     {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#4C4037",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#EE835E",
+      "volume": 1.0
+    }
+  ]
+}

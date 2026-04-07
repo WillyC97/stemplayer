@@ -33,6 +33,9 @@ import twistAndShoutData from './pages/Dovengers/twistAndShout.json'
 import freedomData from './pages/Dovengers/freedom.json'
 import sledgehammerData from './pages/Dovengers/sledgehammer.json'
 import easyData from './pages/Dovengers/easy.json'
+import backpocketData from './pages/Dovengers/backpocket.json'
+import oneOfTheseNightsData from './pages/Dovengers/oneOfTheseNights.json'
+import dazzlingData from './pages/Dovengers/dazzling.json'
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -70,6 +73,9 @@ function MainPage() {
           <Route path="/Dovengers/freedom" element={<App songData={freedomData} />} />
           <Route path="/Dovengers/sledgehammer" element={<App songData={sledgehammerData} />} />
           <Route path="/Dovengers/easy" element={<App songData={easyData} />} />
+          <Route path="/Dovengers/backpocket" element={<App songData={backpocketData} />} />
+          <Route path="/Dovengers/oneOfTheseNights" element={<App songData={oneOfTheseNightsData} />} />
+          <Route path="/Dovengers/dazzling" element={<App songData={dazzlingData} />} />
         </Routes>
     </BrowserRouter>
   );

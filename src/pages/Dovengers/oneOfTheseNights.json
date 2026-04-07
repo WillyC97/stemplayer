@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "OneOfTheseNights",
+    "songpath": "Dovengers/OneOfTheseNights/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#AC3DED",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#54BEEC",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Arthur.mp3",
+      "waveform": "Arthur_waveform.png",
+      "colour": "#1BD091",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#B2FEBA",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack (option 1)",
+      "file": "Mack1.mp3",
+      "waveform": "Mack1_waveform.png",
+      "colour": "#8C89F8",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack (option 2)",
+      "file": "Mack2.mp3",
+      "waveform": "Mack2_waveform.png",
+      "colour": "#426F73",
+      "volume": 1.0
+    }
+  ]
+}
