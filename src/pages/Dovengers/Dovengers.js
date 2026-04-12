@@ -56,6 +56,7 @@ const DovengersPage = () => {
               <Link to="/Dovengers/backpocket" className="artist-page-button-style">Backpocket</Link>
               <Link to="/Dovengers/oneOfTheseNights" className="artist-page-button-style">One of These Nights</Link>
               <Link to="/Dovengers/dazzling" className="artist-page-button-style">Dazzling</Link>
+              <Link to="/Dovengers/youMakeLovinFun" className="artist-page-button-style">You Make Lovin' Fun</Link>
             </div>
           </div>    
         </div>

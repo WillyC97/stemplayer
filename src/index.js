@@ -36,6 +36,7 @@ import easyData from './pages/Dovengers/easy.json'
 import backpocketData from './pages/Dovengers/backpocket.json'
 import oneOfTheseNightsData from './pages/Dovengers/oneOfTheseNights.json'
 import dazzlingData from './pages/Dovengers/dazzling.json'
+import youMakeLovinFunData from './pages/Dovengers/youMakeLovinFun.json'
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -76,6 +77,7 @@ function MainPage() {
           <Route path="/Dovengers/backpocket" element={<App songData={backpocketData} />} />
           <Route path="/Dovengers/oneOfTheseNights" element={<App songData={oneOfTheseNightsData} />} />
           <Route path="/Dovengers/dazzling" element={<App songData={dazzlingData} />} />
+          <Route path="/Dovengers/youMakeLovinFun" element={<App songData={youMakeLovinFunData} />} />
         </Routes>
     </BrowserRouter>
   );
