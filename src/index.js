@@ -7,36 +7,8 @@ import App from './components/App';
 import SignInComp from './components/SignInComp';
 import Register from './components/Register';
 import HomeComponent from './components/HomeComponent';
-
-// ChoirCo
-import ChoirCoPage from './pages/ChoirCo/ChoirCo';
-import walkinOnSunshineData from './pages/ChoirCo/walkinOnSunshine.json';
-import exileData from './pages/ChoirCo/exile.json';
-
-// TurdStory
-import TurdStoryPage from './pages/TurdStory/TurdStory';
-import oneLastTimeData from './pages/TurdStory/oneLastTime.json';
-
-// Dovengers
-import DovengersPage from './pages/Dovengers/Dovengers';
-import kissFromARoseData from './pages/Dovengers/kissFromARose.json';
-import rockWithYouData from './pages/Dovengers/rockWithYou.json';
-import rosannaData from './pages/Dovengers/rosanna.json';
-import myLifeData from './pages/Dovengers/myLife.json';
-import smackDownData from './pages/Dovengers/smackDown.json';
-import smileOnYourFaceData from './pages/Dovengers/smileOnYourFace.json';
-import pegData from './pages/Dovengers/peg.json'
-import girlIsMineData from './pages/Dovengers/girlIsMine.json'
-import holdTheLineData from './pages/Dovengers/holdTheLine.json'
-import youCanCallMeAlData from './pages/Dovengers/youCanCallMeAl.json'
-import twistAndShoutData from './pages/Dovengers/twistAndShout.json'
-import freedomData from './pages/Dovengers/freedom.json'
-import sledgehammerData from './pages/Dovengers/sledgehammer.json'
-import easyData from './pages/Dovengers/easy.json'
-import backpocketData from './pages/Dovengers/backpocket.json'
-import oneOfTheseNightsData from './pages/Dovengers/oneOfTheseNights.json'
-import dazzlingData from './pages/Dovengers/dazzling.json'
-import youMakeLovinFunData from './pages/Dovengers/youMakeLovinFun.json'
+import ArtistPage from './pages/ArtistPage';
+import { catalog, songRoutes } from './catalog';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -44,41 +16,28 @@ const root = createRoot(rootElement);
 function MainPage() {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Routes>
+      <Routes>
         <Route path="*" element={<SignInComp />} />
-          <Route path="/login" element={<SignInComp />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<AuthWrapper><HomeComponent /></AuthWrapper>} />
-{/* ----------------------ChoirCo----------------------- */}
-          <Route path="/ChoirCo" element={<ChoirCoPage />} />
-          <Route path="/ChoirCo/walkinOnSunshine" element={<App songData={walkinOnSunshineData} />} />
-          <Route path="/ChoirCo/exile" element={<App songData={exileData} />} />
-{/* ----------------------TurdStory----------------------- */}
-          <Route path="/TurdStory" element={<TurdStoryPage />} />
-          <Route path="/TurdStory/oneLastTime" element={<App songData={oneLastTimeData} />} />
-          <Route path="/TurdStory/freedom" element={<App songData={freedomData} />} />
-          <Route path="/TurdStory/sledgehammer" element={<App songData={sledgehammerData} />} />
-{/* ----------------------Dovengers----------------------- */}
-          <Route path="/Dovengers" element={<DovengersPage />} />
-          <Route path="/Dovengers/kissFromARose" element={<App songData={kissFromARoseData} />} />
-          <Route path="/Dovengers/rockWithYou" element={<App songData={rockWithYouData} />} />
-          <Route path="/Dovengers/rosanna" element={<App songData={rosannaData} />} />
-          <Route path="/Dovengers/myLife" element={<App songData={myLifeData} />} />
-          <Route path="/Dovengers/smackDown" element={<App songData={smackDownData} />} />
-          <Route path="/Dovengers/smileOnYourFace" element={<App songData={smileOnYourFaceData} />} />
-          <Route path="/Dovengers/peg" element={<App songData={pegData} />} />
-          <Route path="/Dovengers/girlIsMine" element={<App songData={girlIsMineData} />} />
-          <Route path="/Dovengers/holdTheLine" element={<App songData={holdTheLineData} />} />
-          <Route path="/Dovengers/youCanCallMeAl" element={<App songData={youCanCallMeAlData} />} />
-          <Route path="/Dovengers/twistAndShout" element={<App songData={twistAndShoutData} />} />
-          <Route path="/Dovengers/freedom" element={<App songData={freedomData} />} />
-          <Route path="/Dovengers/sledgehammer" element={<App songData={sledgehammerData} />} />
-          <Route path="/Dovengers/easy" element={<App songData={easyData} />} />
-          <Route path="/Dovengers/backpocket" element={<App songData={backpocketData} />} />
-          <Route path="/Dovengers/oneOfTheseNights" element={<App songData={oneOfTheseNightsData} />} />
-          <Route path="/Dovengers/dazzling" element={<App songData={dazzlingData} />} />
-          <Route path="/Dovengers/youMakeLovinFun" element={<App songData={youMakeLovinFunData} />} />
-        </Routes>
+        <Route path="/login" element={<SignInComp />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<AuthWrapper><HomeComponent /></AuthWrapper>} />
+
+        {catalog.map((artist) => (
+          <Route
+            key={artist.key}
+            path={`/${artist.key}`}
+            element={<ArtistPage artist={artist} />}
+          />
+        ))}
+
+        {songRoutes.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<App key={route.path} songData={route.data} />}
+          />
+        ))}
+      </Routes>
     </BrowserRouter>
   );
 }

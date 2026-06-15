@@ -1,14 +1,10 @@
 import React from 'react';
 import './HomeComp.css';
 import Header from './Header';
-import ChoirCoImg from './assets/ChoirCoLogo.png';
-import TurdStoryImg from './assets/TurdStory.jpg';
-import DovengersImg from './assets/DovengersLogo.png';
 import LockableImageButton from './LockableImageButton';
+import { catalog } from '../catalog';
 
 const HomeComponent = () => {
-  const passwords = { ChoirCo: 'password1', TurdStory: 'turds', Dovengers: 'murphy22'}; // Replace with actual passwords
-
   const handleUnlock = (buttonName) => {
     console.log(`${buttonName} unlocked`);
   };
@@ -19,24 +15,15 @@ const HomeComponent = () => {
       <div className="home-content">
         <div className="home-container-style">
           <Header />
-          <LockableImageButton 
-            buttonName="ChoirCo" 
-            imageUrl={ChoirCoImg} 
-            password={passwords.ChoirCo} 
-            onUnlock={handleUnlock} 
-          />
-          <LockableImageButton 
-            buttonName="TurdStory" 
-            imageUrl={TurdStoryImg} 
-            password={passwords.TurdStory} 
-            onUnlock={handleUnlock} 
-          />
-          <LockableImageButton 
-            buttonName="Dovengers" 
-            imageUrl={DovengersImg} 
-            password={passwords.Dovengers} 
-            onUnlock={handleUnlock} 
-          />
+          {catalog.map((artist) => (
+            <LockableImageButton
+              key={artist.key}
+              buttonName={artist.key}
+              imageUrl={artist.logo}
+              password={artist.password}
+              onUnlock={handleUnlock}
+            />
+          ))}
         </div>
       </div>
     </div>
