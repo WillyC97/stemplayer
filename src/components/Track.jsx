@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import { PanKnob } from "./Knobs/Knobs";
 import ThemedSlider from "./Slider/ThemedSlider";
@@ -6,6 +6,32 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 function TrackHeader(props) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(props.title);
+
+  // Keep the draft in sync when the title changes externally (e.g. once the
+  // stem finishes loading or a saved name is applied).
+  useEffect(() => {
+    setDraft(props.title);
+  }, [props.title]);
+
+  const canEdit = Boolean(props.onRename) && props.loaded;
+
+  const commit = () => {
+    setEditing(false);
+    const name = draft.trim();
+    if (name && name !== props.title) {
+      props.onRename(name);
+    } else {
+      setDraft(props.title);
+    }
+  };
+
+  const cancel = () => {
+    setDraft(props.title);
+    setEditing(false);
+  };
+
   return (
     <div className="track-header">
       <div
@@ -18,7 +44,27 @@ function TrackHeader(props) {
           <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
         </svg>
       </div>
-      <div className="track-title">{props.title}</div>
+      {editing ? (
+        <input
+          className="track-title-input"
+          value={draft}
+          autoFocus
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={commit}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") commit();
+            else if (e.key === "Escape") cancel();
+          }}
+        />
+      ) : (
+        <div
+          className="track-title"
+          onDoubleClick={canEdit ? () => setEditing(true) : undefined}
+          title={canEdit ? "Double-click to rename" : undefined}
+        >
+          {props.title}
+        </div>
+      )}
       <div className="track-buttons">
         <div className="track-button mute" onClick={props.onMuteClick}>
           M
@@ -55,11 +101,13 @@ function Track(props) {
     <div className={classnames("track", { muted: isMuted })}>
       <TrackHeader
         title={props.title}
+        loaded={props.loaded}
         soloState={props.soloState}
         volume={props.volume}
         pan={props.pan}
         onMuteClick={props.onMuteClick}
         onSoloClick={props.onSoloClick}
+        onRename={props.onRename}
         onSliderChange={props.onSliderInput}
         onPanSliderChange={props.onPanSliderInput}
         activatorRef={props.activatorRef}
@@ -70,17 +118,14 @@ function Track(props) {
         className="track-audio"
         style={{ backgroundColor: props.backgroundColour }}
       >
-        {/* <div
-          className="waveform-line"
-          style={{ width: props.trackWidth, height: "35px" }}
-        ></div> */}
         <div className="waveform-image">
           <img
             src={props.trackWaveform}
+            alt={`${props.title} waveform`}
             style={{ width: props.trackWidth, height: "70px" }}
           />
         </div>
-        <div className="track-seek-bar" style={{ width: props.seekBarWidth }} />
+        <div className="track-seek-bar" />
         <div
           className="waveform-click-target"
           onClick={(e) => props.onSeekBarClick(e)}
@@ -94,11 +139,11 @@ function Track(props) {
 function SortableTrack({
   track,
   trackWidth,
-  seekBarWidth,
   isSoloActive,
   onSeekBarClick,
   onMuteClick,
   onSoloClick,
+  onRename,
   onSliderInput,
   onPanSliderInput,
 }) {
@@ -117,10 +162,10 @@ function SortableTrack({
     <div ref={setNodeRef} style={style}>
       <Track
         title={title}
+        loaded={track.loaded}
         trackWidth={trackWidth}
         trackWaveform={track.waveform}
         backgroundColour={track.colour}
-        seekBarWidth={seekBarWidth}
         muteState={track.muted}
         soloState={track.soloed}
         volume={track.volume}
@@ -129,6 +174,7 @@ function SortableTrack({
         onSeekBarClick={onSeekBarClick}
         onMuteClick={onMuteClick}
         onSoloClick={onSoloClick}
+        onRename={onRename}
         onSliderInput={onSliderInput}
         onPanSliderInput={onPanSliderInput}
         activatorRef={setActivatorNodeRef}
