@@ -1,6 +1,6 @@
 import React from "react";
 import { ref, getDownloadURL } from 'firebase/storage';
-import { app, storage } from "../firebase/firebaseConfig";
+import { storage } from "../firebase/firebaseConfig";
 import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -26,15 +26,12 @@ class App extends React.Component {
       audioContext: null,
       seekBarWidth: 0,
       stems: props.songData.StemInfo || [],
-      height: 0,
       width: document.documentElement.clientWidth,
       mainPanelWidth: 100,
       filePanelVisible: false,
-      loaded: false,
     };
 
     this.requestRef = null;
-    this.previousTimeRef = 0.0;
     this.timingRef = { lastTimeStamp: 0.0, currentTime: 0.0 };
     this.trackLengthRef = 0.0;
     this.songInfo = props.songData.SongInfo;
@@ -129,14 +126,14 @@ class App extends React.Component {
     });
   
     document.addEventListener("keydown", this.handleKeyDown);
-    window.addEventListener("resize", (e) => this.onResize(e));
+    window.addEventListener("resize", this.handleResize);
   }
 
   componentWillUnmount() {
     this.pauseAudio();
     this.jumpToTime(0.0, false);
     document.removeEventListener("keydown", this.handleKeyDown);
-    window.removeEventListener("resize", (e) => this.onResize(e));
+    window.removeEventListener("resize", this.handleResize);
   }
 
   handleKeyDown = (event) => {
@@ -157,9 +154,9 @@ class App extends React.Component {
     }
   };
 
-  onResize(e) {
+  handleResize = () => {
     this.updateWidth();
-  }
+  };
 
   updateWidth() {
     const width =
@@ -261,7 +258,6 @@ class App extends React.Component {
 
   setStemVolume = (element, gainNode, stemUUID) => {
     const volume = element.target.value;
-    console.log("fling");
 
     this.updateStemParameter(stemUUID, "volume", volume);
     this.setStemGainNodeState(stemUUID, gainNode);
@@ -293,7 +289,7 @@ class App extends React.Component {
   // Clock/timing
   //-----------------------------------------------------------------------
 
-  clockTick = (time) => {
+  clockTick = () => {
     const timeChange =
       this.state.audioContext.currentTime - this.timingRef.lastTimeStamp;
 
@@ -308,11 +304,7 @@ class App extends React.Component {
       return;
     }
 
-    if (this.previousTimeRef != undefined) {
-      this.updateSeekBar();
-    }
-
-    this.previousTimeRef = time;
+    this.updateSeekBar();
     this.requestRef = requestAnimationFrame(this.clockTick);
   };
 
