@@ -279,6 +279,7 @@ h1 {
     display: block;
     left: 330px;
     top: 0;
+    width: var(--seek-bar-width, 0px);
     height: 70px;
     background-color: rgba(50,50,50,0.5);
     cursor: pointer;

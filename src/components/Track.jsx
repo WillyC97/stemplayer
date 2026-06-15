@@ -77,7 +77,7 @@ function Track(props) {
             style={{ width: props.trackWidth, height: "70px" }}
           />
         </div>
-        <div className="track-seek-bar" style={{ width: props.seekBarWidth }} />
+        <div className="track-seek-bar" />
         <div
           className="waveform-click-target"
           onClick={(e) => props.onSeekBarClick(e)}
@@ -91,7 +91,6 @@ function Track(props) {
 function SortableTrack({
   track,
   trackWidth,
-  seekBarWidth,
   isSoloActive,
   onSeekBarClick,
   onMuteClick,
@@ -117,7 +116,6 @@ function SortableTrack({
         trackWidth={trackWidth}
         trackWaveform={track.waveform}
         backgroundColour={track.colour}
-        seekBarWidth={seekBarWidth}
         muteState={track.muted}
         soloState={track.soloed}
         volume={track.volume}

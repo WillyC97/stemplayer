@@ -24,7 +24,6 @@ class App extends React.Component {
     this.state = {
       isPlaying: false,
       audioContext: null,
-      seekBarWidth: 0,
       stems: props.songData.StemInfo || [],
       width: document.documentElement.clientWidth,
       mainPanelWidth: 100,
@@ -35,6 +34,14 @@ class App extends React.Component {
     this.timingRef = { lastTimeStamp: 0.0, currentTime: 0.0 };
     this.trackLengthRef = 0.0;
     this.songInfo = props.songData.SongInfo;
+
+    // Web Audio nodes are imperative objects, not render data, so they live
+    // in a ref keyed by stem uuid rather than in component state.
+    this.audioNodes = new Map();
+    // The playhead and time readout are updated imperatively each animation
+    // frame (see updateSeekBar) to avoid re-rendering the whole tree at 60fps.
+    this.tracksRef = React.createRef();
+    this.timeRef = React.createRef();
   }
 
   //=========================================================================
@@ -51,19 +58,20 @@ class App extends React.Component {
   }
   //-----------------------------------------------------------------------
 
-  updateStemParameter(trackUUID, key, value) {
-    const stem = this.findStem(trackUUID);
-    if (!stem) {
+  updateStemParameter(trackUUID, key, value, onUpdated) {
+    if (!this.findStem(trackUUID)) {
       console.error(`No audio source found with id ${trackUUID}`);
       return;
     }
 
-    stem[key] = value;
-    this.setState({
-      stems: this.state.stems.map((data) =>
-        data.uuid === trackUUID ? { ...data, [key]: value } : data
-      ),
-    });
+    this.setState(
+      {
+        stems: this.state.stems.map((data) =>
+          data.uuid === trackUUID ? { ...data, [key]: value } : data
+        ),
+      },
+      onUpdated
+    );
   }
 
   renderTime() {
@@ -105,9 +113,6 @@ class App extends React.Component {
             id: index + 1,
             buffer: audioBuffer,
             audioLength: audioBuffer.duration,
-            audioSource: null,
-            gainNode: null,
-            panNode: null,
             volume: stem.volume ?? 1.0,
             pan: 0.0,
             muted: false,
@@ -176,41 +181,42 @@ class App extends React.Component {
   //-----------------------------------------------------------------------
 
   playAudio() {
-    const newTracks = this.state.stems.map(async (stem) => {
-      let source = null;
-      let gain = null;
-      let pan = null;
-      if (stem.buffer) {
-        source = this.state.audioContext.createBufferSource();
-        gain = this.state.audioContext.createGain();
-        pan = this.state.audioContext.createStereoPanner();
-        this.setStemGainNodeState(stem.uuid, gain);
-        this.setStemPanNodeState(stem.uuid, pan);
-        source.buffer = stem.buffer;
-        source.connect(gain);
-        gain.connect(pan);
-        pan.connect(this.state.audioContext.destination);
-      }
-      return { ...stem, audioSource: source, gainNode: gain, panNode: pan };
+    const ac = this.state.audioContext;
+
+    // Buffer sources are one-shot, so a fresh node graph is built for each
+    // playback and stored in this.audioNodes keyed by stem uuid.
+    this.state.stems.forEach((stem) => {
+      if (!stem.buffer) return;
+
+      const source = ac.createBufferSource();
+      const gain = ac.createGain();
+      const pan = ac.createStereoPanner();
+      source.buffer = stem.buffer;
+      source.connect(gain);
+      gain.connect(pan);
+      pan.connect(ac.destination);
+
+      this.audioNodes.set(stem.uuid, { source, gain, pan });
+      this.applyGain(stem.uuid);
+      this.applyPan(stem.uuid);
+      source.start(0.02, this.timingRef.currentTime);
     });
 
-    Promise.all(newTracks).then((updatedStems) => {
-      this.setState({ stems: updatedStems });
-      updatedStems.forEach((stem) => {
-        if (stem.audioSource)
-          stem.audioSource.start(0.02, this.timingRef.currentTime);
-      });
-      this.setState({ isPlaying: true });
-      this.timingRef.lastTimeStamp = this.state.audioContext.currentTime;
-      this.requestRef = requestAnimationFrame(this.clockTick);
-    });
+    this.setState({ isPlaying: true });
+    this.timingRef.lastTimeStamp = ac.currentTime;
+    this.requestRef = requestAnimationFrame(this.clockTick);
   }
   //-----------------------------------------------------------------------
 
   pauseAudio() {
-    this.state.stems.forEach((stem) => {
-      if (stem.audioSource) stem.audioSource.stop();
+    this.audioNodes.forEach(({ source }) => {
+      try {
+        source.stop();
+      } catch (e) {
+        // already stopped / never started — safe to ignore
+      }
     });
+    this.audioNodes.clear();
 
     cancelAnimationFrame(this.requestRef);
     this.setState({ isPlaying: false });
@@ -224,8 +230,10 @@ class App extends React.Component {
     const stem = this.findStem(trackUUID);
     if (!stem) return;
 
-    this.updateStemParameter(stem.uuid, "muted", !stem.muted);
-    this.setStemGainNodeState(stem.uuid, stem.gainNode);
+    // Solo state is unaffected, so only this track's gain needs reapplying.
+    this.updateStemParameter(trackUUID, "muted", !stem.muted, () =>
+      this.applyGain(trackUUID)
+    );
   };
   //-----------------------------------------------------------------------
 
@@ -233,39 +241,42 @@ class App extends React.Component {
     const stem = this.findStem(trackUUID);
     if (!stem) return;
 
-    this.updateStemParameter(trackUUID, "soloed", !stem.soloed);
-
-    this.state.stems.forEach((stem) => {
-      this.setStemGainNodeState(stem.uuid, stem.gainNode);
-    });
+    // Soloing changes which tracks are audible, so every gain is reapplied.
+    this.updateStemParameter(trackUUID, "soloed", !stem.soloed, () =>
+      this.applyAllGains()
+    );
   };
   //-----------------------------------------------------------------------
 
-  setStemGainNodeState(stemUUID, gainNode) {
+  applyGain(stemUUID) {
+    const nodes = this.audioNodes.get(stemUUID);
     const stem = this.findStem(stemUUID);
-    if (!stem || !gainNode) return;
+    if (!nodes || !stem) return;
 
-    gainNode.gain.value =
+    nodes.gain.gain.value =
       stem.muted || (!stem.soloed && this.isSoloActive()) ? 0 : stem.volume;
   }
 
-  setStemPanNodeState(stemUUID, panNode) {
-    const stem = this.findStem(stemUUID);
-    if (!stem || !panNode) return;
-
-    panNode.pan.setValueAtTime(stem.pan, this.state.audioContext.currentTime);
+  applyAllGains() {
+    this.state.stems.forEach((stem) => this.applyGain(stem.uuid));
   }
 
-  setStemVolume = (element, gainNode, stemUUID) => {
-    const volume = element.target.value;
+  applyPan(stemUUID) {
+    const nodes = this.audioNodes.get(stemUUID);
+    const stem = this.findStem(stemUUID);
+    if (!nodes || !stem) return;
 
-    this.updateStemParameter(stemUUID, "volume", volume);
-    this.setStemGainNodeState(stemUUID, gainNode);
+    nodes.pan.pan.setValueAtTime(stem.pan, this.state.audioContext.currentTime);
+  }
+
+  setStemVolume = (element, stemUUID) => {
+    this.updateStemParameter(stemUUID, "volume", element.target.value, () =>
+      this.applyGain(stemUUID)
+    );
   };
 
-  setStemPan = (pan, panNode, stemUUID) => {
-    this.updateStemParameter(stemUUID, "pan", pan);
-    this.setStemPanNodeState(stemUUID, panNode);
+  setStemPan = (pan, stemUUID) => {
+    this.updateStemParameter(stemUUID, "pan", pan, () => this.applyPan(stemUUID));
   };
 
   //=========================================================================
@@ -278,11 +289,25 @@ class App extends React.Component {
   };
   //-----------------------------------------------------------------------
 
+  // Updates the playhead and time readout imperatively. Every track's seek
+  // bar reads the --seek-bar-width CSS variable, so one DOM write moves them
+  // all without a React render — important since this runs ~60fps while playing.
   updateSeekBar() {
-    const newWidth =
-      (this.timingRef.currentTime / this.trackLengthRef) * this.state.width;
+    const ratio =
+      this.trackLengthRef > 0
+        ? this.timingRef.currentTime / this.trackLengthRef
+        : 0;
 
-    this.setState({ seekBarWidth: newWidth });
+    if (this.tracksRef.current) {
+      this.tracksRef.current.style.setProperty(
+        "--seek-bar-width",
+        `${ratio * this.state.width}px`
+      );
+    }
+
+    if (this.timeRef.current) {
+      this.timeRef.current.textContent = this.renderTime();
+    }
   }
 
   //=========================================================================
@@ -355,7 +380,7 @@ class App extends React.Component {
               </div>
             )}
           </div>
-          <div className="time">{this.renderTime()}</div>
+          <div className="time" ref={this.timeRef}>{this.renderTime()}</div>
           <div className="song-title">{this.songInfo.songtitle}</div>
           {this.songInfo.pdf && (
           <div className="btn">
@@ -388,24 +413,23 @@ class App extends React.Component {
                 items={this.state.stems}
                 strategy={verticalListSortingStrategy}
               >
-                {this.state.stems.map((track) => (
-                  <SortableTrack
-                    key={track.uuid}
-                    track={track}
-                    trackWidth={this.state.width}
-                    seekBarWidth={this.state.seekBarWidth + "px"}
-                    isSoloActive={this.isSoloActive()}
-                    onSeekBarClick={(e) => this.onSeekBarClick(e)}
-                    onMuteClick={() => this.toggleStemMute(track.uuid)}
-                    onSoloClick={() => this.toggleStemSolo(track.uuid)}
-                    onSliderInput={(e) =>
-                      this.setStemVolume(e, track.gainNode, track.uuid)
-                    }
-                    onPanSliderInput={(newValue) =>
-                      this.setStemPan(newValue, track.panNode, track.uuid)
-                    }
-                  />
-                ))}
+                <div ref={this.tracksRef}>
+                  {this.state.stems.map((track) => (
+                    <SortableTrack
+                      key={track.uuid}
+                      track={track}
+                      trackWidth={this.state.width}
+                      isSoloActive={this.isSoloActive()}
+                      onSeekBarClick={(e) => this.onSeekBarClick(e)}
+                      onMuteClick={() => this.toggleStemMute(track.uuid)}
+                      onSoloClick={() => this.toggleStemSolo(track.uuid)}
+                      onSliderInput={(e) => this.setStemVolume(e, track.uuid)}
+                      onPanSliderInput={(newValue) =>
+                        this.setStemPan(newValue, track.uuid)
+                      }
+                    />
+                  ))}
+                </div>
               </SortableContext>
             </DndContext>
           </Panel>
