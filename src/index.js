@@ -34,7 +34,7 @@ function MainPage() {
           <Route
             key={route.path}
             path={route.path}
-            element={<App key={route.path} songData={route.data} />}
+            element={<App key={route.path} songId={route.id} songData={route.data} />}
           />
         ))}
       </Routes>

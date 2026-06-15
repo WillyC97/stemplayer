@@ -121,9 +121,11 @@ export const catalog = [
   },
 ];
 
-// Flattened, de-duplicated list of player routes ({ path, data }). A song slug
-// may appear in more than one group (e.g. listed twice for display), so paths
-// are de-duped to avoid registering the same route twice.
+// Flattened, de-duplicated list of player routes ({ path, id, data }). A song
+// slug may appear in more than one group (e.g. listed twice for display), so
+// paths are de-duped to avoid registering the same route twice. `id` is a
+// stable, Firestore-safe identifier used to persist per-song data such as
+// custom track names.
 export const songRoutes = (() => {
   const seen = new Set();
   const routes = [];
@@ -134,7 +136,7 @@ export const songRoutes = (() => {
         const path = `/${artist.key}/${song.slug}`;
         if (seen.has(path)) continue;
         seen.add(path);
-        routes.push({ path, data: song.data });
+        routes.push({ path, id: `${artist.key}_${song.slug}`, data: song.data });
       }
     }
   }

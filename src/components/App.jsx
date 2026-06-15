@@ -1,6 +1,7 @@
 import React from "react";
 import { ref, getDownloadURL } from 'firebase/storage';
-import { storage } from "../firebase/firebaseConfig";
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { storage, db } from "../firebase/firebaseConfig";
 import SortableTrack from "./Track";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
@@ -111,6 +112,7 @@ class App extends React.Component {
           return {
             ...stem,
             id: index + 1,
+            stemIndex: index,
             buffer: audioBuffer,
             audioLength: audioBuffer.duration,
             volume: stem.volume ?? 1.0,
@@ -123,11 +125,12 @@ class App extends React.Component {
           };
         });
       })
-    ).then((initialisedStems) => {
+    ).then(async (initialisedStems) => {
       this.trackLengthRef = Math.max(
         ...initialisedStems.map((stem) => stem.audioLength || 0)
       );
-      this.setState({ stems: initialisedStems });
+      const namedStems = await this.applySavedNames(initialisedStems);
+      this.setState({ stems: namedStems });
     });
   
     document.addEventListener("keydown", this.handleKeyDown);
@@ -280,6 +283,49 @@ class App extends React.Component {
   };
 
   //=========================================================================
+  // Track names
+  //
+  // Custom track names are shared across all users and stored in Firestore at
+  // trackNames/{songId}, keyed by the stem's original index in the song JSON
+  // (stable across reloads, users, and drag-reordering — unlike the runtime
+  // uuid). Names are read once on load; open sessions pick up changes on reload.
+  //-----------------------------------------------------------------------
+
+  async applySavedNames(stems) {
+    if (!this.props.songId) return stems;
+
+    try {
+      const snapshot = await getDoc(doc(db, "trackNames", this.props.songId));
+      if (!snapshot.exists()) return stems;
+
+      const names = snapshot.data();
+      return stems.map((stem) =>
+        names[stem.stemIndex] != null
+          ? { ...stem, title: names[stem.stemIndex] }
+          : stem
+      );
+    } catch (e) {
+      console.error("Failed to load track names", e);
+      return stems;
+    }
+  }
+  //-----------------------------------------------------------------------
+
+  renameStem = (trackUUID, newName) => {
+    const stem = this.findStem(trackUUID);
+    if (!stem) return;
+
+    this.updateStemParameter(trackUUID, "title", newName);
+
+    if (!this.props.songId) return;
+    setDoc(
+      doc(db, "trackNames", this.props.songId),
+      { [stem.stemIndex]: newName },
+      { merge: true }
+    ).catch((e) => console.error("Failed to save track name", e));
+  };
+
+  //=========================================================================
   // Seekbar
   //-----------------------------------------------------------------------
 
@@ -423,6 +469,7 @@ class App extends React.Component {
                       onSeekBarClick={(e) => this.onSeekBarClick(e)}
                       onMuteClick={() => this.toggleStemMute(track.uuid)}
                       onSoloClick={() => this.toggleStemSolo(track.uuid)}
+                      onRename={(newName) => this.renameStem(track.uuid, newName)}
                       onSliderInput={(e) => this.setStemVolume(e, track.uuid)}
                       onPanSliderInput={(newValue) =>
                         this.setStemPan(newValue, track.uuid)
