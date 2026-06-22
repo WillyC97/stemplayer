@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/stemplayer/static/css/main.63cc522a.css",
+    "main.css": "/stemplayer/static/css/main.72f2c0bb.css",
     "main.js": "/stemplayer/static/js/main.d25523dd.js",
     "static/media/BOTB22_Final-296.jpg": "/stemplayer/static/media/BOTB22_Final-296.ef3ffaf2590038b0d12e.jpg",
     "static/media/DovengersLogo.png": "/stemplayer/static/media/DovengersLogo.adef3c9bd2145656e728.png",
@@ -8,11 +8,11 @@
     "static/media/TurdStory.jpg": "/stemplayer/static/media/TurdStory.77f5b724fd8076f2906d.jpg",
     "static/media/ChoirCoLogo.png": "/stemplayer/static/media/ChoirCoLogo.408fddde2d21bd3a9eb9.png",
     "index.html": "/stemplayer/index.html",
-    "main.63cc522a.css.map": "/stemplayer/static/css/main.63cc522a.css.map",
+    "main.72f2c0bb.css.map": "/stemplayer/static/css/main.72f2c0bb.css.map",
     "main.d25523dd.js.map": "/stemplayer/static/js/main.d25523dd.js.map"
   },
   "entrypoints": [
-    "static/css/main.63cc522a.css",
+    "static/css/main.72f2c0bb.css",
     "static/js/main.d25523dd.js"
   ]
 }
