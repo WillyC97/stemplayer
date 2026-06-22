@@ -30,6 +30,13 @@ import oneOfTheseNightsData from './pages/Dovengers/oneOfTheseNights.json';
 import dazzlingData from './pages/Dovengers/dazzling.json';
 import youMakeLovinFunData from './pages/Dovengers/youMakeLovinFun.json';
 
+// Murphys VIII 2026
+import mrBlueSkyData from './pages/Dovengers/mrBlueSky.json';
+import workinDayAndNightData from './pages/Dovengers/workinDayAndNight.json';
+import celebrationData from './pages/Dovengers/celebration.json';
+import flyAwayData from './pages/Dovengers/flyAway.json';
+import hardToSayImSorry from './pages/Dovengers/hardtosayImSorry.json';
+
 // Artwork
 import ChoirCoLogo from './components/assets/ChoirCoLogo.png';
 import ChoirCoBackground from './components/assets/ChoirCoBackground.jpg';
@@ -117,6 +124,16 @@ export const catalog = [
           { slug: 'youMakeLovinFun', title: "You Make Lovin' Fun", data: youMakeLovinFunData },
         ],
       },
+      {
+        header: 'Murphys VIII - 2028',
+        songs: [
+          { slug: 'celebration', title: 'Celebration', data: celebrationData },
+          { slug: 'flyAway', title: 'Fly Away', data: flyAwayData },
+          { slug: 'hardToSayImSorry', title: 'Hard to Say I\'m Sorry', data: hardToSayImSorryData },
+          { slug: 'mrBlueSky', title: 'Mr. Blue Sky', data: mrBlueSkyData },
+          { slug: 'workinDayAndNight', title: 'Workin\' Day and Night', data: workinDayAndNightData },
+        ],
+      }
     ],
   },
 ];

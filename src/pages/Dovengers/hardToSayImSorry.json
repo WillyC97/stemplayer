@@ -1,0 +1,36 @@
+{
+  "SongInfo": {
+    "songtitle": "HardToSayImSorry",
+    "songpath": "Dovengers/HardToSayImSorry/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#3C482F",
+      "volume": 1.0
+    },
+    {
+      "title": "Alfie",
+      "file": "Alfie.mp3",
+      "waveform": "Alfie_waveform.png",
+      "colour": "#648BCF",
+      "volume": 1.0
+    },
+    {
+      "title": "Bryan",
+      "file": "Bryan.mp3",
+      "waveform": "Bryan_waveform.png",
+      "colour": "#D042EA",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#68579B",
+      "volume": 1.0
+    }
+  ]
+}

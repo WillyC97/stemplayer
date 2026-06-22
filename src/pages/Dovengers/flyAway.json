@@ -1,0 +1,44 @@
+{
+  "SongInfo": {
+    "songtitle": "FlyAway",
+    "songpath": "Dovengers/FlyAway/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#B1203F",
+      "volume": 1.0
+    },
+        {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#2A827E",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Arthur.mp3",
+      "waveform": "Arthur_waveform.png",
+      "colour": "#F5C5E1",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#6CC7BD",
+      "volume": 1.0
+    },
+
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#12B494",
+      "volume": 1.0
+    }
+  ]
+}

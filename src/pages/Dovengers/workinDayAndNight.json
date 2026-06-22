@@ -1,0 +1,43 @@
+{
+  "SongInfo": {
+    "songtitle": "WorkinDayAndNight",
+    "songpath": "Dovengers/WorkinDayAndNight/"
+  },
+  "StemInfo": [
+    {
+      "title": "Everyone",
+      "file": "Everyone.mp3",
+      "waveform": "Everyone_waveform.png",
+      "colour": "#6ABAF3",
+      "volume": 1.0
+    },
+    {
+      "title": "High",
+      "file": "High.mp3",
+      "waveform": "High_waveform.png",
+      "colour": "#FA704B",
+      "volume": 1.0
+    },
+        {
+      "title": "Middle",
+      "file": "Middle.mp3",
+      "waveform": "Middle_waveform.png",
+      "colour": "#1C6A56",
+      "volume": 1.0
+    },
+    {
+      "title": "Low",
+      "file": "Low.mp3",
+      "waveform": "Low_waveform.png",
+      "colour": "#B54CB6",
+      "volume": 1.0
+    },
+    {
+      "title": "Hook",
+      "file": "Hook.mp3",
+      "waveform": "Hook_waveform.png",
+      "colour": "#61C8B1",
+      "volume": 1.0
+    }
+  ]
+}
