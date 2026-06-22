@@ -35,7 +35,7 @@ import mrBlueSkyData from './pages/Dovengers/mrBlueSky.json';
 import workinDayAndNightData from './pages/Dovengers/workinDayAndNight.json';
 import celebrationData from './pages/Dovengers/celebration.json';
 import flyAwayData from './pages/Dovengers/flyAway.json';
-import hardToSayImSorry from './pages/Dovengers/hardtosayImSorry.json';
+import hardToSayImSorryData from './pages/Dovengers/hardtosayImSorry.json';
 
 // Artwork
 import ChoirCoLogo from './components/assets/ChoirCoLogo.png';
