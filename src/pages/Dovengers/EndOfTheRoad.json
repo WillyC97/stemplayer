@@ -1,0 +1,57 @@
+{
+  "SongInfo": {
+    "songtitle": "End Of The Road",
+    "songpath": "Dovengers/EndOfTheRoad/"
+  },
+  "StemInfo": [
+    {
+      "title": "Alfie",
+      "file": "Alfie.mp3",
+      "waveform": "Alfie_waveform.png",
+      "colour": "#DBAE46",
+      "volume": 1.0
+    },
+    {
+      "title": "Bryan",
+      "file": "Bryan.mp3",
+      "waveform": "Bryan_waveform.png",
+      "colour": "#E5061D",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#68FD45",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#A7ADC2",
+      "volume": 1.0
+    },
+    {
+      "title": "Shrek",
+      "file": "Shrek.mp3",
+      "waveform": "Shrek_waveform.png",
+      "colour": "#2B6A96",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#53C3ED",
+      "volume": 1.0
+    },
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#84A723",
+      "volume": 1.0
+    }
+  ]
+}

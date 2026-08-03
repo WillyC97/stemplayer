@@ -1,0 +1,57 @@
+{
+  "SongInfo": {
+    "songtitle": "Youre Still The One",
+    "songpath": "Dovengers/YoureStillTheOne/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#651169",
+      "volume": 1.0
+    },
+    {
+      "title": "Alfie",
+      "file": "Alfie.mp3",
+      "waveform": "Alfie_waveform.png",
+      "colour": "#7B5EDA",
+      "volume": 1.0
+    },
+    {
+      "title": "Bryan",
+      "file": "Bryan.mp3",
+      "waveform": "Bryan_waveform.png",
+      "colour": "#B92A3B",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#8F6C35",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#EF1CF1",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#BB47E4",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Arthur.mp3",
+      "waveform": "Arthur_waveform.png",
+      "colour": "#7EF723",
+      "volume": 1.0
+    }
+  ]
+}
