@@ -1,0 +1,64 @@
+{
+  "SongInfo": {
+    "songtitle": "Paperback Writer",
+    "songpath": "Dovengers/PaperbackWriter/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#5070B6",
+      "volume": 1.0
+    },
+     {
+      "title": "Lead",
+      "file": "Lead.mp3",
+      "waveform": "Lead_waveform.png",
+      "colour": "#3BD894",
+      "volume": 1.0
+    },
+    {
+      "title": "Arthur",
+      "file": "Arthur.mp3",
+      "waveform": "Arthur_waveform.png",
+      "colour": "#B8907A",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#63BA38",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#D00FE6",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#C513B6",
+      "volume": 1.0
+    },
+    {
+      "title": "SomeoneElse",
+      "file": "SomeoneElse.mp3",
+      "waveform": "SomeoneElse_waveform.png",
+      "colour": "#5A8E45",
+      "volume": 1.0
+    },
+    {
+      "title": "ForgotToSplit",
+      "file": "ForgotToSplit.mp3",
+      "waveform": "ForgotToSplit_waveform.png",
+      "colour": "#663DC2",
+      "volume": 1.0
+    }
+  ]
+}

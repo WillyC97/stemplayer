@@ -36,6 +36,12 @@ import workinDayAndNightData from './pages/Dovengers/workinDayAndNight.json';
 import celebrationData from './pages/Dovengers/celebration.json';
 import flyAwayData from './pages/Dovengers/flyAway.json';
 import hardToSayImSorryData from './pages/Dovengers/hardtosayImSorry.json';
+import canWeTalkData from './pages/Dovengers/CanWeTalk.json';
+import stillInLoveData from './pages/Dovengers/StillInLove.json';
+import youreStillTheOneData from './pages/Dovengers/YoureStillTheOne.json';
+import endOfRoadData from './pages/Dovengers/EndOfTheRoad.json';
+import paperbackWriterData from './pages/Dovengers/PaperbackWriter.json';
+
 
 // Artwork
 import ChoirCoLogo from './components/assets/ChoirCoLogo.png';
@@ -125,13 +131,18 @@ export const catalog = [
         ],
       },
       {
-        header: 'Murphys VIII - 2028',
+        header: 'Murphys VIII - 2026',
         songs: [
           { slug: 'celebration', title: 'Celebration', data: celebrationData },
           { slug: 'flyAway', title: 'Fly Away', data: flyAwayData },
           { slug: 'hardToSayImSorry', title: 'Hard to Say I\'m Sorry', data: hardToSayImSorryData },
           { slug: 'mrBlueSky', title: 'Mr. Blue Sky', data: mrBlueSkyData },
           { slug: 'workinDayAndNight', title: 'Workin\' Day and Night', data: workinDayAndNightData },
+          { slug: 'canWeTalk', title: 'Can We Talk', data: canWeTalkData },
+          { slug: 'stillInLove', title: 'Still in Love', data: stillInLoveData },
+          { slug: 'youreStillTheOne', title: 'You\'re Still the One', data: youreStillTheOneData },
+          { slug: 'endOfRoad', title: 'End of the Road', data: endOfRoadData },
+          { slug: 'paperbackWriter', title: 'Paperback Writer', data: paperbackWriterData },
         ],
       }
     ],

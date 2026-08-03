@@ -1,0 +1,36 @@
+{
+  "SongInfo": {
+    "songtitle": "Still In Love",
+    "songpath": "Dovengers/StillInLove/"
+  },
+  "StemInfo": [
+    {
+      "title": "Alfie",
+      "file": "Alfie.mp3",
+      "waveform": "Alfie_waveform.png",
+      "colour": "#A0B440",
+      "volume": 1.0
+    },
+    {
+      "title": "Bryan",
+      "file": "Bryan.mp3",
+      "waveform": "Bryan_waveform.png",
+      "colour": "#F82F0B",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#B9546F",
+      "volume": 1.0
+    },
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#EF49F7",
+      "volume": 1.0
+    }
+  ]
+}
