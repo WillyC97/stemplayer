@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "December 1963",
+    "songpath": "Dovengers/December1963/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#35FD7E",
+      "volume": 1.0
+    },
+    {
+      "title": "Alfie",
+      "file": "Alfie.mp3",
+      "waveform": "Alfie_waveform.png",
+      "colour": "#A559F3",
+      "volume": 1.0
+    },
+    {
+      "title": "Bryan",
+      "file": "Bryan.mp3",
+      "waveform": "Bryan_waveform.png",
+      "colour": "#A71028",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#2FC99D",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#2F2321",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#89654D",
+      "volume": 1.0
+    }
+  ]
+}

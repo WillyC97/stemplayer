@@ -1,0 +1,50 @@
+{
+  "SongInfo": {
+    "songtitle": "Saturday Night",
+    "songpath": "Dovengers/SaturdayNight/"
+  },
+  "StemInfo": [
+    {
+      "title": "Instrumental",
+      "file": "Instrumental.mp3",
+      "waveform": "Instrumental_waveform.png",
+      "colour": "#4300FF",
+      "volume": 1.0
+    },
+    {
+      "title": "Alfie",
+      "file": "Alfie.mp3",
+      "waveform": "Alfie_waveform.png",
+      "colour": "#4924C1",
+      "volume": 1.0
+    },
+    {
+      "title": "Bryan",
+      "file": "Bryan.mp3",
+      "waveform": "Bryan_waveform.png",
+      "colour": "#920DB8",
+      "volume": 1.0
+    },
+    {
+      "title": "George",
+      "file": "George.mp3",
+      "waveform": "George_waveform.png",
+      "colour": "#E35112",
+      "volume": 1.0
+    },
+    {
+      "title": "Mack",
+      "file": "Mack.mp3",
+      "waveform": "Mack_waveform.png",
+      "colour": "#37D78F",
+      "volume": 1.0
+    },
+    {
+      "title": "Will",
+      "file": "Will.mp3",
+      "waveform": "Will_waveform.png",
+      "colour": "#561750",
+      "volume": 1.0
+    }
+  ]
+}

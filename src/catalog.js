@@ -41,6 +41,9 @@ import stillInLoveData from './pages/Dovengers/StillInLove.json';
 import youreStillTheOneData from './pages/Dovengers/YoureStillTheOne.json';
 import endOfRoadData from './pages/Dovengers/EndOfTheRoad.json';
 import paperbackWriterData from './pages/Dovengers/PaperbackWriter.json';
+import december1963Data from './pages/Dovengers/December1963.json';
+import joannaData from './pages/Dovengers/Joanna.json';
+import saturdayNightData from './pages/Dovengers/SaturdayNight.json';
 
 
 // Artwork
@@ -143,6 +146,9 @@ export const catalog = [
           { slug: 'youreStillTheOne', title: 'You\'re Still the One', data: youreStillTheOneData },
           { slug: 'endOfRoad', title: 'End of the Road', data: endOfRoadData },
           { slug: 'paperbackWriter', title: 'Paperback Writer', data: paperbackWriterData },
+          { slug: 'december1963', title: 'December 1963', data: december1963Data },
+          { slug: 'joanna', title: 'Joanna', data: joannaData },
+          { slug: 'saturdayNight', title: 'Saturday Night', data: saturdayNightData },
         ],
       }
     ],
