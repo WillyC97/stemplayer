@@ -170,7 +170,7 @@ export const songRoutes = (() => {
         const path = `/${artist.key}/${song.slug}`;
         if (seen.has(path)) continue;
         seen.add(path);
-        routes.push({ path, id: `${artist.key}_${song.slug}`, data: song.data });
+        routes.push({ path, id: `${artist.key}_${song.slug}`, data: song.data, artistKey: artist.key });
       }
     }
   }
