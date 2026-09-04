@@ -138,14 +138,6 @@ h1 {
     background-color: #4f4f4f
 }
 
-.track.muted .track-header .track-buttons .track-button.mute {
-    background-color: #a60000
-}
-
-.track.muted .track-header .track-buttons .track-button.mute:hover {
-    background-color: #d00000
-}
-
 .track.muted .track-header .track-title {
     text-decoration: line-through
 }
@@ -242,6 +234,14 @@ h1 {
 
 .track .track-header .track-buttons .track-button.mute:hover {
     background-color: #6b6b6b
+}
+
+.track .track-header .track-buttons .track-button.mute.mute-activated {
+    background-color: #a60000
+}
+
+.track .track-header .track-buttons .track-button.mute.mute-activated:hover {
+    background-color: #d00000
 }
 
 .track .track-header .track-buttons .track-button.solo {
