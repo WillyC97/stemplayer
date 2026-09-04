@@ -8,6 +8,7 @@ import SignInComp from './components/SignInComp';
 import Register from './components/Register';
 import HomeComponent from './components/HomeComponent';
 import ArtistPage from './pages/ArtistPage';
+import UnlockGuard from './components/UnlockGuard';
 import { catalog, songRoutes } from './catalog';
 
 const rootElement = document.getElementById('root');
@@ -26,7 +27,13 @@ function MainPage() {
           <Route
             key={artist.key}
             path={`/${artist.key}`}
-            element={<ArtistPage artist={artist} />}
+            element={
+              <AuthWrapper>
+                <UnlockGuard artistKey={artist.key}>
+                  <ArtistPage artist={artist} />
+                </UnlockGuard>
+              </AuthWrapper>
+            }
           />
         ))}
 
@@ -34,7 +41,13 @@ function MainPage() {
           <Route
             key={route.path}
             path={route.path}
-            element={<App key={route.path} songId={route.id} songData={route.data} />}
+            element={
+              <AuthWrapper>
+                <UnlockGuard artistKey={route.artistKey}>
+                  <App key={route.path} songId={route.id} songData={route.data} />
+                </UnlockGuard>
+              </AuthWrapper>
+            }
           />
         ))}
       </Routes>
