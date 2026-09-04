@@ -66,7 +66,12 @@ function TrackHeader(props) {
         </div>
       )}
       <div className="track-buttons">
-        <div className="track-button mute" onClick={props.onMuteClick}>
+        <div
+          className={classnames("track-button mute", {
+            "mute-activated": props.muteState,
+          })}
+          onClick={props.onMuteClick}
+        >
           M
         </div>
         <div
@@ -102,6 +107,7 @@ function Track(props) {
       <TrackHeader
         title={props.title}
         loaded={props.loaded}
+        muteState={props.muteState}
         soloState={props.soloState}
         volume={props.volume}
         pan={props.pan}
