@@ -22,7 +22,7 @@
 
     height: 15px;
     width: 15px;
-    background-color: rgb(49, 49, 49);
+    background-color: rgb(200, 200, 200);
     border-radius: 50%;
     border: none;
     transition: .2s ease-in-out;
@@ -44,13 +44,20 @@
     outline-width: 3px;
     border-radius: 15px;
     height: 6px;
-    background: linear-gradient(
-        to right,
-        rgb(54, 255, 9) 0%,
-        rgb(223, 13, 13) var(--webkit-fill-percent),
-        #828282 var(--webkit-fill-percent),
-        #828282 100%
-    );
+    background:
+        linear-gradient(
+            to right,
+            transparent 0%,
+            transparent var(--webkit-fill-percent),
+            #828282 var(--webkit-fill-percent),
+            #828282 100%
+        ),
+        linear-gradient(
+            to right,
+            rgb(54, 255, 9),
+            rgb(255, 180, 0),
+            rgb(223, 13, 13)
+        );
 }
 
 .slider::-webkit-slider-thumb:hover {
@@ -62,4 +69,16 @@
 
   .slider::-webkit-slider-thumb {
     box-shadow: none;
+}
+
+.bipolar::-webkit-slider-runnable-track {
+    background: linear-gradient(
+        to right,
+        #828282 0%,
+        #828282 var(--bipolar-left, 50%),
+        rgb(80, 160, 255) var(--bipolar-left, 50%),
+        rgb(80, 160, 255) var(--bipolar-right, 50%),
+        #828282 var(--bipolar-right, 50%),
+        #828282 100%
+    );
 }

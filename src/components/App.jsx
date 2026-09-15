@@ -2,7 +2,8 @@ import React from "react";
 import { ref, getDownloadURL } from 'firebase/storage';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { storage, db } from "../firebase/firebaseConfig";
-import SortableTrack from "./Track";
+import SortableTrack, { Track } from "./Track";
+import ScrubBar from "./ScrubBar";
 import { secondsToMinutes } from "../utils/time";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
@@ -17,11 +18,23 @@ import { Panel,
 
 const TRACK_HEADER_WIDTH = 330;
 
+function generateUUID() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  });
+}
+const MOBILE_PORTRAIT_MQ = '(max-width: 768px) and (orientation: portrait)';
+
 //=========================================================================
 
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.mobileQuery = window.matchMedia(MOBILE_PORTRAIT_MQ);
     this.state = {
       isPlaying: false,
       audioContext: null,
@@ -29,6 +42,8 @@ class App extends React.Component {
       width: document.documentElement.clientWidth,
       mainPanelWidth: 100,
       filePanelVisible: false,
+      isMobilePortrait: this.mobileQuery.matches,
+      expandedTrackUUID: null,
     };
 
     this.requestRef = null;
@@ -43,11 +58,30 @@ class App extends React.Component {
     // frame (see updateSeekBar) to avoid re-rendering the whole tree at 60fps.
     this.tracksRef = React.createRef();
     this.timeRef = React.createRef();
+    this.scrubBarRef = React.createRef();
   }
 
   //=========================================================================
   // Helpers
   //-----------------------------------------------------------------------
+
+  getTrackHeaderWidth() {
+    return this.state.isMobilePortrait ? 0 : TRACK_HEADER_WIDTH;
+  }
+
+  handleMobileChange = (e) => {
+    const matches = e.matches !== undefined ? e.matches : e;
+    this.setState({ isMobilePortrait: matches, expandedTrackUUID: null }, () =>
+      this.updateWidth()
+    );
+  };
+
+  toggleTrackExpand = (trackUUID) => {
+    this.setState((prev) => ({
+      expandedTrackUUID:
+        prev.expandedTrackUUID === trackUUID ? null : trackUUID,
+    }));
+  };
 
   isSoloActive() {
     return this.state.stems.some((stem) => stem.soloed);
@@ -119,7 +153,7 @@ class App extends React.Component {
             pan: 0.0,
             muted: false,
             soloed: false,
-            uuid: crypto.randomUUID(),
+            uuid: generateUUID(),
             loaded: true,
             waveform: imageUrl
           };
@@ -135,6 +169,7 @@ class App extends React.Component {
   
     document.addEventListener("keydown", this.handleKeyDown);
     window.addEventListener("resize", this.handleResize);
+    this.mobileQuery.addEventListener("change", this.handleMobileChange);
   }
 
   componentWillUnmount() {
@@ -142,6 +177,7 @@ class App extends React.Component {
     this.jumpToTime(0.0, false);
     document.removeEventListener("keydown", this.handleKeyDown);
     window.removeEventListener("resize", this.handleResize);
+    this.mobileQuery.removeEventListener("change", this.handleMobileChange);
   }
 
   handleKeyDown = (event) => {
@@ -167,11 +203,16 @@ class App extends React.Component {
   };
 
   updateWidth() {
-    const width =
-      document.documentElement.clientWidth * (this.state.mainPanelWidth / 100) -
-      TRACK_HEADER_WIDTH;
+    const headerWidth = this.getTrackHeaderWidth();
+    const width = this.state.isMobilePortrait
+      ? document.documentElement.clientWidth
+      : document.documentElement.clientWidth *
+          (this.state.mainPanelWidth / 100) -
+        headerWidth;
 
-    this.setState({width: width,}, () => {this.updateSeekBar();} );
+    this.setState({ width }, () => {
+      this.updateSeekBar();
+    });
   }
 
   //=========================================================================
@@ -330,7 +371,8 @@ class App extends React.Component {
   //-----------------------------------------------------------------------
 
   onSeekBarClick = (e) => {
-    const percentage = (e.clientX - TRACK_HEADER_WIDTH) / this.state.width;
+    const percentage =
+      (e.clientX - this.getTrackHeaderWidth()) / this.state.width;
     this.jumpToTime(percentage * this.trackLengthRef, this.state.isPlaying);
   };
   //-----------------------------------------------------------------------
@@ -348,6 +390,13 @@ class App extends React.Component {
       this.tracksRef.current.style.setProperty(
         "--seek-bar-width",
         `${ratio * this.state.width}px`
+      );
+    }
+
+    if (this.scrubBarRef.current) {
+      this.scrubBarRef.current.style.setProperty(
+        "--scrub-progress",
+        `${ratio * 100}%`
       );
     }
 
@@ -405,9 +454,58 @@ class App extends React.Component {
   //  Render
   //-----------------------------------------------------------------------
 
-  render() {
+  renderTracks() {
+    const trackProps = (track) => ({
+      key: track.uuid,
+      track,
+      trackWidth: this.state.width,
+      isSoloActive: this.isSoloActive(),
+      onSeekBarClick: (e) => this.onSeekBarClick(e),
+      onMuteClick: () => this.toggleStemMute(track.uuid),
+      onSoloClick: () => this.toggleStemSolo(track.uuid),
+      onRename: (newName) => this.renameStem(track.uuid, newName),
+      onSliderInput: (e) => this.setStemVolume(e, track.uuid),
+      onPanSliderInput: (newValue) => this.setStemPan(newValue, track.uuid),
+      isMobilePortrait: this.state.isMobilePortrait,
+      isExpanded: this.state.expandedTrackUUID === track.uuid,
+      onTapWaveform: () => this.toggleTrackExpand(track.uuid),
+    });
+
+    if (this.state.isMobilePortrait) {
+      return (
+        <div className="tracks-scroll" ref={this.tracksRef}>
+          {this.state.stems.map((track) => (
+            <Track {...trackProps(track)} />
+          ))}
+        </div>
+      );
+    }
+
     return (
-      <div>
+      <DndContext
+        modifiers={[restrictToVerticalAxis]}
+        collisionDetection={closestCenter}
+        onDragEnd={this.handleDragEnd}
+      >
+        <SortableContext
+          items={this.state.stems}
+          strategy={verticalListSortingStrategy}
+        >
+          <div ref={this.tracksRef}>
+            {this.state.stems.map((track) => (
+              <SortableTrack {...trackProps(track)} />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
+    );
+  }
+
+  render() {
+    const { isMobilePortrait } = this.state;
+
+    return (
+      <div className={isMobilePortrait ? "app-shell" : undefined}>
         <div className="page-header">
           <div className="btn">
             {this.state.isPlaying ? (
@@ -428,7 +526,7 @@ class App extends React.Component {
           </div>
           <div className="time" ref={this.timeRef}>{this.renderTime()}</div>
           <div className="song-title">{this.songInfo.songtitle}</div>
-          {this.songInfo.pdf && (
+          {this.songInfo.pdf && !isMobilePortrait && (
           <div className="btn">
           <div
             className="button doc-button"
@@ -441,54 +539,37 @@ class App extends React.Component {
           </div>
           </div>)}
         </div>
-        <PanelGroup direction="horizontal">
-          <Panel
-            id="main"
-            minSize={25}
-            order={1}
-            onResize={(size) => {
-              this.setState({ mainPanelWidth: size }, () => {this.updateWidth()});
-            }}
-          >
-            <DndContext
-              modifiers={[restrictToVerticalAxis]}
-              collisionDetection={closestCenter}
-              onDragEnd={this.handleDragEnd}
+        {isMobilePortrait && (
+          <ScrubBar
+            scrubBarRef={this.scrubBarRef}
+            trackLength={this.trackLengthRef}
+            onSeek={(time) => this.jumpToTime(time, this.state.isPlaying)}
+          />
+        )}
+        {isMobilePortrait ? (
+          this.renderTracks()
+        ) : (
+          <PanelGroup direction="horizontal">
+            <Panel
+              id="main"
+              minSize={25}
+              order={1}
+              onResize={(size) => {
+                this.setState({ mainPanelWidth: size }, () => {this.updateWidth()});
+              }}
             >
-              <SortableContext
-                items={this.state.stems}
-                strategy={verticalListSortingStrategy}
-              >
-                <div ref={this.tracksRef}>
-                  {this.state.stems.map((track) => (
-                    <SortableTrack
-                      key={track.uuid}
-                      track={track}
-                      trackWidth={this.state.width}
-                      isSoloActive={this.isSoloActive()}
-                      onSeekBarClick={(e) => this.onSeekBarClick(e)}
-                      onMuteClick={() => this.toggleStemMute(track.uuid)}
-                      onSoloClick={() => this.toggleStemSolo(track.uuid)}
-                      onRename={(newName) => this.renameStem(track.uuid, newName)}
-                      onSliderInput={(e) => this.setStemVolume(e, track.uuid)}
-                      onPanSliderInput={(newValue) =>
-                        this.setStemPan(newValue, track.uuid)
-                      }
-                    />
-                  ))}
-                </div>
-              </SortableContext>
-            </DndContext>
-          </Panel>
-          {this.state.filePanelVisible && (
-            <>
-              <PanelResizeHandle className="panel-resize-handle"/>
-              <Panel id="sidebar" minSize={25} order={2}>
-              <iframe src={this.songInfo.pdf} width="100%" height="800px" allow="autoplay"></iframe>
-              </Panel>
-            </>
-          )}
-        </PanelGroup>
+              {this.renderTracks()}
+            </Panel>
+            {this.state.filePanelVisible && (
+              <>
+                <PanelResizeHandle className="panel-resize-handle"/>
+                <Panel id="sidebar" minSize={25} order={2}>
+                <iframe src={this.songInfo.pdf} width="100%" height="800px" allow="autoplay"></iframe>
+                </Panel>
+              </>
+            )}
+          </PanelGroup>
+        )}
       </div>
     );
   }

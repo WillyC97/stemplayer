@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
 //   sendPasswordResetEmail,
 //   sendEmailVerification,
@@ -19,8 +20,11 @@ export const doSignInWithEmailAndPassword = (email, password) => {
 
 export const doSignInWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  return result;
+  const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isMobile) {
+    return signInWithRedirect(auth, provider);
+  }
+  return signInWithPopup(auth, provider);
 };
 
 export const doSignOut = () => {

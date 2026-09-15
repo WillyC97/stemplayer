@@ -330,3 +330,218 @@ h1 {
     opacity: 0;
     z-index: 5
 }
+
+/* ===== Scrub Bar ===== */
+
+.scrub-bar-container {
+    position: relative;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: #282828;
+    box-sizing: border-box;
+}
+
+.scrub-bar-track {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background-color: #535353;
+    border-radius: 2px;
+    overflow: visible;
+}
+
+.scrub-bar-fill {
+    height: 100%;
+    width: var(--scrub-progress, 0%);
+    background-color: #b3b3b3;
+    border-radius: 2px;
+    pointer-events: none;
+}
+
+.scrub-bar-thumb {
+    position: absolute;
+    top: 50%;
+    left: var(--scrub-progress, 0%);
+    width: 12px;
+    height: 12px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.scrub-bar-touch-target {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: pointer;
+}
+
+/* ===== Mobile Track Controls Overlay ===== */
+
+.mobile-track-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    background-color: rgba(53, 53, 53, 0.95);
+    padding: 0 0.5rem;
+    gap: 0.5rem;
+    box-sizing: border-box;
+}
+
+.mobile-track-controls .track-button {
+    cursor: pointer;
+    display: inline-block;
+    min-width: 32px;
+    padding: 0 0.4rem;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    font-weight: bold;
+    color: #eeeeee;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
+.mobile-track-controls .track-button.mute {
+    background-color: #242424;
+}
+
+.mobile-track-controls .track-button.mute.mute-activated {
+    background-color: #a60000;
+}
+
+.mobile-track-controls .track-button.solo {
+    background-color: #242424;
+}
+
+.mobile-track-controls .track-button.solo.solo-activated {
+    color: rgb(38, 38, 38);
+    background-color: #d5d04b;
+}
+
+.mobile-volume-control {
+    flex: 3;
+    min-width: 0;
+}
+
+.mobile-pan-control {
+    flex: 1.5;
+    min-width: 60px;
+}
+
+/* ===== Mobile Portrait ===== */
+
+@media (max-width: 768px) and (orientation: portrait) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .app-shell {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .tracks-scroll {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+    }
+
+    .page-header {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 0.5rem;
+        justify-content: center;
+        gap: 0.25rem;
+    }
+
+    .page-header .song-title {
+        order: -1;
+        width: 100%;
+        height: auto;
+        line-height: 1.3;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .page-header .time {
+        height: auto;
+        line-height: 1.3;
+        font-size: 16px;
+        margin: 0 0.5rem;
+    }
+
+    .page-header .button {
+        width: 50px;
+        height: 40px;
+    }
+
+    .page-header .play-button i,
+    .page-header .pause-button i {
+        font-size: 22px;
+    }
+
+    .track {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    .track .track-header {
+        display: none;
+    }
+
+    .track .track-audio {
+        position: relative;
+        left: 0;
+    }
+
+    .track .track-audio .waveform-image,
+    .track .track-audio .track-seek-bar,
+    .track .track-audio .waveform-click-target,
+    .track .track-audio .waveform-line {
+        left: 0;
+    }
+
+    .track .track-audio .track-title-overlay {
+        position: absolute;
+        display: block;
+        left: 0;
+        top: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 0.15rem 0.5rem;
+        font-size: 12px;
+        font-weight: normal;
+        max-width: 60%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        z-index: 6;
+        pointer-events: none;
+        color: #eeeeee;
+    }
+}
