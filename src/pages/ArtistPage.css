@@ -83,9 +83,6 @@
     font-size: 20px;
     font-weight: 600;
     text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     flex-grow: 1;
 }
 
@@ -109,6 +106,7 @@
     border: 1px solid rgba(255, 255, 255, 0.04);
     border-radius: var(--radius-md);
     transition: background-color 0.15s ease, border-color 0.15s ease;
+    word-break: break-word;
 }
 
 .artist-page-button-style:hover {
