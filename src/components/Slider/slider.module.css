@@ -8,42 +8,46 @@
 .slider {
     -webkit-appearance: none;
     appearance: none;
-
     width: 100%;
     cursor: pointer;
-    outline: #000000;
-
-    background: #ffffff00;
+    outline: none;
+    background: transparent;
 }
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-
-    height: 15px;
-    width: 15px;
-    background-color: rgb(200, 200, 200);
+    height: 14px;
+    width: 14px;
+    background-color: #e0e0e0;
     border-radius: 50%;
     border: none;
-    transition: .2s ease-in-out;
-    margin-top: -4.5px; 
-    box-sizing: border-box; 
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    margin-top: -5px;
+    box-sizing: border-box;
+}
+
+.slider::-webkit-slider-thumb:hover {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.08);
+}
+
+.slider:active::-webkit-slider-thumb {
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.12);
 }
 
 .slider::-moz-range-thumb {
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background: #4CAF50;
+    background: #e0e0e0;
     cursor: pointer;
-    margin-top: -4.5px;
-    box-sizing: border-box; 
+    border: none;
 }
-  
+
 .slider::-webkit-slider-runnable-track {
-    outline-width: 3px;
-    border-radius: 15px;
-    height: 6px;
+    border-radius: 10px;
+    height: 4px;
     background:
         linear-gradient(
             to right,
@@ -60,24 +64,13 @@
         );
 }
 
-.slider::-webkit-slider-thumb:hover {
-    box-shadow: 0 0 0 8px rgba(205, 205, 205, 0.1)
-  }
-  .slider:active::-webkit-slider-thumb {
-    box-shadow: 0 0 0 10px rgba(183, 183, 183, 0.2)
-  }
-
-  .slider::-webkit-slider-thumb {
-    box-shadow: none;
-}
-
 .bipolar::-webkit-slider-runnable-track {
     background: linear-gradient(
         to right,
         #828282 0%,
         #828282 var(--bipolar-left, 50%),
-        rgb(80, 160, 255) var(--bipolar-left, 50%),
-        rgb(80, 160, 255) var(--bipolar-right, 50%),
+        #6366f1 var(--bipolar-left, 50%),
+        #6366f1 var(--bipolar-right, 50%),
         #828282 var(--bipolar-right, 50%),
         #828282 100%
     );

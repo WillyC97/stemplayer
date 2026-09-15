@@ -16,7 +16,7 @@
     bottom: -250px;
     background-size: cover;
     background-position: center;
-    filter: blur(5px);
+    filter: blur(8px) brightness(0.5);
     z-index: -1;
 }
 
@@ -38,10 +38,13 @@
 }
 
 .artist-page-dark-block {
-    background-color: rgba(0, 0, 0, 0.7);
-    border-radius: .25rem;
+    background-color: rgba(13, 13, 13, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
     margin-bottom: 1.5rem;
-    padding: 1rem;
+    padding: 1.25rem;
 }
 
 .artist-page-song-group {
@@ -49,32 +52,48 @@
     margin-bottom: 1rem;
 }
 
-.artist-page-song-group-header .text {
-    font-size: 25px;
+.artist-page-song-group-header {
+    margin-bottom: 0.75rem;
+}
+
+.artist-page-song-group-header .text,
+.artist-page-song-group-header .artist-page-text {
+    font-size: 20px;
+    font-weight: 600;
     text-align: left;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 .artist-page-song-group-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: 10px;
 }
 
 .artist-page-button-style {
     display: flex;
-    padding: 15px 20px;
-    margin: 10px;
-    font-size: 16px;
+    align-items: center;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: inherit;
     cursor: pointer;
     text-decoration: none;
-    color: white;
-    background-color: rgba(120, 120, 120, 0.5);
-    border-radius: 5px;
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    transition: background-color 0.15s ease, border-color 0.15s ease;
 }
-  
+
 .artist-page-button-style:hover {
-    background-color: rgb(104, 104, 104);
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.artist-page-button-style:active {
+    background-color: rgba(255, 255, 255, 0.08);
 }
