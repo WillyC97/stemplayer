@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/authContext';
 import { doSignOut } from '../firebase/auth';
+import ThemeToggle from './ThemeToggle';
 import './Header.css'
 
 const Header = () => {
@@ -11,6 +12,7 @@ const Header = () => {
   return (
     <>
       <nav className="header-nav">
+        <ThemeToggle />
         {userLoggedIn ? (
           <button
             onClick={() => {

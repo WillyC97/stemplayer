@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Navigate, Link } from 'react-router-dom';
 import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../firebase/auth';
 import { useAuth } from '../contexts/authContext';
+import ThemeToggle from './ThemeToggle';
 import './SignInComp.css';
 
 const SignInComp = () => {
@@ -37,6 +38,9 @@ const SignInComp = () => {
             {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
 
             <main className="signin-main-container">
+                <div style={{ position: 'absolute', top: '1rem', right: '1rem' }}>
+                    <ThemeToggle />
+                </div>
                 <div className="signin-form-container">
                     <div className="signin-text-center">
                         <div className="signin-mt-2">

@@ -1,0 +1,27 @@
+.theme-switch {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--bg-elevated);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 2px;
+    cursor: pointer;
+    gap: 0;
+}
+
+.theme-switch-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 24px;
+    border-radius: 16px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.theme-switch-option.active {
+    background-color: var(--accent);
+    color: #ffffff;
+}
