@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/stemplayer/static/css/main.09a29977.css",
-    "main.js": "/stemplayer/static/js/main.22e5839e.js",
+    "main.css": "/stemplayer/static/css/main.ce8a3f51.css",
+    "main.js": "/stemplayer/static/js/main.0360e4f3.js",
     "static/media/BOTB22_Final-296.jpg": "/stemplayer/static/media/BOTB22_Final-296.ef3ffaf2590038b0d12e.jpg",
     "static/media/DovengersLogo.png": "/stemplayer/static/media/DovengersLogo.adef3c9bd2145656e728.png",
     "static/media/ChoirCoBackground.jpg": "/stemplayer/static/media/ChoirCoBackground.a54d68cfa5dd805dbb27.jpg",
     "static/media/TurdStory.jpg": "/stemplayer/static/media/TurdStory.77f5b724fd8076f2906d.jpg",
     "static/media/ChoirCoLogo.png": "/stemplayer/static/media/ChoirCoLogo.408fddde2d21bd3a9eb9.png",
     "index.html": "/stemplayer/index.html",
-    "main.09a29977.css.map": "/stemplayer/static/css/main.09a29977.css.map",
-    "main.22e5839e.js.map": "/stemplayer/static/js/main.22e5839e.js.map"
+    "main.ce8a3f51.css.map": "/stemplayer/static/css/main.ce8a3f51.css.map",
+    "main.0360e4f3.js.map": "/stemplayer/static/js/main.0360e4f3.js.map"
   },
   "entrypoints": [
-    "static/css/main.09a29977.css",
-    "static/js/main.22e5839e.js"
+    "static/css/main.ce8a3f51.css",
+    "static/js/main.0360e4f3.js"
   ]
 }
