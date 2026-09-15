@@ -539,6 +539,18 @@ h1 {
     background-color: #d0d0d0;
 }
 
+[data-theme="light"] .track .track-header .track-buttons .track-button.mute.mute-activated,
+[data-theme="light"] .mobile-track-controls .track-button.mute.mute-activated {
+    background-color: #dc2626;
+    color: #ffffff;
+}
+
+[data-theme="light"] .track .track-header .track-buttons .track-button.solo.solo-activated,
+[data-theme="light"] .mobile-track-controls .track-button.solo.solo-activated {
+    background-color: #ca8a04;
+    color: #ffffff;
+}
+
 [data-theme="light"] .track .track-audio .track-title-overlay {
     background-color: rgba(255, 255, 255, 0.75);
     color: var(--text-primary);
