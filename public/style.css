@@ -26,7 +26,7 @@
     --radius-md: 10px;
     --radius-lg: 14px;
     --transition: 0.15s ease;
-    --waveform-muted: grayscale(0.75) opacity(0.4);
+    --waveform-muted: grayscale(0.75) opacity(0.5);
     --seek-overlay: rgba(50, 50, 50, 0.5);
     --waveform-line: rgba(255, 255, 255, 0.08);
 }
@@ -191,8 +191,9 @@ h1 {
     color: var(--text-secondary);
 }
 
+
 .track.muted .track-audio {
-    filter: var(--waveform-muted);
+    filter: grayscale(0.75) opacity(0.5);
 }
 
 .track .track-header {
@@ -458,9 +459,9 @@ h1 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    right: 0;
     height: 70px;
-    z-index: 10;
+    z-index: 12;
     display: flex;
     align-items: center;
     background-color: rgba(20, 20, 20, 0.92);

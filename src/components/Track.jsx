@@ -246,19 +246,6 @@ function Track(props) {
           />
         </div>
         <div className="track-seek-bar" />
-        {props.isMobilePortrait && props.isExpanded && (
-          <MobileTrackControls
-            muteState={muteState}
-            soloState={soloState}
-            volume={volume}
-            pan={pan}
-            onMuteClick={props.onMuteClick}
-            onSoloClick={props.onSoloClick}
-            onSliderChange={props.onSliderInput}
-            onPanChange={props.onPanSliderInput}
-            onCollapse={props.onTapWaveform}
-          />
-        )}
         <div
           className="waveform-click-target"
           onClick={handleClick}
@@ -272,6 +259,19 @@ function Track(props) {
           }}
         />
       </div>
+      {props.isMobilePortrait && props.isExpanded && (
+        <MobileTrackControls
+          muteState={muteState}
+          soloState={soloState}
+          volume={volume}
+          pan={pan}
+          onMuteClick={props.onMuteClick}
+          onSoloClick={props.onSoloClick}
+          onSliderChange={props.onSliderInput}
+          onPanChange={props.onPanSliderInput}
+          onCollapse={props.onTapWaveform}
+        />
+      )}
     </div>
   );
 }
