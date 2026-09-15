@@ -10,7 +10,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #0d0d0d 0%, #1a1040 50%, #0d0d0d 100%);
+    background: var(--signin-bg, linear-gradient(135deg, #0d0d0d 0%, #1a1040 50%, #0d0d0d 100%));
+}
+
+[data-theme="light"] .signin-main-container {
+    --signin-bg: linear-gradient(135deg, #e8e0f0 0%, #c7b8e8 50%, #e8e0f0 100%);
 }
 
 .signin-form-container {

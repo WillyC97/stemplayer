@@ -11,6 +11,8 @@ import ArtistPage from './pages/ArtistPage';
 import UnlockGuard from './components/UnlockGuard';
 import { catalog, songRoutes } from './catalog';
 
+document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'dark');
+
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 

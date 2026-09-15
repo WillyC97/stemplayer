@@ -26,6 +26,31 @@
     --radius-md: 10px;
     --radius-lg: 14px;
     --transition: 0.15s ease;
+    --waveform-muted: grayscale(0.75) opacity(0.4);
+    --seek-overlay: rgba(50, 50, 50, 0.5);
+    --waveform-line: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="light"] {
+    --bg-base: #f0f0f0;
+    --bg-surface: #ffffff;
+    --bg-elevated: #e5e5e5;
+    --bg-hover: #d9d9d9;
+    --border: rgba(0, 0, 0, 0.08);
+    --border-light: rgba(0, 0, 0, 0.12);
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --danger: #dc2626;
+    --danger-hover: #b91c1c;
+    --solo: #ca8a04;
+    --solo-text: #ffffff;
+    --glass: rgba(0, 0, 0, 0.03);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --waveform-muted: grayscale(0.75) opacity(0.5);
+    --seek-overlay: rgba(200, 200, 200, 0.45);
+    --waveform-line: rgba(0, 0, 0, 0.1);
 }
 
 body {
@@ -167,7 +192,7 @@ h1 {
 }
 
 .track.muted .track-audio {
-    filter: grayscale(0.75) opacity(0.4);
+    filter: var(--waveform-muted);
 }
 
 .track .track-header {
@@ -336,7 +361,7 @@ h1 {
     top: 0;
     width: var(--seek-bar-width, 0px);
     height: 70px;
-    background-color: rgba(50, 50, 50, 0.5);
+    background-color: var(--seek-overlay);
     cursor: pointer;
     z-index: 5;
 }
@@ -360,7 +385,7 @@ h1 {
     top: 0;
     left: 330px;
     height: 35px;
-    border-bottom: rgba(255, 255, 255, 0.08) 1px solid;
+    border-bottom: var(--waveform-line) 1px solid;
     z-index: 2;
 }
 
@@ -488,6 +513,51 @@ h1 {
 .mobile-pan-control {
     flex: 1.5;
     min-width: 60px;
+}
+
+/* ===== Light Mode Overrides ===== */
+
+[data-theme="light"] .track .track-header .track-title,
+[data-theme="light"] .track .track-header {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .track .track-header .track-buttons .track-button.mute,
+[data-theme="light"] .track .track-header .track-buttons .track-button.solo {
+    color: var(--text-primary);
+    background-color: #d0d0d0;
+}
+
+[data-theme="light"] .track .track-header .track-buttons .track-button.mute:hover,
+[data-theme="light"] .track .track-header .track-buttons .track-button.solo:hover {
+    background-color: #c0c0c0;
+}
+
+[data-theme="light"] .mobile-track-controls .track-button.mute,
+[data-theme="light"] .mobile-track-controls .track-button.solo {
+    background-color: #d0d0d0;
+}
+
+[data-theme="light"] .track .track-audio .track-title-overlay {
+    background-color: rgba(255, 255, 255, 0.75);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .scrub-bar-track {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .scrub-bar-thumb {
+    background-color: #333333;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .mobile-track-controls {
+    background-color: rgba(245, 245, 245, 0.92);
+}
+
+[data-theme="light"] .mobile-track-controls .track-button {
+    color: var(--text-primary);
 }
 
 /* ===== Mobile Portrait ===== */

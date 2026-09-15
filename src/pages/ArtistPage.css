@@ -38,13 +38,35 @@
 }
 
 .artist-page-dark-block {
-    background-color: rgba(13, 13, 13, 0.6);
+    background-color: var(--card-bg, rgba(13, 13, 13, 0.6));
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     margin-bottom: 1.5rem;
     padding: 1.25rem;
+}
+
+[data-theme="light"] .artist-page-dark-block {
+    --card-bg: rgba(255, 255, 255, 0.65);
+}
+
+[data-theme="light"] .artist-page-text {
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .artist-page-button-style {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .artist-page-button-style:hover {
+    background-color: rgba(0, 0, 0, 0.14);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .artist-page-background-style {
+    filter: blur(8px) brightness(0.8);
 }
 
 .artist-page-song-group {

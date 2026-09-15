@@ -8,8 +8,12 @@
     left: 0;
     right: 0;
     bottom: -100px;
-    background: linear-gradient(135deg, #0d0d0d 0%, #1a1040 40%, #2d1060 60%, #0d0d0d 100%);
+    background: var(--home-bg, linear-gradient(135deg, #0d0d0d 0%, #1a1040 40%, #2d1060 60%, #0d0d0d 100%));
     z-index: -1;
+}
+
+[data-theme="light"] .home-background-style {
+    --home-bg: linear-gradient(135deg, #e8e0f0 0%, #c7b8e8 40%, #b0a0d8 60%, #e8e0f0 100%);
 }
 
 .home-container-style {
