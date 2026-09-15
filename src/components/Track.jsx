@@ -9,8 +9,6 @@ function TrackHeader(props) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(props.title);
 
-  // Keep the draft in sync when the title changes externally (e.g. once the
-  // stem finishes loading or a saved name is applied).
   useEffect(() => {
     setDraft(props.title);
   }, [props.title]);
@@ -99,18 +97,125 @@ function TrackHeader(props) {
   );
 }
 
+function MobileTrackControls({
+  muteState,
+  soloState,
+  volume,
+  pan,
+  onMuteClick,
+  onSoloClick,
+  onSliderChange,
+  onPanChange,
+  onCollapse,
+}) {
+  const stop = (e) => e.stopPropagation();
+
+  return (
+    <div className="mobile-track-controls" onClick={onCollapse}>
+      <div
+        className={classnames("track-button mute", {
+          "mute-activated": muteState,
+        })}
+        onClick={(e) => {
+          stop(e);
+          onMuteClick();
+        }}
+      >
+        M
+      </div>
+      <div
+        className={classnames("track-button solo", {
+          "solo-activated": soloState,
+        })}
+        onClick={(e) => {
+          stop(e);
+          onSoloClick();
+        }}
+      >
+        S
+      </div>
+      <div className="mobile-volume-control" onClick={stop}>
+        <ThemedSlider
+          min="0"
+          max="2"
+          step="0.01"
+          defaultValue={volume}
+          onChange={onSliderChange}
+          label="Vol"
+        />
+      </div>
+      <div className="mobile-pan-control" onClick={stop}>
+        <ThemedSlider
+          min="-1"
+          max="1"
+          step="0.01"
+          defaultValue={pan}
+          onChange={(e) => onPanChange(parseFloat(e.target.value))}
+          label="Pan"
+          bipolar
+        />
+      </div>
+    </div>
+  );
+}
+
 function Track(props) {
-  const isMuted = props.isSoloActive ? !props.soloState : props.muteState;
+  const t = props.track;
+  const title = t ? (t.loaded ? t.title : "loading...") : props.title;
+  const loaded = t ? t.loaded : props.loaded;
+  const trackWaveform = t ? t.waveform : props.trackWaveform;
+  const backgroundColour = t ? t.colour : props.backgroundColour;
+  const muteState = t ? t.muted : props.muteState;
+  const soloState = t ? t.soloed : props.soloState;
+  const volume = t ? t.volume : props.volume;
+  const pan = t ? t.pan : props.pan;
+  const isMuted = props.isSoloActive ? !soloState : muteState;
+
+  const longPressTimer = useRef(null);
+  const didLongPress = useRef(false);
+
+  const handlePointerDown = (e) => {
+    if (!props.isMobilePortrait) return;
+    didLongPress.current = false;
+    longPressTimer.current = setTimeout(() => {
+      didLongPress.current = true;
+      props.onSoloClick();
+      if (navigator.vibrate) navigator.vibrate(50);
+    }, 500);
+  };
+
+  const handlePointerUp = () => {
+    clearTimeout(longPressTimer.current);
+  };
+
+  const handlePointerLeave = () => {
+    clearTimeout(longPressTimer.current);
+  };
+
+  const handlePointerCancel = () => {
+    clearTimeout(longPressTimer.current);
+  };
+
+  const handleClick = (e) => {
+    if (props.isMobilePortrait) {
+      if (!didLongPress.current) {
+        props.onTapWaveform();
+      }
+      didLongPress.current = false;
+    } else {
+      props.onSeekBarClick(e);
+    }
+  };
 
   return (
     <div className={classnames("track", { muted: isMuted })}>
       <TrackHeader
-        title={props.title}
-        loaded={props.loaded}
-        muteState={props.muteState}
-        soloState={props.soloState}
-        volume={props.volume}
-        pan={props.pan}
+        title={title}
+        loaded={loaded}
+        muteState={muteState}
+        soloState={soloState}
+        volume={volume}
+        pan={pan}
         onMuteClick={props.onMuteClick}
         onSoloClick={props.onSoloClick}
         onRename={props.onRename}
@@ -122,20 +227,49 @@ function Track(props) {
       />
       <div
         className="track-audio"
-        style={{ backgroundColor: props.backgroundColour }}
+        style={{ backgroundColor: backgroundColour }}
       >
+        {props.isMobilePortrait && !props.isExpanded && (
+          <div className="track-title-overlay">{title}</div>
+        )}
         <div className="waveform-image">
           <img
-            src={props.trackWaveform}
-            alt={`${props.title} waveform`}
-            style={{ width: props.trackWidth, height: "70px" }}
+            src={trackWaveform}
+            alt={`${title} waveform`}
+            draggable={false}
+            style={{
+              width: props.trackWidth,
+              height: "70px",
+              WebkitTouchCallout: "none",
+              pointerEvents: props.isMobilePortrait ? "none" : undefined,
+            }}
           />
         </div>
         <div className="track-seek-bar" />
+        {props.isMobilePortrait && props.isExpanded && (
+          <MobileTrackControls
+            muteState={muteState}
+            soloState={soloState}
+            volume={volume}
+            pan={pan}
+            onMuteClick={props.onMuteClick}
+            onSoloClick={props.onSoloClick}
+            onSliderChange={props.onSliderInput}
+            onPanChange={props.onPanSliderInput}
+            onCollapse={props.onTapWaveform}
+          />
+        )}
         <div
           className="waveform-click-target"
-          onClick={(e) => props.onSeekBarClick(e)}
-          style={{ width: props.trackWidth }}
+          onClick={handleClick}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerLeave={handlePointerLeave}
+          onPointerCancel={handlePointerCancel}
+          style={{
+            width: props.trackWidth,
+            touchAction: props.isMobilePortrait ? "pan-y" : undefined,
+          }}
         />
       </div>
     </div>
@@ -152,6 +286,9 @@ function SortableTrack({
   onRename,
   onSliderInput,
   onPanSliderInput,
+  isMobilePortrait,
+  isExpanded,
+  onTapWaveform,
 }) {
   const {
     attributes,
@@ -163,7 +300,7 @@ function SortableTrack({
   } = useSortable({ id: track.id });
   const style = { transition, transform: CSS.Transform.toString(transform) };
   const title = track.loaded ? track.title : "loading...";
-  
+
   return (
     <div ref={setNodeRef} style={style}>
       <Track
@@ -186,9 +323,13 @@ function SortableTrack({
         activatorRef={setActivatorNodeRef}
         attributes={attributes}
         listeners={listeners}
+        isMobilePortrait={isMobilePortrait}
+        isExpanded={isExpanded}
+        onTapWaveform={onTapWaveform}
       />
     </div>
   );
 }
 
+export { Track };
 export default SortableTrack;

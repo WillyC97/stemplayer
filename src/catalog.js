@@ -35,7 +35,7 @@ import mrBlueSkyData from './pages/Dovengers/mrBlueSky.json';
 import workinDayAndNightData from './pages/Dovengers/workinDayAndNight.json';
 import celebrationData from './pages/Dovengers/celebration.json';
 import flyAwayData from './pages/Dovengers/flyAway.json';
-import hardToSayImSorryData from './pages/Dovengers/hardtosayImSorry.json';
+import hardToSayImSorryData from './pages/Dovengers/hardToSayImSorry.json';
 import canWeTalkData from './pages/Dovengers/CanWeTalk.json';
 import stillInLoveData from './pages/Dovengers/StillInLove.json';
 import youreStillTheOneData from './pages/Dovengers/YoureStillTheOne.json';
